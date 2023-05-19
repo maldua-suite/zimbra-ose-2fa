@@ -1,0 +1,6 @@
+build
+lib
+mytest.jar
+openjdk*
+java*
+out
