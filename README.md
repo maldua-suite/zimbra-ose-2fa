@@ -12,6 +12,7 @@ For the final user UI it relies on current Zimbra OSE support for 2FA integrated
 
 ### License (Extension)
 
+```
 Zimbra OSE 2FA Extension
 Copyright (C) 2023 BTACTIC, S.C.C.L.
 
@@ -27,9 +28,11 @@ without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with this program.
 If not, see <http://www.gnu.org/licenses/>.
+```
 
 ### License (Administration zimlet)
 
+```
 Zimbra OSE 2FA Administration zimlet
 Copyright (C) 2023 BTACTIC, S.C.C.L.
 
@@ -45,3 +48,4 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see http://www.gnu.org/licenses/.
+```
