@@ -13,8 +13,11 @@ For the final user UI it relies on current Zimbra OSE support for 2FA integrated
 ### License (Extension)
 
 Zimbra OSE 2FA Extension
+
 Copyright (C) 2023 BTACTIC, S.C.C.L.
+
 Zimbra Collaboration Suite Server
+
 Copyright (C) 2007, 2008, 2009, 2010, 2013, 2014 Zimbra, Inc.
 
 This program is free software: you can redistribute it and/or modify it under
@@ -30,6 +33,7 @@ If not, see <http://www.gnu.org/licenses/>.
 ### License (Administration zimlet)
 
 Zimbra OSE 2FA Administration zimlet
+
 Copyright (C) 2023 BTACTIC, S.C.C.L.
 
 This program is free software: you can redistribute it and/or modify
