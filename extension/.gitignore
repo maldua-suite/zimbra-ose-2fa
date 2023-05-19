@@ -1,6 +1,6 @@
 build
 lib
-mytest.jar
+zetatwofactorauth.jar
 openjdk*
 java*
 out
