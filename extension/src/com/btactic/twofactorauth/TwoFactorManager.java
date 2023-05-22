@@ -29,12 +29,12 @@ import java.util.Set;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
-import com.zimbra.common.auth.twofactor.AuthenticatorConfig;
-import com.zimbra.common.auth.twofactor.AuthenticatorConfig.CodeLength;
-import com.zimbra.common.auth.twofactor.AuthenticatorConfig.HashAlgorithm;
-import com.zimbra.common.auth.twofactor.CredentialConfig;
-import com.zimbra.common.auth.twofactor.CredentialConfig.Encoding;
-import com.zimbra.common.auth.twofactor.TOTPAuthenticator;
+import com.btactic.twofactorauth.AuthenticatorConfig;
+import com.btactic.twofactorauth.AuthenticatorConfig.CodeLength;
+import com.btactic.twofactorauth.AuthenticatorConfig.HashAlgorithm;
+import com.btactic.twofactorauth.CredentialConfig;
+import com.btactic.twofactorauth.CredentialConfig.Encoding;
+import com.btactic.twofactorauth.TOTPAuthenticator;
 import com.zimbra.common.service.ServiceException;
 import com.zimbra.common.util.ZimbraLog;
 import com.zimbra.cs.account.Account;
