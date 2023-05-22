@@ -37,12 +37,12 @@ import com.zimbra.cs.account.AuthToken.Usage;
 import com.zimbra.cs.account.AuthTokenException;
 import com.zimbra.cs.account.Provisioning;
 import com.zimbra.cs.account.auth.AuthContext.Protocol;
-import com.zimbra.cs.account.auth.twofactor.TOTPCredentials;
-import com.zimbra.cs.account.auth.twofactor.TwoFactorManager;
+import com.btactic.twofactorauth.TOTPCredentials;
+import com.btactic.twofactorauth.TwoFactorManager;
 import com.zimbra.cs.service.AuthProvider;
 import com.zimbra.soap.SoapServlet;
 import com.zimbra.soap.ZimbraSoapContext;
-import com.zimbra.soap.account.message.EnableTwoFactorAuthResponse;
+import com.btactic.twofactorauth.soap.EnableTwoFactorAuthResponse;
 
 /** SOAP handler to enable two-factor auth.
  * @author iraykin
