@@ -42,7 +42,6 @@ import com.btactic.twofactorauth.TwoFactorManager;
 import com.zimbra.cs.service.AuthProvider;
 import com.zimbra.soap.SoapServlet;
 import com.zimbra.soap.ZimbraSoapContext;
-import com.btactic.twofactorauth.soap.EnableTwoFactorAuthResponse;
 
 /** SOAP handler to enable two-factor auth.
  * @author iraykin
