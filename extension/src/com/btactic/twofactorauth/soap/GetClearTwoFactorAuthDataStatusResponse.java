@@ -19,7 +19,7 @@
  *
  * ***** END LICENSE BLOCK *****
  */
-package com.zimbra.soap.admin.message;
+package com.btactic.twofactorauth.soap;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
