@@ -33,7 +33,7 @@ import com.zimbra.common.auth.twofactor.AuthenticatorConfig;
 import com.zimbra.common.auth.twofactor.TwoFactorOptions.CodeLength;
 import com.zimbra.common.auth.twofactor.TwoFactorOptions.HashAlgorithm;
 import com.zimbra.cs.account.auth.twofactor.CredentialConfig;
-import com.zimbra.cs.account.auth.twofactor.CredentialConfig.Encoding;
+import com.zimbra.common.auth.twofactor.TwoFactorOptions.Encoding;
 import com.zimbra.common.auth.twofactor.TOTPAuthenticator;
 import com.zimbra.common.service.ServiceException;
 import com.zimbra.common.util.ZimbraLog;
