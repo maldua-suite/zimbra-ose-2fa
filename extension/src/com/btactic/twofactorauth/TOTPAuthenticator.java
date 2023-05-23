@@ -19,7 +19,7 @@
  *
  * ***** END LICENSE BLOCK *****
  */
-package com.zimbra.common.auth.twofactor;
+package com.btactic.twofactorauth;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
