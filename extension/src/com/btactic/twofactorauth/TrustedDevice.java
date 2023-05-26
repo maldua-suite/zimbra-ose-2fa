@@ -26,6 +26,7 @@ import com.zimbra.common.service.ServiceException;
 import com.zimbra.common.util.BEncoding;
 import com.zimbra.common.util.BEncoding.BEncodingException;
 import com.zimbra.cs.account.auth.AuthContext;
+import com.zimbra.cs.account.Account;
 
 public class TrustedDevice {
 
