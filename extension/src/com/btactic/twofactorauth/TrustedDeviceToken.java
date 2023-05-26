@@ -34,6 +34,7 @@ import com.zimbra.common.util.BlobMetaData;
 import com.zimbra.common.util.ZimbraCookie;
 import com.zimbra.common.util.ZimbraLog;
 import com.zimbra.soap.SoapServlet;
+import com.zimbra.cs.account.Account;
 
 public class TrustedDeviceToken {
     private Integer tokenId;
