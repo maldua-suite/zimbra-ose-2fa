@@ -28,6 +28,7 @@ import com.zimbra.common.util.BEncoding.BEncodingException;
 import com.zimbra.common.util.RandomPassword;
 import com.zimbra.common.util.ZimbraLog;
 import com.zimbra.cs.account.auth.PasswordUtil;
+import com.zimbra.cs.account.Account;
 
 public class AppSpecificPassword {
     private Account account;
