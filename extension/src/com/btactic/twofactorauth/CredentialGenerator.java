@@ -29,8 +29,8 @@ import java.util.Set;
 import org.apache.commons.codec.binary.Base32;
 import org.apache.commons.codec.binary.Base64;
 
-import com.zimbra.common.auth.twofactor.CredentialConfig;
-import com.zimbra.common.auth.twofactor.CredentialConfig.Encoding;
+import com.zimbra.cs.account.auth.twofactor.TwoFactorAuth.CredentialConfig;
+import com.zimbra.common.auth.twofactor.TwoFactorOptions.Encoding;
 import com.zimbra.common.service.ServiceException;
 
 public class CredentialGenerator {
