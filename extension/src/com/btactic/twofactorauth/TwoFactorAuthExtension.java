@@ -1,6 +1,7 @@
 package com.btactic.twofactorauth;
 
 import com.zimbra.cs.extension.ZimbraExtension;
+import com.zimbra.soap.SoapServlet;
 
 /**
  * This extension registers a custom HTTP handler with <code>ExtensionDispatcherServlet<code>
