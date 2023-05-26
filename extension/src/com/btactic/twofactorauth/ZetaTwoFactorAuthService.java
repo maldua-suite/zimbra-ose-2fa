@@ -9,6 +9,8 @@ import com.zimbra.soap.DocumentService;
 
 import com.zimbra.common.soap.AccountConstants;
 
+import com.btactic.twofactorauth.soap.EnableTwoFactorAuth;
+
 public class ZetaTwoFactorAuthService implements DocumentService {
 
     public void registerHandlers(DocumentDispatcher dispatcher) {
