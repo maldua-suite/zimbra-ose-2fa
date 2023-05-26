@@ -17,7 +17,7 @@
  * If not, see <http://www.gnu.org/licenses/>.
  * ***** END LICENSE BLOCK *****
  */
-package com.zimbra.cs.account.auth.twofactor;
+package com.btactic.twofactorauth;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
