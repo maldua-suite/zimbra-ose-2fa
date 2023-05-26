@@ -36,6 +36,7 @@ import com.zimbra.common.util.ZimbraLog;
 import com.zimbra.soap.SoapServlet;
 import com.zimbra.cs.account.Account;
 import com.zimbra.cs.account.AuthTokenException;
+import com.zimbra.cs.account.TrustedTokenKey;
 
 public class TrustedDeviceToken {
     private Integer tokenId;
