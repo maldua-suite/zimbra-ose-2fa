@@ -23,6 +23,7 @@ public class TwoFactorAuthExtension implements ZimbraExtension {
      *
      */
     public void init() {
+        SoapServlet.addService("AdminServlet", new ZetaTwoFactorAuthService());
     }
 
     /**
