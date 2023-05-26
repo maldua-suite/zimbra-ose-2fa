@@ -29,6 +29,7 @@ import com.zimbra.common.util.RandomPassword;
 import com.zimbra.common.util.ZimbraLog;
 import com.zimbra.cs.account.auth.PasswordUtil;
 import com.zimbra.cs.account.Account;
+import com.zimbra.cs.account.Provisioning;
 
 public class AppSpecificPassword {
     private Account account;
