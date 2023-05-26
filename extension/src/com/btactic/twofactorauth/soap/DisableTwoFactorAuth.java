@@ -26,6 +26,7 @@ import com.zimbra.common.soap.Element;
 import com.zimbra.cs.account.Account;
 import com.btactic.twofactorauth.TwoFactorManager;
 import com.zimbra.soap.ZimbraSoapContext;
+import com.zimbra.cs.service.account.AccountDocumentHandler;
 
 public class DisableTwoFactorAuth extends AccountDocumentHandler {
 
