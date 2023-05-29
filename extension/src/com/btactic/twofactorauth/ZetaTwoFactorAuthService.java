@@ -11,11 +11,13 @@ import com.zimbra.cs.service.account.AccountService;
 import com.zimbra.common.soap.AccountConstants;
 
 import com.btactic.twofactorauth.soap.EnableTwoFactorAuth;
+import com.btactic.twofactorauth.soap.DisableTwoFactorAuth;
 
 public class ZetaTwoFactorAuthService extends AccountService implements DocumentService {
 
     public void registerHandlers(DocumentDispatcher dispatcher) {
         dispatcher.registerHandler(AccountConstants.ENABLE_TWO_FACTOR_AUTH_REQUEST, new EnableTwoFactorAuth());
+        dispatcher.registerHandler(AccountConstants.DISABLE_TWO_FACTOR_AUTH_REQUEST, new DisableTwoFactorAuth());
     }
 
 }
