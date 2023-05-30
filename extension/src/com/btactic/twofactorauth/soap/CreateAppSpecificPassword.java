@@ -30,6 +30,7 @@ import com.zimbra.cs.account.AppSpecificPassword;
 import com.zimbra.cs.account.auth.twofactor.TwoFactorManager;
 import com.zimbra.soap.ZimbraSoapContext;
 import com.zimbra.soap.account.message.CreateAppSpecificPasswordResponse;
+import com.zimbra.cs.service.account.AccountDocumentHandler;
 
 public class CreateAppSpecificPassword extends AccountDocumentHandler {
 
