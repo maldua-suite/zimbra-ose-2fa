@@ -1,6 +1,9 @@
 /*
  * ***** BEGIN LICENSE BLOCK *****
  *
+ * Zimbra OSE 2FA Administration zimlet
+ * Copyright (C) 2023 BTACTIC, S.C.C.L.
+ *
  * Zimbra Collaboration Suite Server
  * Copyright (C) 2015, 2016 Synacor, Inc.
  *
