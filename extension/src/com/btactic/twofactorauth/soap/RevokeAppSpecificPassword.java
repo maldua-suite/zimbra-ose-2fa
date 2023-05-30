@@ -28,6 +28,7 @@ import com.zimbra.cs.account.Account;
 import com.zimbra.cs.account.auth.twofactor.TwoFactorManager;
 import com.zimbra.soap.ZimbraSoapContext;
 import com.zimbra.soap.account.message.RevokeAppSpecificPasswordResponse;
+import com.zimbra.cs.service.account.AccountDocumentHandler;
 
 public class RevokeAppSpecificPassword extends AccountDocumentHandler {
 
