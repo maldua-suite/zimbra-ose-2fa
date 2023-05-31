@@ -17,7 +17,7 @@
  * If not, see <http://www.gnu.org/licenses/>.
  * ***** END LICENSE BLOCK *****
  */
-package com.zimbra.cs.service.account;
+package com.btactic.twofactorauth.soap;
 
 import java.util.List;
 import java.util.Map;
