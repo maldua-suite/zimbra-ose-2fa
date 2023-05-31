@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import com.google.common.collect.Iterables;
 import com.zimbra.common.soap.AccountConstants;
+import com.zimbra.soap.account.message.AppSpecificPasswordData;
 
 @XmlRootElement(name=AccountConstants.E_GET_APP_SPECIFIC_PASSWORDS_RESPONSE)
 @XmlType(propOrder = {})
