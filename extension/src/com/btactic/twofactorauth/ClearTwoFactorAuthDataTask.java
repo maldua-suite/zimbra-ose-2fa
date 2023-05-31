@@ -17,7 +17,7 @@
  * If not, see <http://www.gnu.org/licenses/>.
  * ***** END LICENSE BLOCK *****
  */
-package com.zimbra.cs.account.auth.twofactor;
+package com.btactic.twofactorauth;
 
 import static com.zimbra.common.util.TaskUtil.newDaemonThreadFactory;
 import static java.util.concurrent.Executors.newCachedThreadPool;
