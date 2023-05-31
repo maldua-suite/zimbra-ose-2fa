@@ -34,6 +34,7 @@ import com.zimbra.soap.admin.message.GetClearTwoFactorAuthDataStatusRequest;
 import com.zimbra.soap.admin.message.GetClearTwoFactorAuthDataStatusResponse;
 import com.zimbra.soap.admin.type.CosSelector;
 import com.zimbra.soap.admin.type.CosSelector.CosBy;
+import com.zimbra.cs.service.admin.AdminDocumentHandler;
 
 public class GetClearTwoFactorAuthDataStatus extends AdminDocumentHandler {
 

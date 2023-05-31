@@ -38,6 +38,7 @@ import com.zimbra.soap.admin.type.CosSelector;
 import com.zimbra.soap.admin.type.CosSelector.CosBy;
 import com.zimbra.soap.type.AccountSelector;
 import com.zimbra.soap.type.ZmBoolean;
+import com.zimbra.cs.service.admin.AdminDocumentHandler;
 
 public class ClearTwoFactorAuthData extends AdminDocumentHandler {
 
