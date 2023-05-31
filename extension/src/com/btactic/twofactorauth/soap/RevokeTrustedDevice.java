@@ -28,7 +28,7 @@ import com.zimbra.common.soap.Element;
 import com.zimbra.common.util.ZimbraCookie;
 import com.zimbra.common.util.ZimbraLog;
 import com.zimbra.cs.account.Account;
-import com.zimbra.cs.account.TrustedDeviceToken;
+import com.btactic.twofactorauth.TrustedDeviceToken;
 import com.btactic.twofactorauth.TwoFactorManager;
 import com.zimbra.soap.SoapServlet;
 import com.zimbra.soap.ZimbraSoapContext;
