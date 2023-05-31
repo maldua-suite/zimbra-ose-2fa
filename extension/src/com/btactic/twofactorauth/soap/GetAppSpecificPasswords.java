@@ -25,7 +25,7 @@ import java.util.Set;
 import com.zimbra.common.service.ServiceException;
 import com.zimbra.common.soap.Element;
 import com.zimbra.cs.account.Account;
-import com.zimbra.cs.account.AppSpecificPassword.PasswordData;
+import com.btactic.twofactorauth.AppSpecificPassword.PasswordData;
 import com.btactic.twofactorauth.TwoFactorManager;
 import com.zimbra.soap.ZimbraSoapContext;
 import com.zimbra.soap.account.message.AppSpecificPasswordData;
