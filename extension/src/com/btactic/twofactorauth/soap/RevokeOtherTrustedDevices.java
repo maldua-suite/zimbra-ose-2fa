@@ -25,7 +25,7 @@ import com.zimbra.common.service.ServiceException;
 import com.zimbra.common.soap.Element;
 import com.zimbra.cs.account.Account;
 import com.zimbra.cs.account.TrustedDeviceToken;
-import com.zimbra.cs.account.auth.twofactor.TwoFactorManager;
+import com.btactic.twofactorauth.TwoFactorManager;
 import com.zimbra.soap.ZimbraSoapContext;
 import com.zimbra.soap.account.message.RevokeOtherTrustedDevicesResponse;
 import com.zimbra.cs.service.account.AccountDocumentHandler;

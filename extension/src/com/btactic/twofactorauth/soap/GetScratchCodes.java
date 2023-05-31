@@ -25,7 +25,7 @@ import java.util.Map;
 import com.zimbra.common.service.ServiceException;
 import com.zimbra.common.soap.Element;
 import com.zimbra.cs.account.Account;
-import com.zimbra.cs.account.auth.twofactor.TwoFactorManager;
+import com.btactic.twofactorauth.TwoFactorManager;
 import com.zimbra.soap.ZimbraSoapContext;
 import com.zimbra.soap.account.message.GetScratchCodesResponse;
 import com.zimbra.cs.service.account.AccountDocumentHandler;
