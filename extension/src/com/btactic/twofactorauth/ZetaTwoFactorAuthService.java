@@ -1,5 +1,5 @@
 /*
- * Zimbra OSE 2FA Administration zimlet
+ * Zimbra OSE 2FA Extension
  * Copyright (C) 2023 BTACTIC, S.C.C.L.
  */
 package com.btactic.twofactorauth;
