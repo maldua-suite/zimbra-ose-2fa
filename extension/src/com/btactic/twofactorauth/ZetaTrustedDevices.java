@@ -60,7 +60,7 @@ import com.btactic.twofactorauth.CredentialGenerator;
  * @author iraykin
  *
  */
-public class ZetaTrustedDevices extends TrustedDevices {
+public class ZetaTrustedDevices implements TrustedDevices {
     private Account account;
     private String acctNamePassedIn;
     private String secret;
