@@ -17,7 +17,7 @@
  * If not, see <http://www.gnu.org/licenses/>.
  * ***** END LICENSE BLOCK *****
  */
-package com.btactic.twofactorauth;
+package com.btactic.twofactorauth.trusteddevices;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +28,7 @@ import com.zimbra.common.util.BEncoding.BEncodingException;
 import com.zimbra.cs.account.auth.AuthContext;
 import com.zimbra.cs.account.Account;
 
-public class TrustedDevice {
+public class ZetaTrustedDevice {
 
     private Account account;
     private Map <String, Object> deviceAttrs = new HashMap<String, Object>();
@@ -37,7 +37,7 @@ public class TrustedDevice {
     private Long expires;
     private DeviceVerification verification;
 
-    public TrustedDevice(Account account, Map<String, Object> attrs) {
+    public ZetaTrustedDevice(Account account, Map<String, Object> attrs) {
         this.account = account;
         this.deviceAttrs = attrs;
         this.token = new TrustedDeviceToken(account, this);
@@ -46,16 +46,16 @@ public class TrustedDevice {
         setVerificationMechanism();
     }
 
-    public static TrustedDevice byTrustedToken(Account acct, TrustedDeviceToken token) throws ServiceException {
+    public static ZetaTrustedDevice byTrustedToken(Account acct, TrustedDeviceToken token) throws ServiceException {
         for (String encodedDevice: acct.getTwoFactorAuthTrustedDevices()) {
             if (encodedDevice.startsWith(String.valueOf(token.getId()))) {
-                return new TrustedDevice(acct, encodedDevice);
+                return new ZetaTrustedDevice(acct, encodedDevice);
             }
         }
         return null;
     }
 
-    public TrustedDevice(Account account, String encoded) throws ServiceException {
+    public ZetaTrustedDevice(Account account, String encoded) throws ServiceException {
         this.account = account;
         String[] parts = encoded.split("\\|", 3);
         if (parts.length != 3) {
@@ -117,9 +117,9 @@ public class TrustedDevice {
     }
 
     public abstract class DeviceVerification {
-        protected TrustedDevice trustedDevice;
+        protected ZetaTrustedDevice trustedDevice;
 
-        public DeviceVerification(TrustedDevice trustedDevice) {
+        public DeviceVerification(ZetaTrustedDevice trustedDevice) {
             this.trustedDevice = trustedDevice;
         }
 
@@ -128,7 +128,7 @@ public class TrustedDevice {
 
     private abstract class AttributeDeviceVerification extends DeviceVerification {
 
-        public AttributeDeviceVerification(TrustedDevice trustedDevice) {
+        public AttributeDeviceVerification(ZetaTrustedDevice trustedDevice) {
             super(trustedDevice);
         }
 
@@ -145,7 +145,7 @@ public class TrustedDevice {
 
     public class DeviceIdVerification extends AttributeDeviceVerification {
 
-        public DeviceIdVerification(TrustedDevice trustedDevice) {
+        public DeviceIdVerification(ZetaTrustedDevice trustedDevice) {
             super(trustedDevice);
         }
 
@@ -157,7 +157,7 @@ public class TrustedDevice {
 
     public class DummyVerification extends DeviceIdVerification {
 
-        public DummyVerification(TrustedDevice trustedDevice) {
+        public DummyVerification(ZetaTrustedDevice trustedDevice) {
             super(trustedDevice);
         }
 

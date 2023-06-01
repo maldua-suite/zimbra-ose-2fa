@@ -45,7 +45,7 @@ import com.btactic.twofactorauth.AppSpecificPassword.PasswordData;
 import com.zimbra.cs.account.Config;
 import com.zimbra.cs.account.DataSource;
 import com.zimbra.cs.account.Provisioning;
-import com.btactic.twofactorauth.TrustedDevice;
+import com.btactic.twofactorauth.trusteddevices.ZetaTrustedDevice;
 import com.btactic.twofactorauth.TrustedDeviceToken;
 import com.zimbra.cs.account.ldap.ChangePasswordListener;
 import com.zimbra.cs.account.ldap.LdapLockoutPolicy;
@@ -480,17 +480,17 @@ public class ZetaTwoFactorAuth {
             ZimbraLog.account.warn("attempting to register a trusted device when this feature is not enabled");
             return null;
         }
-        TrustedDevice td = new TrustedDevice(account, deviceAttrs);
+        ZetaTrustedDevice td = new ZetaTrustedDevice(account, deviceAttrs);
         ZimbraLog.account.debug("registering new trusted device");
         td.register();
         return td.getToken();
     }
 
-    public List<TrustedDevice> getTrustedDevices() throws ServiceException {
-        List<TrustedDevice> trustedDevices = new ArrayList<TrustedDevice>();
+    public List<ZetaTrustedDevice> getTrustedDevices() throws ServiceException {
+        List<ZetaTrustedDevice> trustedDevices = new ArrayList<ZetaTrustedDevice>();
         for (String encoded: account.getTwoFactorAuthTrustedDevices()) {
             try {
-                TrustedDevice td = new TrustedDevice(account, encoded);
+                ZetaTrustedDevice td = new ZetaTrustedDevice(account, encoded);
                 if (td.isExpired()) {
                     td.revoke();
                 }
@@ -505,9 +505,9 @@ public class ZetaTwoFactorAuth {
 
     public void revokeTrustedDevice(TrustedDeviceToken token) throws ServiceException {
         ZimbraLog.account.debug("revoking current trusted device");
-        TrustedDevice td;
+        ZetaTrustedDevice td;
         try {
-            td = TrustedDevice.byTrustedToken(account, token);
+            td = ZetaTrustedDevice.byTrustedToken(account, token);
         } catch (AccountServiceException e) {
             ZimbraLog.account.warn("trying to revoke a trusted auth token with no corresponding device");
             return;
@@ -517,7 +517,7 @@ public class ZetaTwoFactorAuth {
 
     public void revokeAllTrustedDevices() throws ServiceException {
         ZimbraLog.account.debug("revoking all trusted devices");
-        for (TrustedDevice td: getTrustedDevices()) {
+        for (ZetaTrustedDevice td: getTrustedDevices()) {
             td.revoke();
         }
     }
@@ -527,7 +527,7 @@ public class ZetaTwoFactorAuth {
             revokeAllTrustedDevices();
         } else {
             ZimbraLog.account.debug("revoking other trusted devices");
-            for (TrustedDevice td: getTrustedDevices()) {
+            for (ZetaTrustedDevice td: getTrustedDevices()) {
                 if (!td.getTokenId().equals(token.getId())) {
                     td.revoke();
                 }
@@ -537,7 +537,7 @@ public class ZetaTwoFactorAuth {
 
     public void verifyTrustedDevice(TrustedDeviceToken token, Map<String, Object> attrs) throws ServiceException {
         ZimbraLog.account.debug("verifying trusted device");
-        TrustedDevice td = TrustedDevice.byTrustedToken(account, token);
+        ZetaTrustedDevice td = ZetaTrustedDevice.byTrustedToken(account, token);
         if (td == null || !td.verify(attrs)) {
             throw AuthFailedServiceException.TWO_FACTOR_AUTH_FAILED(account.getName(), acctNamePassedIn, "trusted device cannot be verified");
         }

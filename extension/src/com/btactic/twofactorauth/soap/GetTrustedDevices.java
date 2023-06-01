@@ -26,7 +26,7 @@ import com.zimbra.common.service.ServiceException;
 import com.zimbra.common.soap.Element;
 import com.zimbra.cs.account.Account;
 import com.zimbra.cs.account.AccountServiceException;
-import com.btactic.twofactorauth.TrustedDevice;
+import com.btactic.twofactorauth.trusteddevices.ZetaTrustedDevice;
 import com.btactic.twofactorauth.TrustedDeviceToken;
 import com.btactic.twofactorauth.ZetaTwoFactorAuth;
 import com.zimbra.soap.ZimbraSoapContext;
@@ -44,14 +44,14 @@ public class GetTrustedDevices extends AccountDocumentHandler {
         if (!manager.twoFactorAuthEnabled()) {
             throw AccountServiceException.TWO_FACTOR_AUTH_REQUIRED();
         }
-        List<TrustedDevice> devices = manager.getTrustedDevices();
+        List<ZetaTrustedDevice> devices = manager.getTrustedDevices();
         TrustedDeviceToken token = TrustedDeviceToken.fromRequest(account, request, context);
         boolean thisDeviceTrusted = false;
         int numOtherTrustedDevices = 0;
         if (token == null) {
             numOtherTrustedDevices = devices.size();
         } else {
-            for (TrustedDevice td: devices) {
+            for (ZetaTrustedDevice td: devices) {
                 if (token.getId().equals(td.getTokenId())) {
                     thisDeviceTrusted = true;
                 } else {
