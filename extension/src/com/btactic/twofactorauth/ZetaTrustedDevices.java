@@ -132,6 +132,15 @@ public class ZetaTrustedDevices implements TrustedDevices {
         }
     }
 
+    public void revokeAppSpecificPassword(String name) throws ServiceException  {
+        if (appPasswords.containsKey(name)) {
+            appPasswords.get(name).revoke();
+        } else {
+            //if a password is not provisioned for this app, log but don't return an error
+            ZimbraLog.account.error("no app-specific password provisioned for the name " + name);
+        }
+    }
+
     @Override
     public TrustedDeviceToken registerTrustedDevice(Map<String, Object> deviceAttrs) throws ServiceException {
         if (!account.isFeatureTrustedDevicesEnabled()) {
