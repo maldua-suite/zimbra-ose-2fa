@@ -53,6 +53,7 @@ import com.zimbra.cs.account.ldap.ChangePasswordListener;
 import com.zimbra.cs.account.ldap.LdapLockoutPolicy;
 import com.zimbra.cs.ldap.LdapDateUtil;
 import com.btactic.twofactorauth.CredentialGenerator;
+import com.btactic.twofactorauth.ZetaTrustedDevices;
 
 /**
  * This class is the main entry point for two-factor authentication.
@@ -98,12 +99,12 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
 
         @Override
         public TrustedDevices getTrustedDevices(Account account) throws ServiceException {
-            new ZetaTwoFactorAuth(account).getTrustedDevices();
+            new ZetaTrustedDevices(account);
         }
 
         @Override
         public TrustedDevices getTrustedDevices(Account account, String acctNamePassedIn) throws ServiceException {
-            new ZetaTwoFactorAuth(account, acctNamePassedIn).getTrustedDevices();
+            new ZetaTrustedDevices(account, acctNamePassedIn);
         }
 
         @Override
