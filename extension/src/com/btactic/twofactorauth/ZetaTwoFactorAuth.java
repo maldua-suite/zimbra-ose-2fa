@@ -82,6 +82,50 @@ public class ZetaTwoFactorAuth {
         }
     }
 
+    public static class AuthFactory implements Factory {
+
+        @Override
+        public TwoFactorAuth getTwoFactorAuth(Account account, String acctNamePassedIn) throws ServiceException {
+            return new ZetaTwoFactorAuth(account, acctNamePassedIn);
+        }
+
+        @Override
+        public TwoFactorAuth getTwoFactorAuth(Account account) throws ServiceException {
+            return new ZetaTwoFactorAuth(account);
+        }
+
+        @Override
+        public TrustedDevices getTrustedDevices(Account account) throws ServiceException {
+            new ZetaTwoFactorAuth(account).getTrustedDevices();
+        }
+
+        @Override
+        public TrustedDevices getTrustedDevices(Account account, String acctNamePassedIn) throws ServiceException {
+            new ZetaTwoFactorAuth(account, acctNamePassedIn).getTrustedDevices();
+        }
+
+        @Override
+        public AppSpecificPasswords getAppSpecificPasswords(Account account) throws ServiceException {
+            new ZetaTwoFactorAuth(account).getAppSpecificPasswords();
+        }
+
+        @Override
+        public AppSpecificPasswords getAppSpecificPasswords(Account account, String acctNamePassedIn) throws ServiceException {
+            new ZetaTwoFactorAuth(account, acctNamePassedIn).getAppSpecificPasswords();
+        }
+
+        @Override
+        public ScratchCodes getScratchCodes(Account account) throws ServiceException {
+            new ZetaTwoFactorAuth(account).getScratchCodes();
+        }
+
+        @Override
+        public ScratchCodes getScratchCodes(Account account, String acctNamePassedIn) throws ServiceException {
+            new ZetaTwoFactorAuth(account, acctNamePassedIn).getScratchCodes();
+        }
+
+    }
+
     private void disableTwoFactorAuthIfNecessary() throws ServiceException {
         String encryptedSecret = account.getTwoFactorAuthSecret();
         if (!Strings.isNullOrEmpty(encryptedSecret)) {
