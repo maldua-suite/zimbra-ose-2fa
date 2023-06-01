@@ -8,6 +8,18 @@ This project aims to build an Open Source replacement of:
 
 For the final user UI it relies on current Zimbra OSE support for 2FA integrated on the Webmail.
 
+## Developer documentation
+
+This documentation is aimed at developers, not at admins.
+
+### How to build
+
+- Check: [EXTENSION_BUILD.md](EXTENSION_BUILD.md) on how to build the Extension.
+
+### How to install
+
+- Check: [EXTENSION_INSTALL.md](EXTENSION_INSTALL.md) on how to install the Extension.
+
 ## Licenses
 
 ### License (Extension)
