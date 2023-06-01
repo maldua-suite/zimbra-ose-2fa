@@ -53,6 +53,7 @@ import com.zimbra.cs.account.ldap.ChangePasswordListener;
 import com.zimbra.cs.account.ldap.LdapLockoutPolicy;
 import com.zimbra.cs.ldap.LdapDateUtil;
 import com.btactic.twofactorauth.CredentialGenerator;
+import com.zimbra.common.soap.Element;
 
 /**
  * This class is the main entry point for two-factor authentication.
