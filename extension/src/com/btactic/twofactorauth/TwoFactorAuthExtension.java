@@ -5,6 +5,7 @@ import com.zimbra.soap.SoapServlet;
 import com.zimbra.cs.account.ldap.ChangePasswordListener;
 import com.zimbra.cs.account.ldap.ChangePasswordListener.InternalChangePasswordListenerId;
 import com.btactic.twofactorauth.TwoFactorManager.TwoFactorPasswordChange;
+import com.zimbra.cs.account.auth.twofactor.TwoFactorAuth;
 
 /**
  * This extension registers a custom HTTP handler with <code>ExtensionDispatcherServlet<code>
@@ -32,6 +33,8 @@ public class TwoFactorAuthExtension implements ZimbraExtension {
 
         InternalChangePasswordListenerId cplId = InternalChangePasswordListenerId.CPL_REVOKE_APP_PASSWORDS;
         ChangePasswordListener.registerInternal(cplId, new TwoFactorPasswordChange());
+
+        TwoFactorAuth.setFactory("com.btactic.twofactorauth.TwoFactorManager$AuthFactory");
     }
 
     /**
