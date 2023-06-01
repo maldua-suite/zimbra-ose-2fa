@@ -84,34 +84,42 @@ public class TrustedDevice implements com.zimbra.cs.account.TrustedDevice {
         return String.format("%d|%d|%s", trustedTokenId, expires, BEncoding.encode(deviceAttrs));
     }
 
+    @Override
     public void register() throws ServiceException {
         account.addTwoFactorAuthTrustedDevices(encode());
     }
 
+    @Override
     public void revoke() throws ServiceException {
         account.removeTwoFactorAuthTrustedDevices(encode());
     }
 
+    @Override
     public boolean verify(Map<String, Object> attrs) {
         return verification.verify(attrs);
     }
 
+    @Override
     public Map<String, Object> getAttrs() {
         return deviceAttrs;
     }
 
+    @Override
     public TrustedDeviceToken getToken() {
         return token;
     }
 
+    @Override
     public Integer getTokenId() {
         return trustedTokenId;
     }
 
+    @Override
     public long getExpires() {
         return expires;
     }
 
+    @Override
     public boolean isExpired() {
         return expires < System.currentTimeMillis();
     }
