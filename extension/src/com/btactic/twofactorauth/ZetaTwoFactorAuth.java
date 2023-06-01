@@ -46,7 +46,7 @@ import com.zimbra.cs.account.Config;
 import com.zimbra.cs.account.DataSource;
 import com.zimbra.cs.account.Provisioning;
 import com.btactic.twofactorauth.trusteddevices.ZetaTrustedDevice;
-import com.btactic.twofactorauth.TrustedDeviceToken;
+import com.btactic.twofactorauth.trusteddevices.ZetaTrustedDeviceToken;
 import com.zimbra.cs.account.ldap.ChangePasswordListener;
 import com.zimbra.cs.account.ldap.LdapLockoutPolicy;
 import com.zimbra.cs.ldap.LdapDateUtil;
@@ -475,7 +475,7 @@ public class ZetaTwoFactorAuth {
         }
     }
 
-    public TrustedDeviceToken registerTrustedDevice(Map<String, Object> deviceAttrs) throws ServiceException {
+    public ZetaTrustedDeviceToken registerTrustedDevice(Map<String, Object> deviceAttrs) throws ServiceException {
         if (!account.isFeatureTrustedDevicesEnabled()) {
             ZimbraLog.account.warn("attempting to register a trusted device when this feature is not enabled");
             return null;
@@ -503,7 +503,7 @@ public class ZetaTwoFactorAuth {
         return trustedDevices;
     }
 
-    public void revokeTrustedDevice(TrustedDeviceToken token) throws ServiceException {
+    public void revokeTrustedDevice(ZetaTrustedDeviceToken token) throws ServiceException {
         ZimbraLog.account.debug("revoking current trusted device");
         ZetaTrustedDevice td;
         try {
@@ -522,7 +522,7 @@ public class ZetaTwoFactorAuth {
         }
     }
 
-    public void revokeOtherTrustedDevices(TrustedDeviceToken token) throws ServiceException {
+    public void revokeOtherTrustedDevices(ZetaTrustedDeviceToken token) throws ServiceException {
         if (token == null) {
             revokeAllTrustedDevices();
         } else {
@@ -535,7 +535,7 @@ public class ZetaTwoFactorAuth {
         }
     }
 
-    public void verifyTrustedDevice(TrustedDeviceToken token, Map<String, Object> attrs) throws ServiceException {
+    public void verifyTrustedDevice(ZetaTrustedDeviceToken token, Map<String, Object> attrs) throws ServiceException {
         ZimbraLog.account.debug("verifying trusted device");
         ZetaTrustedDevice td = ZetaTrustedDevice.byTrustedToken(account, token);
         if (td == null || !td.verify(attrs)) {

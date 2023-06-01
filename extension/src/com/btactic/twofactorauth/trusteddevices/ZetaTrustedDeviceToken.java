@@ -17,7 +17,7 @@
  * If not, see <http://www.gnu.org/licenses/>.
  * ***** END LICENSE BLOCK *****
  */
-package com.btactic.twofactorauth;
+package com.btactic.twofactorauth.trusteddevices;
 
 import java.util.Map;
 import java.util.Random;
@@ -39,18 +39,18 @@ import com.zimbra.cs.account.AuthTokenException;
 import com.zimbra.cs.account.TrustedTokenKey;
 import com.zimbra.cs.account.TokenUtil;
 
-public class TrustedDeviceToken {
+public class ZetaTrustedDeviceToken {
     private Integer tokenId;
     private Long expires;
-    private TrustedDevice device;
+    private ZetaTrustedDevice device;
     private static final String TOKEN_ID = "tid";
     private boolean deleted = false;
 
-    public TrustedDeviceToken(String encoded) throws AuthTokenException, ServiceException {
+    public ZetaTrustedDeviceToken(String encoded) throws AuthTokenException, ServiceException {
         decode(encoded);
     }
 
-    public TrustedDeviceToken(Account account, TrustedDevice device) {
+    public ZetaTrustedDeviceToken(Account account, ZetaTrustedDevice device) {
         this.tokenId = new Random().nextInt(Integer.MAX_VALUE-1) + 1;
         this.expires = account.getTwoFactorAuthTrustedDeviceTokenLifetime() + System.currentTimeMillis();
         this.device = device;
@@ -95,7 +95,7 @@ public class TrustedDeviceToken {
         return key.getVersion() + "_" + hmac + "_" + data;
     }
 
-    public static TrustedDeviceToken fromRequest(Account account, Element request, Map<String, Object> context)
+    public static ZetaTrustedDeviceToken fromRequest(Account account, Element request, Map<String, Object> context)
             throws ServiceException {
         if (account == null) {
             return null;
@@ -120,9 +120,9 @@ public class TrustedDeviceToken {
         }
         if (encodedToken != null && !encodedToken.isEmpty()) {
             try {
-                TrustedDeviceToken token = new TrustedDeviceToken(encodedToken);
+                ZetaTrustedDeviceToken token = new ZetaTrustedDeviceToken(encodedToken);
                 // we want to catch tokens that don't have corresponding devices early
-                TrustedDevice device = TrustedDevice.byTrustedToken(account, token);
+                ZetaTrustedDevice device = ZetaTrustedDevice.byTrustedToken(account, token);
                 if (device == null) {
                     ZimbraLog.account.debug("cannot find trusted device for trusted device token");
                     token.setDelete();

@@ -32,7 +32,7 @@ public class ZetaTrustedDevice {
 
     private Account account;
     private Map <String, Object> deviceAttrs = new HashMap<String, Object>();
-    private TrustedDeviceToken token;
+    private ZetaTrustedDeviceToken token;
     private Integer trustedTokenId;
     private Long expires;
     private DeviceVerification verification;
@@ -40,13 +40,13 @@ public class ZetaTrustedDevice {
     public ZetaTrustedDevice(Account account, Map<String, Object> attrs) {
         this.account = account;
         this.deviceAttrs = attrs;
-        this.token = new TrustedDeviceToken(account, this);
+        this.token = new ZetaTrustedDeviceToken(account, this);
         this.trustedTokenId = token.getId();
         this.expires = token.getExpires();
         setVerificationMechanism();
     }
 
-    public static ZetaTrustedDevice byTrustedToken(Account acct, TrustedDeviceToken token) throws ServiceException {
+    public static ZetaTrustedDevice byTrustedToken(Account acct, ZetaTrustedDeviceToken token) throws ServiceException {
         for (String encodedDevice: acct.getTwoFactorAuthTrustedDevices()) {
             if (encodedDevice.startsWith(String.valueOf(token.getId()))) {
                 return new ZetaTrustedDevice(acct, encodedDevice);
@@ -100,7 +100,7 @@ public class ZetaTrustedDevice {
         return deviceAttrs;
     }
 
-    public TrustedDeviceToken getToken() {
+    public ZetaTrustedDeviceToken getToken() {
         return token;
     }
 
