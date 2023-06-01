@@ -39,7 +39,7 @@ import com.zimbra.cs.account.AuthTokenException;
 import com.zimbra.cs.account.TrustedTokenKey;
 import com.zimbra.cs.account.TokenUtil;
 
-public class TrustedDeviceToken {
+public class TrustedDeviceToken implements com.zimbra.cs.account.TrustedDeviceToken {
     private Integer tokenId;
     private Long expires;
     private TrustedDevice device;
@@ -82,6 +82,7 @@ public class TrustedDeviceToken {
         tokenId = Integer.parseInt((String) map.get(TOKEN_ID));
     }
 
+    @Override
     private void setExpires(long expires) {
         this.expires = expires;
     }
@@ -146,14 +147,17 @@ public class TrustedDeviceToken {
         }
     }
 
+    @Override
     public Integer getId() {
         return tokenId;
     }
 
+    @Override
     public Long getExpires() {
         return expires;
     }
 
+    @Override
     public void setDelete() {
         this.deleted = true;
     }
@@ -163,6 +167,7 @@ public class TrustedDeviceToken {
         return Integer.valueOf((int)(timeLeft / 1000));
     }
 
+    @Override
     public void encode(HttpServletResponse resp, Element el, boolean secure) throws ServiceException {
         String name = ZimbraCookie.COOKIE_ZM_TRUST_TOKEN;
         String path = ZimbraCookie.PATH_ROOT;
@@ -185,6 +190,7 @@ public class TrustedDeviceToken {
         }
     }
 
+    @Override
     public boolean isExpired() {
         return deleted || expires < System.currentTimeMillis();
     }
