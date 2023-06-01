@@ -117,6 +117,10 @@ public class ZetaTrustedDevices implements TrustedDevices {
         revokeAllTrustedDevices();
     }
 
+    private static String decrypt(Account account, String encrypted) throws ServiceException {
+        return DataSource.decryptData(account.getId(), encrypted);
+    }
+
     @Override
     public TrustedDeviceToken registerTrustedDevice(Map<String, Object> deviceAttrs) throws ServiceException {
         if (!account.isFeatureTrustedDevicesEnabled()) {
