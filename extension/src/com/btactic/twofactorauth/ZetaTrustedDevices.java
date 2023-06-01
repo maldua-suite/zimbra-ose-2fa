@@ -117,6 +117,7 @@ public class ZetaTrustedDevices implements TrustedDevices {
         revokeAllTrustedDevices();
     }
 
+    @Override
     public TrustedDeviceToken registerTrustedDevice(Map<String, Object> deviceAttrs) throws ServiceException {
         if (!account.isFeatureTrustedDevicesEnabled()) {
             ZimbraLog.account.warn("attempting to register a trusted device when this feature is not enabled");
@@ -128,6 +129,7 @@ public class ZetaTrustedDevices implements TrustedDevices {
         return td.getToken();
     }
 
+    @Override
     public List<TrustedDevice> getTrustedDevices() throws ServiceException {
         List<TrustedDevice> trustedDevices = new ArrayList<TrustedDevice>();
         for (String encoded: account.getTwoFactorAuthTrustedDevices()) {
@@ -145,6 +147,7 @@ public class ZetaTrustedDevices implements TrustedDevices {
         return trustedDevices;
     }
 
+    @Override
     public void revokeTrustedDevice(TrustedDeviceToken token) throws ServiceException {
         ZimbraLog.account.debug("revoking current trusted device");
         TrustedDevice td;
@@ -157,6 +160,7 @@ public class ZetaTrustedDevices implements TrustedDevices {
         td.revoke();
     }
 
+    @Override
     public void revokeAllTrustedDevices() throws ServiceException {
         ZimbraLog.account.debug("revoking all trusted devices");
         for (TrustedDevice td: getTrustedDevices()) {
@@ -164,6 +168,7 @@ public class ZetaTrustedDevices implements TrustedDevices {
         }
     }
 
+    @Override
     public void revokeOtherTrustedDevices(TrustedDeviceToken token) throws ServiceException {
         if (token == null) {
             revokeAllTrustedDevices();
@@ -177,6 +182,7 @@ public class ZetaTrustedDevices implements TrustedDevices {
         }
     }
 
+    @Override
     public void verifyTrustedDevice(TrustedDeviceToken token, Map<String, Object> attrs) throws ServiceException {
         ZimbraLog.account.debug("verifying trusted device");
         TrustedDevice td = TrustedDevice.byTrustedToken(account, token);
@@ -185,10 +191,12 @@ public class ZetaTrustedDevices implements TrustedDevices {
         }
     }
 
+    @Override
     public TrustedDeviceToken getTokenFromRequest(Element request, Map<String, Object> context) throws ServiceException {
         return null;
     }
 
+    @Override
     public TrustedDevice getTrustedDeviceByTrustedToken(TrustedDeviceToken token) throws ServiceException {
         return null;
     }
