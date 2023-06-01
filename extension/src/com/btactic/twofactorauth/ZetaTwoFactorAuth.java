@@ -32,7 +32,12 @@ import com.google.common.base.Strings;
 import com.zimbra.common.auth.twofactor.AuthenticatorConfig;
 import com.zimbra.common.auth.twofactor.TwoFactorOptions.CodeLength;
 import com.zimbra.common.auth.twofactor.TwoFactorOptions.HashAlgorithm;
+import com.zimbra.cs.account.auth.twofactor.AppSpecificPasswords;
+import com.zimbra.cs.account.auth.twofactor.TrustedDevices;
+import com.zimbra.cs.account.auth.twofactor.TwoFactorAuth;
 import com.zimbra.cs.account.auth.twofactor.TwoFactorAuth.CredentialConfig;
+import com.zimbra.cs.account.auth.twofactor.TwoFactorAuth.Factory;
+import com.zimbra.cs.account.auth.twofactor.ScratchCodes;
 import com.zimbra.common.auth.twofactor.TwoFactorOptions.Encoding;
 import com.zimbra.common.auth.twofactor.TOTPAuthenticator;
 import com.zimbra.common.service.ServiceException;
@@ -58,7 +63,7 @@ import com.btactic.twofactorauth.CredentialGenerator;
  * @author iraykin
  *
  */
-public class ZetaTwoFactorAuth {
+public class ZetaTwoFactorAuth extends TwoFactorAuth {
     private Account account;
     private String acctNamePassedIn;
     private String secret;
@@ -80,6 +85,50 @@ public class ZetaTwoFactorAuth {
         if (account.isFeatureTwoFactorAuthAvailable()) {
             loadCredentials();
         }
+    }
+
+    public static class AuthFactory implements Factory {
+
+        @Override
+        public TwoFactorAuth getTwoFactorAuth(Account account, String acctNamePassedIn) throws ServiceException {
+            return new ZetaTwoFactorAuth(account, acctNamePassedIn);
+        }
+
+        @Override
+        public TwoFactorAuth getTwoFactorAuth(Account account) throws ServiceException {
+            return new ZetaTwoFactorAuth(account);
+        }
+
+        @Override
+        public TrustedDevices getTrustedDevices(Account account) throws ServiceException {
+            new ZetaTwoFactorAuth(account).getTrustedDevices();
+        }
+
+        @Override
+        public TrustedDevices getTrustedDevices(Account account, String acctNamePassedIn) throws ServiceException {
+            new ZetaTwoFactorAuth(account, acctNamePassedIn).getTrustedDevices();
+        }
+
+        @Override
+        public AppSpecificPasswords getAppSpecificPasswords(Account account) throws ServiceException {
+            new ZetaTwoFactorAuth(account).getAppSpecificPasswords();
+        }
+
+        @Override
+        public AppSpecificPasswords getAppSpecificPasswords(Account account, String acctNamePassedIn) throws ServiceException {
+            new ZetaTwoFactorAuth(account, acctNamePassedIn).getAppSpecificPasswords();
+        }
+
+        @Override
+        public ScratchCodes getScratchCodes(Account account) throws ServiceException {
+            new ZetaTwoFactorAuth(account).getScratchCodes();
+        }
+
+        @Override
+        public ScratchCodes getScratchCodes(Account account, String acctNamePassedIn) throws ServiceException {
+            new ZetaTwoFactorAuth(account, acctNamePassedIn).getScratchCodes();
+        }
+
     }
 
     private void disableTwoFactorAuthIfNecessary() throws ServiceException {
