@@ -32,7 +32,9 @@ import com.google.common.base.Strings;
 import com.zimbra.common.auth.twofactor.AuthenticatorConfig;
 import com.zimbra.common.auth.twofactor.TwoFactorOptions.CodeLength;
 import com.zimbra.common.auth.twofactor.TwoFactorOptions.HashAlgorithm;
+import com.zimbra.cs.account.auth.twofactor.TwoFactorAuth;
 import com.zimbra.cs.account.auth.twofactor.TwoFactorAuth.CredentialConfig;
+import com.zimbra.cs.account.auth.twofactor.TwoFactorAuth.Factory;
 import com.zimbra.common.auth.twofactor.TwoFactorOptions.Encoding;
 import com.zimbra.common.auth.twofactor.TOTPAuthenticator;
 import com.zimbra.common.service.ServiceException;
@@ -58,7 +60,7 @@ import com.btactic.twofactorauth.CredentialGenerator;
  * @author iraykin
  *
  */
-public class ZetaTwoFactorAuth {
+public class ZetaTwoFactorAuth extends TwoFactorAuth {
     private Account account;
     private String acctNamePassedIn;
     private String secret;
