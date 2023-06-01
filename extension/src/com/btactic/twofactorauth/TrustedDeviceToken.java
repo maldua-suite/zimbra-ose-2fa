@@ -83,7 +83,7 @@ public class TrustedDeviceToken implements com.zimbra.cs.account.TrustedDeviceTo
     }
 
     @Override
-    private void setExpires(long expires) {
+    public void setExpires(long expires) {
         this.expires = expires;
     }
 
