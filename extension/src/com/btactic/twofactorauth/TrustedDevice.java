@@ -28,7 +28,7 @@ import com.zimbra.common.util.BEncoding.BEncodingException;
 import com.zimbra.cs.account.auth.AuthContext;
 import com.zimbra.cs.account.Account;
 
-public class TrustedDevice {
+public class TrustedDevice implements com.zimbra.cs.account.TrustedDevice {
 
     private Account account;
     private Map <String, Object> deviceAttrs = new HashMap<String, Object>();
