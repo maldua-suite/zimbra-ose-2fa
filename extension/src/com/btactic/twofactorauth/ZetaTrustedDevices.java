@@ -121,6 +121,17 @@ public class ZetaTrustedDevices implements TrustedDevices {
         return DataSource.decryptData(account.getId(), encrypted);
     }
 
+    private void deleteCredentials() throws ServiceException {
+        account.setTwoFactorAuthSecret(null);
+        account.setTwoFactorAuthScratchCodes(null);
+    }
+
+    public void revokeAllAppSpecificPasswords() throws ServiceException {
+        for (String name: appPasswords.keySet()) {
+            revokeAppSpecificPassword(name);
+        }
+    }
+
     @Override
     public TrustedDeviceToken registerTrustedDevice(Map<String, Object> deviceAttrs) throws ServiceException {
         if (!account.isFeatureTrustedDevicesEnabled()) {
