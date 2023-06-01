@@ -183,4 +183,12 @@ public class ZetaTrustedDevices extends TrustedDevices {
         }
     }
 
+    public TrustedDeviceToken getTokenFromRequest(Element request, Map<String, Object> context) throws ServiceException {
+        return null;
+    }
+
+    public TrustedDevice getTrustedDeviceByTrustedToken(TrustedDeviceToken token) throws ServiceException {
+        return null;
+    }
+
 }
