@@ -58,7 +58,7 @@ import com.btactic.twofactorauth.CredentialGenerator;
  * @author iraykin
  *
  */
-public class TwoFactorManager {
+public class ZetaTwoFactorAuth {
     private Account account;
     private String acctNamePassedIn;
     private String secret;
@@ -69,11 +69,11 @@ public class TwoFactorManager {
     boolean hasStoredScratchCodes;
     private Map<String, AppSpecificPassword> appPasswords = new HashMap<String, AppSpecificPassword>();
 
-    public TwoFactorManager(Account account) throws ServiceException {
+    public ZetaTwoFactorAuth(Account account) throws ServiceException {
         this(account, account.getName());
     }
 
-    public TwoFactorManager(Account account, String acctNamePassedIn) throws ServiceException {
+    public ZetaTwoFactorAuth(Account account, String acctNamePassedIn) throws ServiceException {
         this.account = account;
         this.acctNamePassedIn = acctNamePassedIn;
         disableTwoFactorAuthIfNecessary();
@@ -561,7 +561,7 @@ public class TwoFactorManager {
             if (acct.isRevokeAppSpecificPasswordsOnPasswordChange()) {
                 try {
                     ZimbraLog.account.info("revoking all app-specific passwords due to password change");
-                    new TwoFactorManager(acct).revokeAllAppSpecificPasswords();
+                    new ZetaTwoFactorAuth(acct).revokeAllAppSpecificPasswords();
                 } catch (ServiceException e) {
                     ZimbraLog.account.error("could not revoke app-specific passwords on password change", e);
                 }

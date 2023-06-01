@@ -38,7 +38,7 @@ import com.zimbra.cs.account.AuthTokenException;
 import com.zimbra.cs.account.Provisioning;
 import com.zimbra.cs.account.auth.AuthContext.Protocol;
 import com.btactic.twofactorauth.TOTPCredentials;
-import com.btactic.twofactorauth.TwoFactorManager;
+import com.btactic.twofactorauth.ZetaTwoFactorAuth;
 import com.zimbra.cs.service.AuthProvider;
 import com.zimbra.soap.SoapServlet;
 import com.zimbra.soap.ZimbraSoapContext;
@@ -63,7 +63,7 @@ public class EnableTwoFactorAuth extends AccountDocumentHandler {
         if (!account.isFeatureTwoFactorAuthAvailable()) {
             throw ServiceException.CANNOT_ENABLE_TWO_FACTOR_AUTH();
         }
-        TwoFactorManager manager = new TwoFactorManager(account, acctNamePassedIn);
+        ZetaTwoFactorAuth manager = new ZetaTwoFactorAuth(account, acctNamePassedIn);
         EnableTwoFactorAuthResponse response = new EnableTwoFactorAuthResponse();
         Element passwordEl = request.getOptionalElement(AccountConstants.E_PASSWORD);
         String password = null;

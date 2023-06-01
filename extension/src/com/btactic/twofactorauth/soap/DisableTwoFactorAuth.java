@@ -24,7 +24,7 @@ import java.util.Map;
 import com.zimbra.common.service.ServiceException;
 import com.zimbra.common.soap.Element;
 import com.zimbra.cs.account.Account;
-import com.btactic.twofactorauth.TwoFactorManager;
+import com.btactic.twofactorauth.ZetaTwoFactorAuth;
 import com.zimbra.soap.ZimbraSoapContext;
 import com.zimbra.cs.service.account.AccountDocumentHandler;
 
@@ -34,7 +34,7 @@ public class DisableTwoFactorAuth extends AccountDocumentHandler {
     public Element handle(Element request, Map<String, Object> context) throws ServiceException {
         ZimbraSoapContext zsc = getZimbraSoapContext(context);
         Account account = getRequestedAccount(zsc);
-        TwoFactorManager manager = new TwoFactorManager(account);
+        ZetaTwoFactorAuth manager = new ZetaTwoFactorAuth(account);
         DisableTwoFactorAuthResponse response = new DisableTwoFactorAuthResponse();
         manager.disableTwoFactorAuth(true);
         manager.revokeAllAppSpecificPasswords();

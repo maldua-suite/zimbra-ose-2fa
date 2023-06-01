@@ -57,7 +57,7 @@ public class ClearTwoFactorAuthDataTask {
     }
 
     public void clearAccount(Account account) throws ServiceException {
-        TwoFactorManager manager = new TwoFactorManager(account);
+        ZetaTwoFactorAuth manager = new ZetaTwoFactorAuth(account);
         manager.clearData();
     }
 
@@ -104,9 +104,9 @@ public class ClearTwoFactorAuthDataTask {
                                 continue;
                             }
                         }
-                        TwoFactorManager manager;
+                        ZetaTwoFactorAuth manager;
                         try {
-                            manager = new TwoFactorManager(acct);
+                            manager = new ZetaTwoFactorAuth(acct);
                             manager.clearData();
                         } catch (ServiceException e1) {
                             ZimbraLog.account.error("cannot clear two-factor auth data for account " + acct.getId());

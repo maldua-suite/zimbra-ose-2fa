@@ -29,7 +29,7 @@ import com.zimbra.common.util.ZimbraCookie;
 import com.zimbra.common.util.ZimbraLog;
 import com.zimbra.cs.account.Account;
 import com.btactic.twofactorauth.TrustedDeviceToken;
-import com.btactic.twofactorauth.TwoFactorManager;
+import com.btactic.twofactorauth.ZetaTwoFactorAuth;
 import com.zimbra.soap.SoapServlet;
 import com.zimbra.soap.ZimbraSoapContext;
 import com.zimbra.soap.account.message.RevokeTrustedDeviceResponse;
@@ -42,7 +42,7 @@ public class RevokeTrustedDevice extends AccountDocumentHandler {
         ZimbraSoapContext zsc = getZimbraSoapContext(context);
         Account account = getRequestedAccount(zsc);
         RevokeTrustedDeviceResponse response = new RevokeTrustedDeviceResponse();
-        TwoFactorManager manager = new TwoFactorManager(account);
+        ZetaTwoFactorAuth manager = new ZetaTwoFactorAuth(account);
         TrustedDeviceToken token = TrustedDeviceToken.fromRequest(account, request, context);
         if (token != null) {
             manager.revokeTrustedDevice(token);
