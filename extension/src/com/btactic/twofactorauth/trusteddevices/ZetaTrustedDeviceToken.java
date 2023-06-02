@@ -38,8 +38,9 @@ import com.zimbra.cs.account.Account;
 import com.zimbra.cs.account.AuthTokenException;
 import com.zimbra.cs.account.TrustedTokenKey;
 import com.zimbra.cs.account.TokenUtil;
+import com.zimbra.cs.account.TrustedDeviceToken;
 
-public class ZetaTrustedDeviceToken {
+public class ZetaTrustedDeviceToken implements TrustedDeviceToken {
     private Integer tokenId;
     private Long expires;
     private ZetaTrustedDevice device;
@@ -82,7 +83,7 @@ public class ZetaTrustedDeviceToken {
         tokenId = Integer.parseInt((String) map.get(TOKEN_ID));
     }
 
-    private void setExpires(long expires) {
+    public void setExpires(long expires) {
         this.expires = expires;
     }
 

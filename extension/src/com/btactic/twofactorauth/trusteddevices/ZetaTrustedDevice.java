@@ -27,8 +27,10 @@ import com.zimbra.common.util.BEncoding;
 import com.zimbra.common.util.BEncoding.BEncodingException;
 import com.zimbra.cs.account.auth.AuthContext;
 import com.zimbra.cs.account.Account;
+import com.zimbra.cs.account.TrustedDevice;
+import com.zimbra.cs.account.TrustedDeviceToken;
 
-public class ZetaTrustedDevice {
+public class ZetaTrustedDevice implements TrustedDevice {
 
     private Account account;
     private Map <String, Object> deviceAttrs = new HashMap<String, Object>();
@@ -46,7 +48,7 @@ public class ZetaTrustedDevice {
         setVerificationMechanism();
     }
 
-    public static ZetaTrustedDevice byTrustedToken(Account acct, ZetaTrustedDeviceToken token) throws ServiceException {
+    public static ZetaTrustedDevice byTrustedToken(Account acct, TrustedDeviceToken token) throws ServiceException {
         for (String encodedDevice: acct.getTwoFactorAuthTrustedDevices()) {
             if (encodedDevice.startsWith(String.valueOf(token.getId()))) {
                 return new ZetaTrustedDevice(acct, encodedDevice);
