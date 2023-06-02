@@ -17,7 +17,7 @@
  * If not, see <http://www.gnu.org/licenses/>.
  * ***** END LICENSE BLOCK *****
  */
-package com.btactic.twofactorauth;
+package com.btactic.twofactorauth.app;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +31,7 @@ import com.zimbra.cs.account.auth.PasswordUtil;
 import com.zimbra.cs.account.Account;
 import com.zimbra.cs.account.Provisioning;
 
-public class AppSpecificPassword {
+public class ZetaAppSpecificPassword {
     private Account account;
     private String appPassword;
     private String hashedPassword;
@@ -44,10 +44,10 @@ public class AppSpecificPassword {
     private static final String DATE_CREATED_KEY = "dc";
     private static final String DATE_LAST_USED_KEY = "du";
 
-    public static AppSpecificPassword generateNew(Account account, String name) throws ServiceException {
+    public static ZetaAppSpecificPassword generateNew(Account account, String name) throws ServiceException {
         String randomPassword = generatePassword(account);
         Long curTime = System.currentTimeMillis();
-        AppSpecificPassword password = new AppSpecificPassword(account, name, randomPassword, curTime);
+        ZetaAppSpecificPassword password = new ZetaAppSpecificPassword(account, name, randomPassword, curTime);
         return password;
     }
 
@@ -69,15 +69,15 @@ public class AppSpecificPassword {
         return toLdapEntry(false);
     }
 
-    private AppSpecificPassword(Account account, String name, String password, Long dateCreated) {
+    private ZetaAppSpecificPassword(Account account, String name, String password, Long dateCreated) {
         this(account, name, password, dateCreated, null, false);
     }
 
-    public AppSpecificPassword(Account account, String name, String password, Long dateCreated, Long dateLastUsed) {
+    public ZetaAppSpecificPassword(Account account, String name, String password, Long dateCreated, Long dateLastUsed) {
         this(account, name, password, dateCreated, dateLastUsed, true);
     }
 
-    public AppSpecificPassword(Account account, String name, String password, Long dateCreated, Long dateLastUsed, boolean alreadyHashed) {
+    public ZetaAppSpecificPassword(Account account, String name, String password, Long dateCreated, Long dateLastUsed, boolean alreadyHashed) {
         this.account = account;
         this.appName = name;
         if (alreadyHashed) {
@@ -91,11 +91,11 @@ public class AppSpecificPassword {
         setDateLastUsed(dateLastUsed);
     }
 
-    public AppSpecificPassword(Account account, String encoded) {
+    public ZetaAppSpecificPassword(Account account, String encoded) {
         this(account, ldapToData(encoded));
     }
 
-    private AppSpecificPassword(Account account, PasswordData data) {
+    private ZetaAppSpecificPassword(Account account, PasswordData data) {
         this(account, data.getName(), data.getPassword(), data.getDateCreated(), data.getDateLastUsed());
     }
 

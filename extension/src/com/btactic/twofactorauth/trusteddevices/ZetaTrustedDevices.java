@@ -45,8 +45,8 @@ import com.zimbra.common.util.ZimbraCookie;
 import com.zimbra.cs.account.Account;
 import com.zimbra.cs.account.AccountServiceException;
 import com.zimbra.cs.account.AccountServiceException.AuthFailedServiceException;
-import com.btactic.twofactorauth.AppSpecificPassword;
-import com.btactic.twofactorauth.AppSpecificPassword.PasswordData;
+import com.btactic.twofactorauth.app.ZetaAppSpecificPassword;
+import com.btactic.twofactorauth.app.ZetaAppSpecificPassword.PasswordData;
 import com.zimbra.cs.account.AuthTokenException;
 import com.zimbra.cs.account.Config;
 import com.zimbra.cs.account.DataSource;
@@ -76,7 +76,7 @@ public class ZetaTrustedDevices implements TrustedDevices {
     private Encoding scratchEncoding;
     boolean hasStoredSecret;
     boolean hasStoredScratchCodes;
-    private Map<String, AppSpecificPassword> appPasswords = new HashMap<String, AppSpecificPassword>();
+    private Map<String, ZetaAppSpecificPassword> appPasswords = new HashMap<String, ZetaAppSpecificPassword>();
 
     public ZetaTrustedDevices(Account account) throws ServiceException {
         this(account, account.getName());

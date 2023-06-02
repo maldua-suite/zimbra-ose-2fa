@@ -40,8 +40,8 @@ import com.zimbra.common.util.ZimbraLog;
 import com.zimbra.cs.account.Account;
 import com.zimbra.cs.account.AccountServiceException;
 import com.zimbra.cs.account.AccountServiceException.AuthFailedServiceException;
-import com.btactic.twofactorauth.AppSpecificPassword;
-import com.btactic.twofactorauth.AppSpecificPassword.PasswordData;
+import com.btactic.twofactorauth.app.ZetaAppSpecificPassword;
+import com.btactic.twofactorauth.app.ZetaAppSpecificPassword.PasswordData;
 import com.zimbra.cs.account.Config;
 import com.zimbra.cs.account.DataSource;
 import com.zimbra.cs.account.Provisioning;
@@ -67,7 +67,7 @@ public class ZetaTwoFactorAuth {
     private Encoding scratchEncoding;
     boolean hasStoredSecret;
     boolean hasStoredScratchCodes;
-    private Map<String, AppSpecificPassword> appPasswords = new HashMap<String, AppSpecificPassword>();
+    private Map<String, ZetaAppSpecificPassword> appPasswords = new HashMap<String, ZetaAppSpecificPassword>();
 
     public ZetaTwoFactorAuth(Account account) throws ServiceException {
         this(account, account.getName());
@@ -352,7 +352,7 @@ public class ZetaTwoFactorAuth {
     }
 
     public void authenticateAppSpecificPassword(String providedPassword) throws ServiceException {
-        for (AppSpecificPassword appPassword: appPasswords.values())    {
+        for (ZetaAppSpecificPassword appPassword: appPasswords.values())    {
             if (appPassword.validate(providedPassword)) {
                 ZimbraLog.account.debug("logged in with app-specific password");
                 appPassword.update();
@@ -417,7 +417,7 @@ public class ZetaTwoFactorAuth {
         }
     }
 
-    public AppSpecificPassword generateAppSpecificPassword(String name) throws ServiceException {
+    public ZetaAppSpecificPassword generateAppSpecificPassword(String name) throws ServiceException {
         if (!account.isFeatureAppSpecificPasswordsEnabled()) {
             throw ServiceException.FAILURE("app-specific passwords are not enabled", new Throwable());
         }
@@ -426,7 +426,7 @@ public class ZetaTwoFactorAuth {
         } else if (appPasswords.size() >= account.getMaxAppSpecificPasswords()) {
             throw ServiceException.FAILURE("app-specific password limit reached", new Throwable());
         }
-        AppSpecificPassword password = AppSpecificPassword.generateNew(account, name);
+        ZetaAppSpecificPassword password = ZetaAppSpecificPassword.generateNew(account, name);
         password.store();
         appPasswords.put(name, password);
         return password;
@@ -434,7 +434,7 @@ public class ZetaTwoFactorAuth {
 
     public Set<PasswordData> getAppSpecificPasswords() throws ServiceException {
         Set<PasswordData> dataSet = new HashSet<PasswordData>();
-        for (AppSpecificPassword appPassword: appPasswords.values()) {
+        for (ZetaAppSpecificPassword appPassword: appPasswords.values()) {
             dataSet.add(appPassword.getPasswordData());
         }
         return dataSet;
@@ -453,11 +453,11 @@ public class ZetaTwoFactorAuth {
         return appPasswords.size();
     }
 
-    private Map<String, AppSpecificPassword> loadAppPasswords() throws ServiceException {
-        Map<String, AppSpecificPassword> passMap = new HashMap<String, AppSpecificPassword>();
+    private Map<String, ZetaAppSpecificPassword> loadAppPasswords() throws ServiceException {
+        Map<String, ZetaAppSpecificPassword> passMap = new HashMap<String, ZetaAppSpecificPassword>();
         String[] passwords = account.getAppSpecificPassword();
         for (int i = 0; i < passwords.length; i++) {
-            AppSpecificPassword entry = new AppSpecificPassword(account, passwords[i]);
+            ZetaAppSpecificPassword entry = new ZetaAppSpecificPassword(account, passwords[i]);
             if (entry != null) {
                 if (entry.isExpired()) {
                     entry.revoke();
