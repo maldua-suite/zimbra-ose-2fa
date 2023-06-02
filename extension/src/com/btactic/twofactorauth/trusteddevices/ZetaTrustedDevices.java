@@ -46,7 +46,6 @@ import com.zimbra.cs.account.Account;
 import com.zimbra.cs.account.AccountServiceException;
 import com.zimbra.cs.account.AccountServiceException.AuthFailedServiceException;
 import com.btactic.twofactorauth.app.ZetaAppSpecificPassword;
-import com.btactic.twofactorauth.app.ZetaAppSpecificPassword.PasswordData;
 import com.zimbra.cs.account.AuthTokenException;
 import com.zimbra.cs.account.Config;
 import com.zimbra.cs.account.DataSource;

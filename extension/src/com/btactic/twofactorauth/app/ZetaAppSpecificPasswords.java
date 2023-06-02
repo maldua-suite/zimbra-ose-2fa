@@ -17,7 +17,7 @@
  * If not, see <http://www.gnu.org/licenses/>.
  * ***** END LICENSE BLOCK *****
  */
-package com.btactic.twofactorauth;
+package com.btactic.twofactorauth.app;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,6 +32,8 @@ import com.google.common.base.Strings;
 import com.zimbra.common.auth.twofactor.AuthenticatorConfig;
 import com.zimbra.common.auth.twofactor.TwoFactorOptions.CodeLength;
 import com.zimbra.common.auth.twofactor.TwoFactorOptions.HashAlgorithm;
+import com.zimbra.cs.account.auth.twofactor.AppSpecificPasswords;
+import com.zimbra.cs.account.auth.twofactor.AppSpecificPasswordData;
 import com.zimbra.cs.account.auth.twofactor.TwoFactorAuth.CredentialConfig;
 import com.zimbra.common.auth.twofactor.TwoFactorOptions.Encoding;
 import com.zimbra.common.auth.twofactor.TOTPAuthenticator;
@@ -42,6 +44,7 @@ import com.zimbra.cs.account.AccountServiceException;
 import com.zimbra.cs.account.AccountServiceException.AuthFailedServiceException;
 import com.btactic.twofactorauth.app.ZetaAppSpecificPassword;
 import com.btactic.twofactorauth.app.ZetaAppSpecificPasswordData;
+import com.zimbra.cs.account.AppSpecificPassword;
 import com.zimbra.cs.account.Config;
 import com.zimbra.cs.account.DataSource;
 import com.zimbra.cs.account.Provisioning;
@@ -51,6 +54,7 @@ import com.zimbra.cs.account.ldap.ChangePasswordListener;
 import com.zimbra.cs.account.ldap.LdapLockoutPolicy;
 import com.zimbra.cs.ldap.LdapDateUtil;
 import com.btactic.twofactorauth.CredentialGenerator;
+import com.btactic.twofactorauth.TOTPCredentials;
 
 /**
  * This class is the main entry point for two-factor authentication.
@@ -58,7 +62,7 @@ import com.btactic.twofactorauth.CredentialGenerator;
  * @author iraykin
  *
  */
-public class ZetaTwoFactorAuth {
+public class ZetaAppSpecificPasswords implements AppSpecificPasswords {
     private Account account;
     private String acctNamePassedIn;
     private String secret;
@@ -69,11 +73,11 @@ public class ZetaTwoFactorAuth {
     boolean hasStoredScratchCodes;
     private Map<String, ZetaAppSpecificPassword> appPasswords = new HashMap<String, ZetaAppSpecificPassword>();
 
-    public ZetaTwoFactorAuth(Account account) throws ServiceException {
+    public ZetaAppSpecificPasswords(Account account) throws ServiceException {
         this(account, account.getName());
     }
 
-    public ZetaTwoFactorAuth(Account account, String acctNamePassedIn) throws ServiceException {
+    public ZetaAppSpecificPasswords(Account account, String acctNamePassedIn) throws ServiceException {
         this.account = account;
         this.acctNamePassedIn = acctNamePassedIn;
         disableTwoFactorAuthIfNecessary();
@@ -113,7 +117,7 @@ public class ZetaTwoFactorAuth {
     public void clearData() throws ServiceException {
         account.setTwoFactorAuthEnabled(false);
         deleteCredentials();
-        revokeAllAppSpecificPasswords();
+        revokeAll();
         revokeAllTrustedDevices();
     }
 
@@ -141,7 +145,8 @@ public class ZetaTwoFactorAuth {
     /* Determine if app-specific passwords are enabled for the account.
      * Two-factor auth is a prerequisite.
      */
-    public boolean appSpecificPasswordsEnabled() throws ServiceException {
+    @Override
+    public boolean isEnabled() throws ServiceException {
         if (twoFactorAuthRequired()) {
             return account.isFeatureAppSpecificPasswordsEnabled();
         } else {
@@ -351,12 +356,13 @@ public class ZetaTwoFactorAuth {
         }
     }
 
-    public void authenticateAppSpecificPassword(String providedPassword) throws ServiceException {
+    @Override
+    public String getAppNameByPassword(String password) throws ServiceException {
         for (ZetaAppSpecificPassword appPassword: appPasswords.values())    {
-            if (appPassword.validate(providedPassword)) {
+            if (appPassword.validate(password)) {
                 ZimbraLog.account.debug("logged in with app-specific password");
                 appPassword.update();
-                return;
+                return (appPassword.getName());
             }
         }
         throw AuthFailedServiceException.TWO_FACTOR_AUTH_FAILED(account.getName(), acctNamePassedIn, "invalid app-specific password");
@@ -409,7 +415,7 @@ public class ZetaTwoFactorAuth {
             if (deleteCredentials) {
                 deleteCredentials();
             }
-            revokeAllAppSpecificPasswords();
+            revokeAll();
             return true;
         } else {
             ZimbraLog.account.info("two-factor authentication already disabled");
@@ -417,7 +423,33 @@ public class ZetaTwoFactorAuth {
         }
     }
 
-    public void revokeAppSpecificPassword(String name) throws ServiceException  {
+    @Override
+    public AppSpecificPassword generatePassword(String name) throws ServiceException {
+        if (!account.isFeatureAppSpecificPasswordsEnabled()) {
+            throw ServiceException.FAILURE("app-specific passwords are not enabled", new Throwable());
+        }
+        if (appPasswords.containsKey(name)) {
+            throw ServiceException.FAILURE("app-specific password already exists for the name " + name, new Throwable());
+        } else if (appPasswords.size() >= account.getMaxAppSpecificPasswords()) {
+            throw ServiceException.FAILURE("app-specific password limit reached", new Throwable());
+        }
+        ZetaAppSpecificPassword password = ZetaAppSpecificPassword.generateNew(account, name);
+        password.store();
+        appPasswords.put(name, password);
+        return password;
+    }
+
+    @Override
+    public Set<AppSpecificPasswordData> getPasswords() throws ServiceException {
+        Set<AppSpecificPasswordData> dataSet = new HashSet<AppSpecificPasswordData>();
+        for (ZetaAppSpecificPassword appPassword: appPasswords.values()) {
+            dataSet.add(appPassword.getPasswordData());
+        }
+        return dataSet;
+    }
+
+    @Override
+    public void revoke(String name) throws ServiceException  {
         if (appPasswords.containsKey(name)) {
             appPasswords.get(name).revoke();
         } else {
@@ -446,9 +478,10 @@ public class ZetaTwoFactorAuth {
         return passMap;
     }
 
-    public void revokeAllAppSpecificPasswords() throws ServiceException {
+    @Override
+    public void revokeAll() throws ServiceException {
         for (String name: appPasswords.keySet()) {
-            revokeAppSpecificPassword(name);
+            revoke(name);
         }
     }
 
@@ -538,7 +571,7 @@ public class ZetaTwoFactorAuth {
             if (acct.isRevokeAppSpecificPasswordsOnPasswordChange()) {
                 try {
                     ZimbraLog.account.info("revoking all app-specific passwords due to password change");
-                    new ZetaTwoFactorAuth(acct).revokeAllAppSpecificPasswords();
+                    new ZetaAppSpecificPasswords(acct).revokeAll();
                 } catch (ServiceException e) {
                     ZimbraLog.account.error("could not revoke app-specific passwords on password change", e);
                 }

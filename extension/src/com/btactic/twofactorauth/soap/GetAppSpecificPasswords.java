@@ -25,8 +25,8 @@ import java.util.Set;
 import com.zimbra.common.service.ServiceException;
 import com.zimbra.common.soap.Element;
 import com.zimbra.cs.account.Account;
-import com.btactic.twofactorauth.app.ZetaAppSpecificPassword.PasswordData;
-import com.btactic.twofactorauth.ZetaTwoFactorAuth;
+import com.btactic.twofactorauth.app.ZetaAppSpecificPasswords;
+import com.btactic.twofactorauth.app.ZetaAppSpecificPasswordData;
 import com.zimbra.soap.ZimbraSoapContext;
 import com.zimbra.soap.account.message.AppSpecificPasswordData;
 import com.zimbra.soap.account.message.GetAppSpecificPasswordsResponse;
@@ -40,14 +40,14 @@ public class GetAppSpecificPasswords extends AccountDocumentHandler {
 		ZimbraSoapContext zsc = getZimbraSoapContext(context);
         Account account = getRequestedAccount(zsc);
         GetAppSpecificPasswordsResponse response = new GetAppSpecificPasswordsResponse();
-        ZetaTwoFactorAuth manager = new ZetaTwoFactorAuth(account);
-        Set<PasswordData> names = manager.getAppSpecificPasswords();
+        ZetaAppSpecificPasswords appManager = new ZetaAppSpecificPasswords(account);
+        Set<com.zimbra.cs.account.auth.twofactor.AppSpecificPasswordData> names = appManager.getPasswords();
         encodeResponse(account, response, names);
         return zsc.jaxbToElement(response);
 	}
 
-	private void encodeResponse(Account acccount, GetAppSpecificPasswordsResponse response, Set<PasswordData> appPasswords) {
-		for (PasswordData passwordData: appPasswords) {
+	private void encodeResponse(Account acccount, GetAppSpecificPasswordsResponse response, Set<com.zimbra.cs.account.auth.twofactor.AppSpecificPasswordData> appPasswords) {
+		for (com.zimbra.cs.account.auth.twofactor.AppSpecificPasswordData passwordData: appPasswords) {
 		    AppSpecificPasswordData password = new AppSpecificPasswordData();
 		    password.setAppName(passwordData.getName());
 		    password.setDateCreated(passwordData.getDateCreated());

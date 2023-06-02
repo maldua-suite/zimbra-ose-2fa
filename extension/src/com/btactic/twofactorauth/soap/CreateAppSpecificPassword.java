@@ -26,8 +26,9 @@ import com.zimbra.common.soap.AccountConstants;
 import com.zimbra.common.soap.Element;
 import com.zimbra.cs.account.Account;
 import com.zimbra.cs.account.AccountServiceException.AuthFailedServiceException;
-import com.btactic.twofactorauth.app.ZetaAppSpecificPassword;
+import com.zimbra.cs.account.AppSpecificPassword;
 import com.btactic.twofactorauth.ZetaTwoFactorAuth;
+import com.btactic.twofactorauth.app.ZetaAppSpecificPasswords;
 import com.zimbra.soap.ZimbraSoapContext;
 import com.zimbra.soap.account.message.CreateAppSpecificPasswordResponse;
 import com.zimbra.cs.service.account.AccountDocumentHandler;
@@ -43,7 +44,8 @@ public class CreateAppSpecificPassword extends AccountDocumentHandler {
         if (!manager.twoFactorAuthEnabled()) {
             throw AuthFailedServiceException.AUTH_FAILED("two-factor authentication must be enabled");
         }
-        ZetaAppSpecificPassword password = manager.generateAppSpecificPassword(appName);
+        ZetaAppSpecificPasswords appManager = new ZetaAppSpecificPasswords(account);
+        AppSpecificPassword password = appManager.generatePassword(appName);
         CreateAppSpecificPasswordResponse response = new CreateAppSpecificPasswordResponse();
         response.setPassword(password.getPassword());
         return zsc.jaxbToElement(response);

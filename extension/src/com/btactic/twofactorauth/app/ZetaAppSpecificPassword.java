@@ -28,10 +28,12 @@ import com.zimbra.common.util.BEncoding.BEncodingException;
 import com.zimbra.common.util.RandomPassword;
 import com.zimbra.common.util.ZimbraLog;
 import com.zimbra.cs.account.auth.PasswordUtil;
+import com.zimbra.cs.account.auth.twofactor.AppSpecificPasswordData;
 import com.zimbra.cs.account.Account;
 import com.zimbra.cs.account.Provisioning;
+import com.zimbra.cs.account.AppSpecificPassword;
 
-public class ZetaAppSpecificPassword {
+public class ZetaAppSpecificPassword implements AppSpecificPassword {
     private Account account;
     private String appPassword;
     private String hashedPassword;
@@ -56,10 +58,12 @@ public class ZetaAppSpecificPassword {
         return RandomPassword.generate(passwordLength, passwordLength, RandomPassword.ALPHABET_ONLY_LETTERS);
     }
 
+    @Override
     public void store() throws ServiceException {
         account.addAppSpecificPassword(toLdapEntry());
     }
 
+    @Override
     public void update() throws ServiceException {
         account.removeAppSpecificPassword(toLdapEntry(true));
         store();
@@ -95,7 +99,7 @@ public class ZetaAppSpecificPassword {
         this(account, ldapToData(encoded));
     }
 
-    private ZetaAppSpecificPassword(Account account, PasswordData data) {
+    private ZetaAppSpecificPassword(Account account, ZetaAppSpecificPasswordData data) {
         this(account, data.getName(), data.getPassword(), data.getDateCreated(), data.getDateLastUsed());
     }
 
@@ -103,27 +107,33 @@ public class ZetaAppSpecificPassword {
         return PasswordUtil.SSHA512.generateSSHA512(password, null);
     }
 
+    @Override
     public String getName() {
         return appName;
     }
 
+    @Override
     public String getPassword() {
         return appPassword;
     }
 
+    @Override
     public void setDateLastUsed(Long date) {
         prevDateLastUsed = dateLastUsed;
         dateLastUsed = date;
     }
 
+    @Override
     public void setDateCreated(Long date) {
         this.dateCreated = date;
     }
 
+    @Override
     public Long getDateLastUsed() {
         return dateLastUsed;
     }
 
+    @Override
     public Long getDateCreated() {
         return dateCreated;
     }
@@ -132,6 +142,7 @@ public class ZetaAppSpecificPassword {
         return hashedPassword;
     }
 
+    @Override
     public boolean validate(String providedPassword) throws ServiceException {
         if (PasswordUtil.SSHA512.verifySSHA512(getPasswordHash(), providedPassword)) {
             setDateLastUsed(System.currentTimeMillis());
@@ -150,7 +161,7 @@ public class ZetaAppSpecificPassword {
         return BEncoding.encode(map);
     }
 
-    private static PasswordData ldapToData(String encoded) {
+    private static ZetaAppSpecificPasswordData ldapToData(String encoded) {
         String name;
         String pass;
         Long created;
@@ -166,18 +177,21 @@ public class ZetaAppSpecificPassword {
         pass = (String) decoded.get(PASS_KEY);
         created = (Long) decoded.get(DATE_CREATED_KEY);
         lastUsed = (Long) decoded.get(DATE_LAST_USED_KEY);
-        return new PasswordData(name, pass, created, lastUsed);
+        return new ZetaAppSpecificPasswordData(name, pass, created, lastUsed);
     }
 
+    @Override
     public void revoke() throws ServiceException {
         account.removeAppSpecificPassword(toLdapEntry());
     }
 
-    public PasswordData getPasswordData() {
-        return new PasswordData(appName, null, dateCreated, dateLastUsed);
+    @Override
+    public AppSpecificPasswordData getPasswordData() {
+        return new ZetaAppSpecificPasswordData(appName, null, dateCreated, dateLastUsed);
     }
 
-    public boolean isExpired() throws ServiceException {
+    @Override
+    public boolean isExpired() {
         Long dateCreated = getDateCreated();
         Long passwordLifetime = account.getAppSpecificPasswordDuration();
         if (passwordLifetime == 0L) {
@@ -188,33 +202,4 @@ public class ZetaAppSpecificPassword {
         return expiresAt < System.currentTimeMillis();
     }
 
-    public static class PasswordData {
-        private String name;
-        private String passwordHash;
-        private Long dateCreated;
-        private Long dateLastUsed;
-
-        PasswordData(String name, String pass, Long dateCreated, Long dateLastUsed) {
-            this.name = name;
-            this.passwordHash = pass;
-            this.dateCreated = dateCreated;
-            this.dateLastUsed = dateLastUsed;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        private String getPassword() {
-            return passwordHash;
-        }
-
-        public Long getDateCreated() {
-            return dateCreated;
-        }
-
-        public Long getDateLastUsed() {
-            return dateLastUsed;
-        }
-    }
 }
