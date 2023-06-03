@@ -47,6 +47,7 @@ import com.zimbra.cs.account.AccountServiceException;
 import com.zimbra.cs.account.AccountServiceException.AuthFailedServiceException;
 import com.btactic.twofactorauth.app.ZetaAppSpecificPassword;
 import com.btactic.twofactorauth.app.ZetaAppSpecificPasswordData;
+import com.btactic.twofactorauth.app.ZetaAppSpecificPasswords;
 import com.zimbra.cs.account.Config;
 import com.zimbra.cs.account.DataSource;
 import com.zimbra.cs.account.Provisioning;
@@ -111,12 +112,12 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
 
         @Override
         public AppSpecificPasswords getAppSpecificPasswords(Account account) throws ServiceException {
-            new ZetaTwoFactorAuth(account).getAppSpecificPasswords();
+            new ZetaAppSpecificPasswords(account).getPasswords();
         }
 
         @Override
         public AppSpecificPasswords getAppSpecificPasswords(Account account, String acctNamePassedIn) throws ServiceException {
-            new ZetaTwoFactorAuth(account, acctNamePassedIn).getAppSpecificPasswords();
+            new ZetaAppSpecificPasswords(account, acctNamePassedIn).getPasswords();
         }
 
         @Override
