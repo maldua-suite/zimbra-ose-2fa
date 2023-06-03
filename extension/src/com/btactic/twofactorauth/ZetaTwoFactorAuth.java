@@ -132,12 +132,12 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
 
         @Override
         public ScratchCodes getScratchCodes(Account account) throws ServiceException {
-            return getTwoFactorAuth(account).getScratchCodes();
+            return new ZetaScratchCodes(account);
         }
 
         @Override
         public ScratchCodes getScratchCodes(Account account, String acctNamePassedIn) throws ServiceException {
-            return getTwoFactorAuth(account, acctNamePassedIn).getScratchCodes();
+            return new ZetaScratchCodes(account, acctNamePassedIn);
         }
 
     }
