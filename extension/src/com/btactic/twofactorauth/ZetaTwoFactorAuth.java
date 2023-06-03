@@ -81,6 +81,7 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
     }
 
     public ZetaTwoFactorAuth(Account account, String acctNamePassedIn) {
+        super(account, acctNamePassedIn);
         this.account = account;
         this.acctNamePassedIn = acctNamePassedIn;
     }
