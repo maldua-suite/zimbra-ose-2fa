@@ -48,6 +48,7 @@ import com.zimbra.cs.account.AccountServiceException.AuthFailedServiceException;
 import com.btactic.twofactorauth.app.ZetaAppSpecificPassword;
 import com.btactic.twofactorauth.app.ZetaAppSpecificPasswordData;
 import com.btactic.twofactorauth.app.ZetaAppSpecificPasswords;
+import com.btactic.twofactorauth.trusteddevices.ZetaTrustedDevices;
 import com.zimbra.cs.account.Config;
 import com.zimbra.cs.account.DataSource;
 import com.zimbra.cs.account.Provisioning;
@@ -93,11 +94,15 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
 
     public static class AuthFactory implements Factory {
 
-        @Override
-        public TwoFactorAuth getTwoFactorAuth(Account account, String acctNamePassedIn) throws ServiceException {
+        public ZetaTwoFactorAuth getZetaTwoFactorAuth(Account account, String acctNamePassedIn) throws ServiceException {
             ZetaTwoFactorAuth zetaTwoFactorAuth = new ZetaTwoFactorAuth(account, acctNamePassedIn);
             zetaTwoFactorAuth.extraSafetyCheck();
             return zetaTwoFactorAuth;
+        }
+
+        @Override
+        public TwoFactorAuth getTwoFactorAuth(Account account, String acctNamePassedIn) throws ServiceException {
+            return getZetaTwoFactorAuth(account, acctNamePassedIn);
         }
 
         @Override
@@ -107,22 +112,22 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
 
         @Override
         public TrustedDevices getTrustedDevices(Account account) throws ServiceException {
-            return getTrustedDevices(account, account.getName());
+            return new ZetaTrustedDevices(account);
         }
 
         @Override
         public TrustedDevices getTrustedDevices(Account account, String acctNamePassedIn) throws ServiceException {
-            return getTwoFactorAuth(account, acctNamePassedIn).getTrustedDevices();
+            return new ZetaTrustedDevices(account, acctNamePassedIn);
         }
 
         @Override
         public AppSpecificPasswords getAppSpecificPasswords(Account account) throws ServiceException {
-            return new ZetaAppSpecificPasswords(account).getPasswords();
+            return new ZetaAppSpecificPasswords(account);
         }
 
         @Override
         public AppSpecificPasswords getAppSpecificPasswords(Account account, String acctNamePassedIn) throws ServiceException {
-            return new ZetaAppSpecificPasswords(account, acctNamePassedIn).getPasswords();
+            return new ZetaAppSpecificPasswords(account, acctNamePassedIn);
         }
 
         @Override
