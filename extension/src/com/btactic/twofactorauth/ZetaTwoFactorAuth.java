@@ -430,6 +430,7 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
         storeScratchCodes();
     }
 
+    @Override
     public TOTPCredentials generateCredentials() throws ServiceException {
         if (!account.isTwoFactorAuthEnabled()) {
             TOTPCredentials creds = generateNewCredentials();

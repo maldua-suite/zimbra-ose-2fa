@@ -25,7 +25,9 @@ import java.util.List;
 
 import com.zimbra.cs.ldap.LdapDateUtil;
 
-public class TOTPCredentials {
+import com.zimbra.cs.account.auth.twofactor.TwoFactorAuth.Credentials;
+
+public class TOTPCredentials implements Credentials {
     private String secret;
     private List<String> scratchCodes = new ArrayList<String>();
     private String timestamp;
@@ -42,14 +44,17 @@ public class TOTPCredentials {
         this(secret, null);
     }
 
+    @Override
     public String getSecret() {
         return secret;
     }
 
+    @Override
     public List<String> getScratchCodes() {
         return scratchCodes;
     }
 
+    @Override
     public String getTimestamp() {
         return timestamp;
     }
