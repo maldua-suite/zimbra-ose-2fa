@@ -366,6 +366,7 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
         }
     }
 
+    @Override
     public void authenticate(String code) throws ServiceException {
         if (code == null) {
             ZimbraLog.account.error("two-factor code missing");
