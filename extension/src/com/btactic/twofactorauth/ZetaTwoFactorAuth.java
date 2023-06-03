@@ -79,9 +79,12 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
         this(account, account.getName());
     }
 
-    public ZetaTwoFactorAuth(Account account, String acctNamePassedIn) throws ServiceException {
+    public ZetaTwoFactorAuth(Account account, String acctNamePassedIn) {
         this.account = account;
         this.acctNamePassedIn = acctNamePassedIn;
+    }
+
+    public void extraSafetyCheck() throws ServiceException {
         disableTwoFactorAuthIfNecessary();
         if (account.isFeatureTwoFactorAuthAvailable()) {
             loadCredentials();
@@ -92,42 +95,44 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
 
         @Override
         public TwoFactorAuth getTwoFactorAuth(Account account, String acctNamePassedIn) throws ServiceException {
-            return new ZetaTwoFactorAuth(account, acctNamePassedIn);
+            ZetaTwoFactorAuth zetaTwoFactorAuth = new ZetaTwoFactorAuth(account, acctNamePassedIn);
+            zetaTwoFactorAuth.extraSafetyCheck();
+            return zetaTwoFactorAuth;
         }
 
         @Override
         public TwoFactorAuth getTwoFactorAuth(Account account) throws ServiceException {
-            return new ZetaTwoFactorAuth(account);
+            return getTwoFactorAuth(account, account.getName());
         }
 
         @Override
         public TrustedDevices getTrustedDevices(Account account) throws ServiceException {
-            new ZetaTwoFactorAuth(account).getTrustedDevices();
+            return getTrustedDevices(account, account.getName());
         }
 
         @Override
         public TrustedDevices getTrustedDevices(Account account, String acctNamePassedIn) throws ServiceException {
-            new ZetaTwoFactorAuth(account, acctNamePassedIn).getTrustedDevices();
+            return getTwoFactorAuth(account, acctNamePassedIn).getTrustedDevices();
         }
 
         @Override
         public AppSpecificPasswords getAppSpecificPasswords(Account account) throws ServiceException {
-            new ZetaAppSpecificPasswords(account).getPasswords();
+            return new ZetaAppSpecificPasswords(account).getPasswords();
         }
 
         @Override
         public AppSpecificPasswords getAppSpecificPasswords(Account account, String acctNamePassedIn) throws ServiceException {
-            new ZetaAppSpecificPasswords(account, acctNamePassedIn).getPasswords();
+            return new ZetaAppSpecificPasswords(account, acctNamePassedIn).getPasswords();
         }
 
         @Override
         public ScratchCodes getScratchCodes(Account account) throws ServiceException {
-            new ZetaTwoFactorAuth(account).getScratchCodes();
+            return getTwoFactorAuth(account).getScratchCodes();
         }
 
         @Override
         public ScratchCodes getScratchCodes(Account account, String acctNamePassedIn) throws ServiceException {
-            new ZetaTwoFactorAuth(account, acctNamePassedIn).getScratchCodes();
+            return getTwoFactorAuth(account, acctNamePassedIn).getScratchCodes();
         }
 
     }
@@ -160,6 +165,7 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
         }
     }
 
+    @Override
     public void clearData() throws ServiceException {
         account.setTwoFactorAuthEnabled(false);
         deleteCredentials();
@@ -315,6 +321,7 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
         return Provisioning.getInstance().getConfig();
     }
 
+    @Override
     public CredentialConfig getCredentialConfig() throws ServiceException {
         CredentialConfig config = new CredentialConfig()
         .setSecretLength(getGlobalConfig().getTwoFactorAuthSecretLength())
@@ -325,6 +332,7 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
         return config;
     }
 
+    @Override
     public AuthenticatorConfig getAuthenticatorConfig() throws ServiceException {
         AuthenticatorConfig config = new AuthenticatorConfig();
         String algo = Provisioning.getInstance().getConfig().getTwoFactorAuthHashAlgorithmAsString();
@@ -345,6 +353,7 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
         return auth.validateCode(secret, curTime, code, getSecretEncoding());
     }
 
+    @Override
     public void authenticateTOTP(String code) throws ServiceException {
         if (!checkTOTPCode(code)) {
             ZimbraLog.account.error("invalid TOTP code");
@@ -443,6 +452,7 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
         }
     }
 
+    @Override
     public void enableTwoFactorAuth() throws ServiceException {
         account.setTwoFactorAuthEnabled(true);
     }
@@ -452,7 +462,8 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
         account.setTwoFactorAuthScratchCodes(null);
     }
 
-    public boolean disableTwoFactorAuth(boolean deleteCredentials) throws ServiceException {
+    @Override
+    public void disableTwoFactorAuth(boolean deleteCredentials) throws ServiceException {
         if (account.isFeatureTwoFactorAuthRequired()) {
             throw ServiceException.CANNOT_DISABLE_TWO_FACTOR_AUTH();
         } else if (account.isTwoFactorAuthEnabled()) {
@@ -461,10 +472,8 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
                 deleteCredentials();
             }
             revokeAllAppSpecificPasswords();
-            return true;
         } else {
             ZimbraLog.account.info("two-factor authentication already disabled");
-            return false;
         }
     }
 
