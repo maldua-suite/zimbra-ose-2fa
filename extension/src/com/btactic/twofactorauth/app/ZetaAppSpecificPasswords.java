@@ -48,6 +48,7 @@ import com.zimbra.cs.account.AppSpecificPassword;
 import com.zimbra.cs.account.Config;
 import com.zimbra.cs.account.DataSource;
 import com.zimbra.cs.account.Provisioning;
+import com.zimbra.cs.account.TrustedDevice;
 import com.btactic.twofactorauth.trusteddevices.ZetaTrustedDevice;
 import com.btactic.twofactorauth.trusteddevices.ZetaTrustedDeviceToken;
 import com.zimbra.cs.account.ldap.ChangePasswordListener;
@@ -119,6 +120,17 @@ public class ZetaAppSpecificPasswords implements AppSpecificPasswords {
         deleteCredentials();
         revokeAll();
         revokeAllTrustedDevices();
+    }
+
+    /* Determine if a second factor is necessary for authenticating this account */
+    public boolean twoFactorAuthRequired() throws ServiceException {
+        if (!account.isFeatureTwoFactorAuthAvailable()) {
+            return false;
+        } else {
+            boolean isRequired = account.isFeatureTwoFactorAuthRequired();
+            boolean isUserEnabled = account.isTwoFactorAuthEnabled();
+            return isUserEnabled || isRequired;
+        }
     }
 
     @Override
@@ -193,6 +205,23 @@ public class ZetaAppSpecificPasswords implements AppSpecificPasswords {
             dataSet.add(appPassword.getPasswordData());
         }
         return dataSet;
+    }
+
+    public List<ZetaTrustedDevice> getTrustedDevices() throws ServiceException {
+        List<ZetaTrustedDevice> trustedDevices = new ArrayList<ZetaTrustedDevice>();
+        for (String encoded: account.getTwoFactorAuthTrustedDevices()) {
+            try {
+                ZetaTrustedDevice td = new ZetaTrustedDevice(account, encoded);
+                if (td.isExpired()) {
+                    td.revoke();
+                }
+                trustedDevices.add(td);
+            } catch (ServiceException e) {
+                ZimbraLog.account.error(e.getMessage());
+                account.removeTwoFactorAuthTrustedDevices(encoded);
+            }
+        }
+        return trustedDevices;
     }
 
     @Override
