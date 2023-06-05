@@ -135,10 +135,22 @@ public class ZetaAppSpecificPasswords implements AppSpecificPasswords {
     }
 
     @Override
+    public void authenticate(String providedPassword) throws ServiceException {
+        for (AppSpecificPassword appPassword: appPasswords.values())    {
+            if (appPassword.validate(providedPassword)) {
+                ZimbraLog.account.debug("logged in with app-specific password");
+                appPassword.update();
+                return;
+            }
+        }
+        throw AuthFailedServiceException.TWO_FACTOR_AUTH_FAILED(account.getName(), acctNamePassedIn, "invalid app-specific password");
+    }
+
+    @Override
     public String getAppNameByPassword(String password) throws ServiceException {
         for (ZetaAppSpecificPassword appPassword: appPasswords.values())    {
             if (appPassword.validate(password)) {
-                ZimbraLog.account.debug("logged in with app-specific password");
+                ZimbraLog.account.debug("getAppNameByPassword with app-specific password");
                 appPassword.update();
                 return (appPassword.getName());
             }
