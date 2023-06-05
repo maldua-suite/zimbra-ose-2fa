@@ -80,13 +80,10 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
         this(account, account.getName());
     }
 
-    public ZetaTwoFactorAuth(Account account, String acctNamePassedIn) {
+    public ZetaTwoFactorAuth(Account account, String acctNamePassedIn) throws ServiceException {
         super(account, acctNamePassedIn);
         this.account = account;
         this.acctNamePassedIn = acctNamePassedIn;
-    }
-
-    public void extraSafetyCheck() throws ServiceException {
         disableTwoFactorAuthIfNecessary();
         if (account.isFeatureTwoFactorAuthAvailable()) {
             loadCredentials();
@@ -95,20 +92,14 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
 
     public static class AuthFactory implements Factory {
 
-        public ZetaTwoFactorAuth getZetaTwoFactorAuth(Account account, String acctNamePassedIn) throws ServiceException {
-            ZetaTwoFactorAuth zetaTwoFactorAuth = new ZetaTwoFactorAuth(account, acctNamePassedIn);
-            zetaTwoFactorAuth.extraSafetyCheck();
-            return zetaTwoFactorAuth;
-        }
-
         @Override
         public TwoFactorAuth getTwoFactorAuth(Account account, String acctNamePassedIn) throws ServiceException {
-            return getZetaTwoFactorAuth(account, acctNamePassedIn);
+            return new ZetaTwoFactorAuth(account, acctNamePassedIn);
         }
 
         @Override
         public TwoFactorAuth getTwoFactorAuth(Account account) throws ServiceException {
-            return getTwoFactorAuth(account, account.getName());
+            return new ZetaTwoFactorAuth(account);
         }
 
         @Override
