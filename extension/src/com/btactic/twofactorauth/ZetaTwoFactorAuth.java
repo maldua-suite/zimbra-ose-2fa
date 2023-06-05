@@ -484,10 +484,6 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
         }
     }
 
-    public int getNumAppPasswords() {
-        return appPasswords.size();
-    }
-
     private Map<String, ZetaAppSpecificPassword> loadAppPasswords() throws ServiceException {
         Map<String, ZetaAppSpecificPassword> passMap = new HashMap<String, ZetaAppSpecificPassword>();
         String[] passwords = account.getAppSpecificPassword();
@@ -510,17 +506,6 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
         }
     }
 
-    public ZetaTrustedDeviceToken registerTrustedDevice(Map<String, Object> deviceAttrs) throws ServiceException {
-        if (!account.isFeatureTrustedDevicesEnabled()) {
-            ZimbraLog.account.warn("attempting to register a trusted device when this feature is not enabled");
-            return null;
-        }
-        ZetaTrustedDevice td = new ZetaTrustedDevice(account, deviceAttrs);
-        ZimbraLog.account.debug("registering new trusted device");
-        td.register();
-        return td.getToken();
-    }
-
     public List<ZetaTrustedDevice> getTrustedDevices() throws ServiceException {
         List<ZetaTrustedDevice> trustedDevices = new ArrayList<ZetaTrustedDevice>();
         for (String encoded: account.getTwoFactorAuthTrustedDevices()) {
@@ -538,43 +523,10 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
         return trustedDevices;
     }
 
-    public void revokeTrustedDevice(ZetaTrustedDeviceToken token) throws ServiceException {
-        ZimbraLog.account.debug("revoking current trusted device");
-        ZetaTrustedDevice td;
-        try {
-            td = ZetaTrustedDevice.byTrustedToken(account, token);
-        } catch (AccountServiceException e) {
-            ZimbraLog.account.warn("trying to revoke a trusted auth token with no corresponding device");
-            return;
-        }
-        td.revoke();
-    }
-
     public void revokeAllTrustedDevices() throws ServiceException {
         ZimbraLog.account.debug("revoking all trusted devices");
         for (ZetaTrustedDevice td: getTrustedDevices()) {
             td.revoke();
-        }
-    }
-
-    public void revokeOtherTrustedDevices(ZetaTrustedDeviceToken token) throws ServiceException {
-        if (token == null) {
-            revokeAllTrustedDevices();
-        } else {
-            ZimbraLog.account.debug("revoking other trusted devices");
-            for (ZetaTrustedDevice td: getTrustedDevices()) {
-                if (!td.getTokenId().equals(token.getId())) {
-                    td.revoke();
-                }
-            }
-        }
-    }
-
-    public void verifyTrustedDevice(ZetaTrustedDeviceToken token, Map<String, Object> attrs) throws ServiceException {
-        ZimbraLog.account.debug("verifying trusted device");
-        ZetaTrustedDevice td = ZetaTrustedDevice.byTrustedToken(account, token);
-        if (td == null || !td.verify(attrs)) {
-            throw AuthFailedServiceException.TWO_FACTOR_AUTH_FAILED(account.getName(), acctNamePassedIn, "trusted device cannot be verified");
         }
     }
 

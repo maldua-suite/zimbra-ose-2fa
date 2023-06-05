@@ -25,7 +25,7 @@ import com.zimbra.common.service.ServiceException;
 import com.zimbra.common.soap.Element;
 import com.zimbra.cs.account.Account;
 import com.btactic.twofactorauth.trusteddevices.ZetaTrustedDeviceToken;
-import com.btactic.twofactorauth.ZetaTwoFactorAuth;
+import com.btactic.twofactorauth.trusteddevices.ZetaTrustedDevices;
 import com.zimbra.soap.ZimbraSoapContext;
 import com.zimbra.soap.account.message.RevokeOtherTrustedDevicesResponse;
 import com.zimbra.cs.service.account.AccountDocumentHandler;
@@ -37,9 +37,9 @@ public class RevokeOtherTrustedDevices extends AccountDocumentHandler {
         ZimbraSoapContext zsc = getZimbraSoapContext(context);
         Account account = getRequestedAccount(zsc);
         RevokeOtherTrustedDevicesResponse response = new RevokeOtherTrustedDevicesResponse();
-        ZetaTwoFactorAuth manager = new ZetaTwoFactorAuth(account);
+        ZetaTrustedDevices trustedDevicesManager = new ZetaTrustedDevices(account);
         ZetaTrustedDeviceToken token = ZetaTrustedDeviceToken.fromRequest(account, request, context);
-        manager.revokeOtherTrustedDevices(token);
+        trustedDevicesManager.revokeOtherTrustedDevices(token);
         return zsc.jaxbToElement(response);
     }
 
