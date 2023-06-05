@@ -163,7 +163,6 @@ public class ZetaAppSpecificPasswords implements AppSpecificPasswords {
         for (ZetaAppSpecificPassword appPassword: appPasswords.values())    {
             if (appPassword.validate(password)) {
                 ZimbraLog.account.debug("getAppNameByPassword with app-specific password");
-                appPassword.update();
                 return (appPassword.getName());
             }
         }
