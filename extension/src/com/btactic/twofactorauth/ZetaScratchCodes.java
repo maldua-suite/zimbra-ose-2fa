@@ -80,15 +80,12 @@ public class ZetaScratchCodes implements ScratchCodes {
         this(account, account.getName());
     }
 
-    public ZetaScratchCodes(Account account, String acctNamePassedIn) {
+    public ZetaScratchCodes(Account account, String acctNamePassedIn) throws ServiceException {
         this.account = account;
         this.acctNamePassedIn = acctNamePassedIn;
-    }
-
-    public void extraSafetyCheck() throws ServiceException {
         disableTwoFactorAuthIfNecessary();
         if (account.isFeatureTwoFactorAuthAvailable()) {
-            loadCredentials();
+            scratchCodes = loadScratchCodes();
         }
     }
 
@@ -206,12 +203,6 @@ public class ZetaScratchCodes implements ScratchCodes {
         return DataSource.decryptData(account.getId(), encrypted);
     }
 
-    private void loadCredentials() throws ServiceException {
-        secret = loadSharedSecret();
-        scratchCodes = loadScratchCodes();
-        appPasswords = loadAppPasswords();
-    }
-
     private List<String> loadScratchCodes() throws ServiceException {
         String encryptedCodes = account.getTwoFactorAuthScratchCodes();
         if (Strings.isNullOrEmpty(encryptedCodes)) {
@@ -255,12 +246,6 @@ public class ZetaScratchCodes implements ScratchCodes {
         storeCodes();
         return scratchCodes;
 
-    }
-
-    private void storeCredentials(TOTPCredentials credentials) throws ServiceException {
-        String secret = String.format("%s|%s", credentials.getSecret(), credentials.getTimestamp());
-        storeSharedSecret(secret);
-        storeCodes(credentials.getScratchCodes());
     }
 
     private Encoding getSecretEncoding() throws ServiceException {
@@ -349,17 +334,6 @@ public class ZetaScratchCodes implements ScratchCodes {
         }
     }
 
-    public void authenticateAppSpecificPassword(String providedPassword) throws ServiceException {
-        for (ZetaAppSpecificPassword appPassword: appPasswords.values())    {
-            if (appPassword.validate(providedPassword)) {
-                ZimbraLog.account.debug("logged in with app-specific password");
-                appPassword.update();
-                return;
-            }
-        }
-        throw AuthFailedServiceException.TWO_FACTOR_AUTH_FAILED(account.getName(), acctNamePassedIn, "invalid app-specific password");
-    }
-
     private boolean checkScratchCodes(String scratchCode) throws ServiceException {
         for (String code: scratchCodes) {
             if (code.equals(scratchCode)) {
@@ -385,52 +359,6 @@ public class ZetaScratchCodes implements ScratchCodes {
         account.setTwoFactorAuthScratchCodes(null);
     }
 
-    public void revokeAppSpecificPassword(String name) throws ServiceException  {
-        if (appPasswords.containsKey(name)) {
-            appPasswords.get(name).revoke();
-        } else {
-            //if a password is not provisioned for this app, log but don't return an error
-            ZimbraLog.account.error("no app-specific password provisioned for the name " + name);
-        }
-    }
-
-    public int getNumAppPasswords() {
-        return appPasswords.size();
-    }
-
-    private Map<String, ZetaAppSpecificPassword> loadAppPasswords() throws ServiceException {
-        Map<String, ZetaAppSpecificPassword> passMap = new HashMap<String, ZetaAppSpecificPassword>();
-        String[] passwords = account.getAppSpecificPassword();
-        for (int i = 0; i < passwords.length; i++) {
-            ZetaAppSpecificPassword entry = new ZetaAppSpecificPassword(account, passwords[i]);
-            if (entry != null) {
-                if (entry.isExpired()) {
-                    entry.revoke();
-                } else {
-                    passMap.put(entry.getName(), entry);
-                }
-            }
-        }
-        return passMap;
-    }
-
-    public void revokeAllAppSpecificPasswords() throws ServiceException {
-        for (String name: appPasswords.keySet()) {
-            revokeAppSpecificPassword(name);
-        }
-    }
-
-    public ZetaTrustedDeviceToken registerTrustedDevice(Map<String, Object> deviceAttrs) throws ServiceException {
-        if (!account.isFeatureTrustedDevicesEnabled()) {
-            ZimbraLog.account.warn("attempting to register a trusted device when this feature is not enabled");
-            return null;
-        }
-        ZetaTrustedDevice td = new ZetaTrustedDevice(account, deviceAttrs);
-        ZimbraLog.account.debug("registering new trusted device");
-        td.register();
-        return td.getToken();
-    }
-
     public List<ZetaTrustedDevice> getTrustedDevices() throws ServiceException {
         List<ZetaTrustedDevice> trustedDevices = new ArrayList<ZetaTrustedDevice>();
         for (String encoded: account.getTwoFactorAuthTrustedDevices()) {
@@ -448,18 +376,6 @@ public class ZetaScratchCodes implements ScratchCodes {
         return trustedDevices;
     }
 
-    public void revokeTrustedDevice(ZetaTrustedDeviceToken token) throws ServiceException {
-        ZimbraLog.account.debug("revoking current trusted device");
-        ZetaTrustedDevice td;
-        try {
-            td = ZetaTrustedDevice.byTrustedToken(account, token);
-        } catch (AccountServiceException e) {
-            ZimbraLog.account.warn("trying to revoke a trusted auth token with no corresponding device");
-            return;
-        }
-        td.revoke();
-    }
-
     public void revokeAllTrustedDevices() throws ServiceException {
         ZimbraLog.account.debug("revoking all trusted devices");
         for (ZetaTrustedDevice td: getTrustedDevices()) {
@@ -467,24 +383,18 @@ public class ZetaScratchCodes implements ScratchCodes {
         }
     }
 
-    public void revokeOtherTrustedDevices(ZetaTrustedDeviceToken token) throws ServiceException {
-        if (token == null) {
-            revokeAllTrustedDevices();
+    public void revokeAppSpecificPassword(String name) throws ServiceException  {
+        if (appPasswords.containsKey(name)) {
+            appPasswords.get(name).revoke();
         } else {
-            ZimbraLog.account.debug("revoking other trusted devices");
-            for (ZetaTrustedDevice td: getTrustedDevices()) {
-                if (!td.getTokenId().equals(token.getId())) {
-                    td.revoke();
-                }
-            }
+            //if a password is not provisioned for this app, log but don't return an error
+            ZimbraLog.account.error("no app-specific password provisioned for the name " + name);
         }
     }
 
-    public void verifyTrustedDevice(ZetaTrustedDeviceToken token, Map<String, Object> attrs) throws ServiceException {
-        ZimbraLog.account.debug("verifying trusted device");
-        ZetaTrustedDevice td = ZetaTrustedDevice.byTrustedToken(account, token);
-        if (td == null || !td.verify(attrs)) {
-            throw AuthFailedServiceException.TWO_FACTOR_AUTH_FAILED(account.getName(), acctNamePassedIn, "trusted device cannot be verified");
+    public void revokeAllAppSpecificPasswords() throws ServiceException {
+        for (String name: appPasswords.keySet()) {
+            revokeAppSpecificPassword(name);
         }
     }
 
@@ -493,24 +403,4 @@ public class ZetaScratchCodes implements ScratchCodes {
         lockoutPolicy.failedSecondFactorLogin();
     }
 
-    public static class TwoFactorPasswordChange extends ChangePasswordListener {
-        public static final String LISTENER_NAME = "twofactorpasswordchange";
-
-        @Override
-        public void preModify(Account acct, String newPassword, Map context,
-                Map<String, Object> attrsToModify) throws ServiceException {
-        }
-
-        @Override
-        public void postModify(Account acct, String newPassword, Map context) {
-            if (acct.isRevokeAppSpecificPasswordsOnPasswordChange()) {
-                try {
-                    ZimbraLog.account.info("revoking all app-specific passwords due to password change");
-                    new ZetaTwoFactorAuth(acct).revokeAllAppSpecificPasswords();
-                } catch (ServiceException e) {
-                    ZimbraLog.account.error("could not revoke app-specific passwords on password change", e);
-                }
-            }
-        }
-    }
 }
