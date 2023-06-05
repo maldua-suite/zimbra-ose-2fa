@@ -25,7 +25,7 @@ import java.util.Map;
 import com.zimbra.common.service.ServiceException;
 import com.zimbra.common.soap.Element;
 import com.zimbra.cs.account.Account;
-import com.btactic.twofactorauth.ZetaTwoFactorAuth;
+import com.btactic.twofactorauth.ZetaScratchCodes;
 import com.zimbra.soap.ZimbraSoapContext;
 import com.zimbra.soap.account.message.GenerateScratchCodesResponse;
 import com.zimbra.cs.service.account.AccountDocumentHandler;
@@ -36,11 +36,11 @@ public class GenerateScratchCodes extends AccountDocumentHandler {
     public Element handle(Element request, Map<String, Object> context) throws ServiceException {
         ZimbraSoapContext zsc = getZimbraSoapContext(context);
         Account account = getRequestedAccount(zsc);
-        ZetaTwoFactorAuth manager = new ZetaTwoFactorAuth(account);
-        if (!manager.twoFactorAuthEnabled()) {
+        ZetaScratchCodes scratchCodesManager = new ZetaScratchCodes(account);
+        if (!scratchCodesManager.twoFactorAuthEnabled()) {
             throw ServiceException.FAILURE("two-factor authentication is not enabled", new Throwable());
         }
-        List<String> scratchCodes = manager.generateNewScratchCodes();
+        List<String> scratchCodes = scratchCodesManager.generateNewScratchCodes();
         GenerateScratchCodesResponse response = new GenerateScratchCodesResponse();
         response.setScratchCodes(scratchCodes);
         return zsc.jaxbToElement(response);

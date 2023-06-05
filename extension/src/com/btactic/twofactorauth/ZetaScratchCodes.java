@@ -349,6 +349,29 @@ public class ZetaScratchCodes implements ScratchCodes {
         return scratchCodes;
     }
 
+    public List<String> generateNewScratchCodes() throws ServiceException {
+        ZimbraLog.account.debug("invalidating current scratch codes");
+        CredentialConfig config = getCredentialConfig();
+        List<String> newCodes = new CredentialGenerator(config).generateScratchCodes();
+        scratchCodes.clear();
+        scratchCodes.addAll(newCodes);
+        storeScratchCodes();
+        return scratchCodes;
+
+    }
+
+    private void storeScratchCodes(List<String> codes) throws ServiceException {
+        String codeString = Joiner.on(",").join(codes);
+        String encrypted = encrypt(codeString);
+        account.setTwoFactorAuthScratchCodes(encrypted);
+    }
+
+    private void storeScratchCodes() throws ServiceException {
+        if (scratchCodes != null) {
+            storeScratchCodes(scratchCodes);
+        }
+    }
+
     private void invalidateScratchCode(String code) throws ServiceException {
         scratchCodes.remove(code);
         storeCodes();
