@@ -285,31 +285,15 @@ public class ZetaScratchCodes implements ScratchCodes {
         return auth.validateCode(secret, curTime, code, getSecretEncoding());
     }
 
-    public void authenticate(String code) throws ServiceException {
-        if (code == null) {
-            ZimbraLog.account.error("two-factor code missing");
-            throw AuthFailedServiceException.TWO_FACTOR_AUTH_FAILED(account.getName(), acctNamePassedIn, "two-factor code missing");
-        }
-        Boolean codeIsScratchCode = isScratchCode(code);
-        if (codeIsScratchCode == null || codeIsScratchCode.equals(false)) {
-            if (!checkTOTPCode(code)) {
-                boolean success = false;
-                if (codeIsScratchCode == null) {
-                    //could maybe be a scratch code
-                    success = checkScratchCodes(code);
-                }
-                if (!success) {
-                    failedLogin();
-                    ZimbraLog.account.error("invalid two-factor code");
-                    throw AuthFailedServiceException.TWO_FACTOR_AUTH_FAILED(account.getName(), acctNamePassedIn, "invalid two-factor code");
-                }
-            }
-        } else {
-            authenticateScratchCode(code);
+    public void authenticate(String scratchCode) throws ServiceException {
+        if (!checkScratchCodes(scratchCode)) {
+            failedLogin();
+            ZimbraLog.account.error("invalid scratch code");
+            throw AuthFailedServiceException.TWO_FACTOR_AUTH_FAILED(account.getName(), acctNamePassedIn, "invalid scratch code");
         }
     }
 
-    private Boolean isScratchCode(String code) throws ServiceException {
+    public Boolean isScratchCode(String code) throws ServiceException {
         int totpLength = getGlobalConfig().getTwoFactorCodeLength();
         int scratchCodeLength = getGlobalConfig().getTwoFactorScratchCodeLength();
         if (totpLength == scratchCodeLength) {
@@ -326,15 +310,7 @@ public class ZetaScratchCodes implements ScratchCodes {
         }
     }
 
-    public void authenticateScratchCode(String scratchCode) throws ServiceException {
-        if (!checkScratchCodes(scratchCode)) {
-            failedLogin();
-            ZimbraLog.account.error("invalid scratch code");
-            throw AuthFailedServiceException.TWO_FACTOR_AUTH_FAILED(account.getName(), acctNamePassedIn, "invalid scratch code");
-        }
-    }
-
-    private boolean checkScratchCodes(String scratchCode) throws ServiceException {
+    public boolean checkScratchCodes(String scratchCode) throws ServiceException {
         for (String code: scratchCodes) {
             if (code.equals(scratchCode)) {
                 invalidateScratchCode(code);

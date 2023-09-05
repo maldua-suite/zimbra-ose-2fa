@@ -39,6 +39,7 @@ import com.zimbra.cs.account.Provisioning;
 import com.zimbra.cs.account.auth.AuthContext.Protocol;
 import com.btactic.twofactorauth.TOTPCredentials;
 import com.btactic.twofactorauth.ZetaTwoFactorAuth;
+import com.btactic.twofactorauth.ZetaScratchCodes;
 import com.zimbra.cs.service.AuthProvider;
 import com.zimbra.soap.SoapServlet;
 import com.zimbra.soap.ZimbraSoapContext;
@@ -116,7 +117,8 @@ public class EnableTwoFactorAuth extends AccountDocumentHandler {
             }
             manager.authenticateTOTP(twoFactorCode.getText());
             manager.enableTwoFactorAuth();
-            response.setScratchCodes(manager.getScratchCodes());
+            ZetaScratchCodes scratchCodesManager = new ZetaScratchCodes(account);
+            response.setScratchCodes(scratchCodesManager.getCodes());
             int tokenValidityValue = account.getAuthTokenValidityValue();
             account.setAuthTokenValidityValue(tokenValidityValue == Integer.MAX_VALUE ? 0 : tokenValidityValue + 1);
             HttpServletRequest httpReq = (HttpServletRequest)context.get(SoapServlet.SERVLET_REQUEST);

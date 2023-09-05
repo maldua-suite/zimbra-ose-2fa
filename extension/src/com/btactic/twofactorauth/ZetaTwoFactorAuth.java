@@ -49,6 +49,7 @@ import com.btactic.twofactorauth.app.ZetaAppSpecificPassword;
 import com.btactic.twofactorauth.app.ZetaAppSpecificPasswordData;
 import com.btactic.twofactorauth.app.ZetaAppSpecificPasswords;
 import com.btactic.twofactorauth.trusteddevices.ZetaTrustedDevices;
+import com.btactic.twofactorauth.ZetaScratchCodes;
 import com.zimbra.cs.account.Config;
 import com.zimbra.cs.account.DataSource;
 import com.zimbra.cs.account.Provisioning;
@@ -331,13 +332,14 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
             ZimbraLog.account.error("two-factor code missing");
             throw AuthFailedServiceException.TWO_FACTOR_AUTH_FAILED(account.getName(), acctNamePassedIn, "two-factor code missing");
         }
-        Boolean codeIsScratchCode = isScratchCode(code);
+        ZetaScratchCodes scratchCodesManager = new ZetaScratchCodes(account);
+        Boolean codeIsScratchCode = scratchCodesManager.isScratchCode(code);
         if (codeIsScratchCode == null || codeIsScratchCode.equals(false)) {
             if (!checkTOTPCode(code)) {
                 boolean success = false;
                 if (codeIsScratchCode == null) {
                     //could maybe be a scratch code
-                    success = checkScratchCodes(code);
+                    success = scratchCodesManager.checkScratchCodes(code);
                 }
                 if (!success) {
                     failedLogin();
@@ -346,32 +348,7 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
                 }
             }
         } else {
-            authenticateScratchCode(code);
-        }
-    }
-
-    private Boolean isScratchCode(String code) throws ServiceException {
-        int totpLength = getGlobalConfig().getTwoFactorCodeLength();
-        int scratchCodeLength = getGlobalConfig().getTwoFactorScratchCodeLength();
-        if (totpLength == scratchCodeLength) {
-            try {
-                Integer.valueOf(code);
-                //most likely a TOTP code, but theoretically possible for this to be a scratch code with only digits
-                return null;
-            } catch (NumberFormatException e) {
-                //has alnum characters, so must be a scratch code
-                return true;
-            }
-        } else {
-            return code.length() != totpLength;
-        }
-    }
-
-    public void authenticateScratchCode(String scratchCode) throws ServiceException {
-        if (!checkScratchCodes(scratchCode)) {
-            failedLogin();
-            ZimbraLog.account.error("invalid scratch code");
-            throw AuthFailedServiceException.TWO_FACTOR_AUTH_FAILED(account.getName(), acctNamePassedIn, "invalid scratch code");
+            scratchCodesManager.authenticate(code);
         }
     }
 
@@ -384,20 +361,6 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
             }
         }
         throw AuthFailedServiceException.TWO_FACTOR_AUTH_FAILED(account.getName(), acctNamePassedIn, "invalid app-specific password");
-    }
-
-    private boolean checkScratchCodes(String scratchCode) throws ServiceException {
-        for (String code: scratchCodes) {
-            if (code.equals(scratchCode)) {
-                invalidateScratchCode(code);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public List<String> getScratchCodes() {
-        return scratchCodes;
     }
 
     private void invalidateScratchCode(String code) throws ServiceException {
