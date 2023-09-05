@@ -265,21 +265,11 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
         }
     }
 
+
     public TOTPCredentials generateNewCredentials() throws ServiceException {
         CredentialConfig config = getCredentialConfig();
         TOTPCredentials credentials = new CredentialGenerator(config).generateCredentials();
         return credentials;
-    }
-
-    public List<String> generateNewScratchCodes() throws ServiceException {
-        ZimbraLog.account.debug("invalidating current scratch codes");
-        CredentialConfig config = getCredentialConfig();
-        List<String> newCodes = new CredentialGenerator(config).generateScratchCodes();
-        scratchCodes.clear();
-        scratchCodes.addAll(newCodes);
-        storeScratchCodes();
-        return scratchCodes;
-
     }
 
     private void storeCredentials(TOTPCredentials credentials) throws ServiceException {
@@ -482,22 +472,6 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
             //if a password is not provisioned for this app, log but don't return an error
             ZimbraLog.account.error("no app-specific password provisioned for the name " + name);
         }
-    }
-
-    private Map<String, ZetaAppSpecificPassword> loadAppPasswords() throws ServiceException {
-        Map<String, ZetaAppSpecificPassword> passMap = new HashMap<String, ZetaAppSpecificPassword>();
-        String[] passwords = account.getAppSpecificPassword();
-        for (int i = 0; i < passwords.length; i++) {
-            ZetaAppSpecificPassword entry = new ZetaAppSpecificPassword(account, passwords[i]);
-            if (entry != null) {
-                if (entry.isExpired()) {
-                    entry.revoke();
-                } else {
-                    passMap.put(entry.getName(), entry);
-                }
-            }
-        }
-        return passMap;
     }
 
     public void revokeAllAppSpecificPasswords() throws ServiceException {
