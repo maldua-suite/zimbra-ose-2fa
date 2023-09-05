@@ -86,7 +86,7 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
         this.acctNamePassedIn = acctNamePassedIn;
         disableTwoFactorAuthIfNecessary();
         if (account.isFeatureTwoFactorAuthAvailable()) {
-            loadCredentials();
+            secret = loadSharedSecret();
         }
     }
 
@@ -224,29 +224,6 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
 
     private static String decrypt(Account account, String encrypted) throws ServiceException {
         return DataSource.decryptData(account.getId(), encrypted);
-    }
-
-    private void loadCredentials() throws ServiceException {
-        secret = loadSharedSecret();
-        scratchCodes = loadScratchCodes();
-        appPasswords = loadAppPasswords();
-    }
-
-    private List<String> loadScratchCodes() throws ServiceException {
-        String encryptedCodes = account.getTwoFactorAuthScratchCodes();
-        if (Strings.isNullOrEmpty(encryptedCodes)) {
-            hasStoredScratchCodes = false;
-            return new ArrayList<String>();
-        } else {
-            hasStoredScratchCodes = true;
-        }
-        String commaSeparatedCodes = decrypt(account, encryptedCodes);
-        String[] codes = commaSeparatedCodes.split(",");
-        List<String> codeList = new ArrayList<String>();
-        for (int i = 0; i < codes.length; i++) {
-            codeList.add(codes[i]);
-        }
-        return codeList;
     }
 
     private void storeScratchCodes(List<String> codes) throws ServiceException {
