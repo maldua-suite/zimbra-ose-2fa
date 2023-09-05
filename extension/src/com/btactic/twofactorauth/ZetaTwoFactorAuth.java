@@ -86,7 +86,7 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
         this.acctNamePassedIn = acctNamePassedIn;
         disableTwoFactorAuthIfNecessary();
         if (account.isFeatureTwoFactorAuthAvailable()) {
-            loadCredentials();
+            secret = loadSharedSecret();
         }
     }
 
@@ -226,60 +226,27 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
         return DataSource.decryptData(account.getId(), encrypted);
     }
 
-    private void loadCredentials() throws ServiceException {
-        secret = loadSharedSecret();
-        scratchCodes = loadScratchCodes();
-        appPasswords = loadAppPasswords();
-    }
-
-    private List<String> loadScratchCodes() throws ServiceException {
-        String encryptedCodes = account.getTwoFactorAuthScratchCodes();
-        if (Strings.isNullOrEmpty(encryptedCodes)) {
-            hasStoredScratchCodes = false;
-            return new ArrayList<String>();
-        } else {
-            hasStoredScratchCodes = true;
-        }
-        String commaSeparatedCodes = decrypt(account, encryptedCodes);
-        String[] codes = commaSeparatedCodes.split(",");
-        List<String> codeList = new ArrayList<String>();
-        for (int i = 0; i < codes.length; i++) {
-            codeList.add(codes[i]);
-        }
-        return codeList;
-    }
-
     private void storeScratchCodes(List<String> codes) throws ServiceException {
         String codeString = Joiner.on(",").join(codes);
         String encrypted = encrypt(codeString);
         account.setTwoFactorAuthScratchCodes(encrypted);
     }
 
-    private String encrypt(String data) throws ServiceException {
-        return DataSource.encryptData(account.getId(), data);
-    }
-
+     private String encrypt(String data) throws ServiceException {
+         return DataSource.encryptData(account.getId(), data);
+     }
+ 
     private void storeScratchCodes() throws ServiceException {
         if (scratchCodes != null) {
             storeScratchCodes(scratchCodes);
         }
     }
 
+
     public TOTPCredentials generateNewCredentials() throws ServiceException {
         CredentialConfig config = getCredentialConfig();
         TOTPCredentials credentials = new CredentialGenerator(config).generateCredentials();
         return credentials;
-    }
-
-    public List<String> generateNewScratchCodes() throws ServiceException {
-        ZimbraLog.account.debug("invalidating current scratch codes");
-        CredentialConfig config = getCredentialConfig();
-        List<String> newCodes = new CredentialGenerator(config).generateScratchCodes();
-        scratchCodes.clear();
-        scratchCodes.addAll(newCodes);
-        storeScratchCodes();
-        return scratchCodes;
-
     }
 
     private void storeCredentials(TOTPCredentials credentials) throws ServiceException {
@@ -482,22 +449,6 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
             //if a password is not provisioned for this app, log but don't return an error
             ZimbraLog.account.error("no app-specific password provisioned for the name " + name);
         }
-    }
-
-    private Map<String, ZetaAppSpecificPassword> loadAppPasswords() throws ServiceException {
-        Map<String, ZetaAppSpecificPassword> passMap = new HashMap<String, ZetaAppSpecificPassword>();
-        String[] passwords = account.getAppSpecificPassword();
-        for (int i = 0; i < passwords.length; i++) {
-            ZetaAppSpecificPassword entry = new ZetaAppSpecificPassword(account, passwords[i]);
-            if (entry != null) {
-                if (entry.isExpired()) {
-                    entry.revoke();
-                } else {
-                    passMap.put(entry.getName(), entry);
-                }
-            }
-        }
-        return passMap;
     }
 
     public void revokeAllAppSpecificPasswords() throws ServiceException {
