@@ -168,16 +168,6 @@ public class ZetaScratchCodes implements ScratchCodes {
         }
     }
 
-    /* Determine if app-specific passwords are enabled for the account.
-     * Two-factor auth is a prerequisite.
-     */
-    public boolean appSpecificPasswordsEnabled() throws ServiceException {
-        if (twoFactorAuthRequired()) {
-            return account.isFeatureAppSpecificPasswordsEnabled();
-        } else {
-            return false;
-        }
-    }
     private void storeSharedSecret(String secret) throws ServiceException {
         String encrypted = encrypt(secret);
         account.setTwoFactorAuthSecret(encrypted);
