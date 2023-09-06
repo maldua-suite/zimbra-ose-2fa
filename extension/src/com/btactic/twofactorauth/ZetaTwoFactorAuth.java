@@ -440,7 +440,7 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
             if (acct.isRevokeAppSpecificPasswordsOnPasswordChange()) {
                 try {
                     ZimbraLog.account.info("revoking all app-specific passwords due to password change");
-                    new ZetaTwoFactorAuth(acct).revokeAllAppSpecificPasswords();
+                    new ZetaAppSpecificPasswords(acct).revokeAll();
                 } catch (ServiceException e) {
                     ZimbraLog.account.error("could not revoke app-specific passwords on password change", e);
                 }
