@@ -366,8 +366,12 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
         account.setTwoFactorAuthEnabled(true);
     }
 
-    private void deleteCredentials() throws ServiceException {
+    private void delete2FACredentials() throws ServiceException {
         account.setTwoFactorAuthSecret(null);
+    }
+
+    private void deleteCredentials() throws ServiceException {
+        delete2FACredentials();
         ZetaScratchCodes scratchCodesManager = new ZetaScratchCodes(account);
         scratchCodesManager.deleteCredentials();
     }
