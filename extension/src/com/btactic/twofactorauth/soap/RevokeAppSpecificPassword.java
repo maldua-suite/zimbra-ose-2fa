@@ -26,6 +26,7 @@ import com.zimbra.common.soap.AccountConstants;
 import com.zimbra.common.soap.Element;
 import com.zimbra.cs.account.Account;
 import com.btactic.twofactorauth.ZetaTwoFactorAuth;
+import com.btactic.twofactorauth.app.ZetaAppSpecificPasswords;
 import com.zimbra.soap.ZimbraSoapContext;
 import com.zimbra.soap.account.message.RevokeAppSpecificPasswordResponse;
 import com.zimbra.cs.service.account.AccountDocumentHandler;
@@ -38,9 +39,9 @@ public class RevokeAppSpecificPassword extends AccountDocumentHandler {
 		ZimbraSoapContext zsc = getZimbraSoapContext(context);
         Account account = getRequestedAccount(zsc);
         RevokeAppSpecificPasswordResponse response = new RevokeAppSpecificPasswordResponse();
-        ZetaTwoFactorAuth manager = new ZetaTwoFactorAuth(account);
+        ZetaAppSpecificPasswords appSpecificPasswordsManager = new ZetaAppSpecificPasswords(account);
         String appName = request.getAttribute(AccountConstants.A_APP_NAME);
-        manager.revokeAppSpecificPassword(appName);
+        appSpecificPasswordsManager.revoke(appName);
         return zsc.jaxbToElement(response);
 	}
 }
