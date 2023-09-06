@@ -341,8 +341,7 @@ public class ZetaScratchCodes implements ScratchCodes {
         storeCodes();
     }
 
-    private void deleteCredentials() throws ServiceException {
-        account.setTwoFactorAuthSecret(null);
+    public void deleteCredentials() throws ServiceException {
         account.setTwoFactorAuthScratchCodes(null);
     }
 
