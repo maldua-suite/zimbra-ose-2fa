@@ -120,8 +120,6 @@ public class ZetaScratchCodes implements ScratchCodes {
     public void clearData() throws ServiceException {
         account.setTwoFactorAuthEnabled(false);
         deleteCredentials();
-        revokeAllAppSpecificPasswords();
-        revokeAllTrustedDevices();
     }
 
     public CredentialConfig getCredentialConfig() throws ServiceException {
@@ -346,45 +344,6 @@ public class ZetaScratchCodes implements ScratchCodes {
     private void deleteCredentials() throws ServiceException {
         account.setTwoFactorAuthSecret(null);
         account.setTwoFactorAuthScratchCodes(null);
-    }
-
-    public List<ZetaTrustedDevice> getTrustedDevices() throws ServiceException {
-        List<ZetaTrustedDevice> trustedDevices = new ArrayList<ZetaTrustedDevice>();
-        for (String encoded: account.getTwoFactorAuthTrustedDevices()) {
-            try {
-                ZetaTrustedDevice td = new ZetaTrustedDevice(account, encoded);
-                if (td.isExpired()) {
-                    td.revoke();
-                }
-                trustedDevices.add(td);
-            } catch (ServiceException e) {
-                ZimbraLog.account.error(e.getMessage());
-                account.removeTwoFactorAuthTrustedDevices(encoded);
-            }
-        }
-        return trustedDevices;
-    }
-
-    public void revokeAllTrustedDevices() throws ServiceException {
-        ZimbraLog.account.debug("revoking all trusted devices");
-        for (ZetaTrustedDevice td: getTrustedDevices()) {
-            td.revoke();
-        }
-    }
-
-    public void revokeAppSpecificPassword(String name) throws ServiceException  {
-        if (appPasswords.containsKey(name)) {
-            appPasswords.get(name).revoke();
-        } else {
-            //if a password is not provisioned for this app, log but don't return an error
-            ZimbraLog.account.error("no app-specific password provisioned for the name " + name);
-        }
-    }
-
-    public void revokeAllAppSpecificPasswords() throws ServiceException {
-        for (String name: appPasswords.keySet()) {
-            revokeAppSpecificPassword(name);
-        }
     }
 
     private void failedLogin() throws ServiceException {
