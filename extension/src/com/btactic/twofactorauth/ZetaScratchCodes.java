@@ -118,7 +118,6 @@ public class ZetaScratchCodes implements ScratchCodes {
     }
 
     public void clearData() throws ServiceException {
-        account.setTwoFactorAuthEnabled(false);
         deleteCredentials();
     }
 

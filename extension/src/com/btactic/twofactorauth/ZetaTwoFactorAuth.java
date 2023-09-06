@@ -163,10 +163,16 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
         }
     }
 
+    public void clear2FAData() throws ServiceException {
+        account.setTwoFactorAuthEnabled(false);
+        delete2FACredentials();
+    }
+
     @Override
     public void clearData() throws ServiceException {
-        account.setTwoFactorAuthEnabled(false);
-        deleteCredentials();
+        clear2FAData();
+        ZetaScratchCodes scratchCodesManager = new ZetaScratchCodes(account);
+        scratchCodesManager.clearData();
         ZetaAppSpecificPasswords appSpecificPasswordsManager = new ZetaAppSpecificPasswords(account);
         appSpecificPasswordsManager.clearData();
         ZetaTrustedDevices trustedDevicesManager = new ZetaTrustedDevices(account);
