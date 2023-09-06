@@ -169,7 +169,8 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
         deleteCredentials();
         ZetaAppSpecificPasswords appSpecificPasswordsManager = new ZetaAppSpecificPasswords(account);
         appSpecificPasswordsManager.clearData();
-        revokeAllTrustedDevices();
+        ZetaTrustedDevices trustedDevicesManager = new ZetaTrustedDevices(account);
+        trustedDevicesManager.clearData();
     }
 
     /* Determine if a second factor is necessary for authenticating this account */
