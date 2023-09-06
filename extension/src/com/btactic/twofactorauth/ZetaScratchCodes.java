@@ -45,6 +45,7 @@ import com.zimbra.common.util.ZimbraLog;
 import com.zimbra.cs.account.Account;
 import com.zimbra.cs.account.AccountServiceException;
 import com.zimbra.cs.account.AccountServiceException.AuthFailedServiceException;
+import com.btactic.twofactorauth.ZetaTwoFactorAuth;
 import com.btactic.twofactorauth.app.ZetaAppSpecificPassword;
 import com.btactic.twofactorauth.app.ZetaAppSpecificPasswordData;
 import com.btactic.twofactorauth.app.ZetaAppSpecificPasswords;
@@ -83,37 +84,10 @@ public class ZetaScratchCodes implements ScratchCodes {
     public ZetaScratchCodes(Account account, String acctNamePassedIn) throws ServiceException {
         this.account = account;
         this.acctNamePassedIn = acctNamePassedIn;
-        disableTwoFactorAuthIfNecessary();
+        ZetaTwoFactorAuth manager = new ZetaTwoFactorAuth(account, acctNamePassedIn);
+        manager.disableTwoFactorAuthIfNecessary();
         if (account.isFeatureTwoFactorAuthAvailable()) {
             scratchCodes = loadScratchCodes();
-        }
-    }
-
-    private void disableTwoFactorAuthIfNecessary() throws ServiceException {
-        String encryptedSecret = account.getTwoFactorAuthSecret();
-        if (!Strings.isNullOrEmpty(encryptedSecret)) {
-            String decrypted = decrypt(account, encryptedSecret);
-            String[] parts = decrypted.split("\\|");
-            Date timestamp;
-            if (parts.length == 1) {
-                // For backwards compatability with the server version
-                // that did not store a timestamp.
-                timestamp = null;
-            } else if (parts.length > 2) {
-                throw ServiceException.FAILURE("invalid shared secret format", null);
-            }
-            try {
-                timestamp = LdapDateUtil.parseGeneralizedTime(parts[1]);
-            } catch (NumberFormatException e) {
-                throw ServiceException.FAILURE("invalid shared secret timestamp", null);
-            }
-            Date lastDisabledDate = account.getCOS().getTwoFactorAuthLastReset();
-            if (lastDisabledDate == null) {
-                return;
-            }
-            if (timestamp == null || lastDisabledDate.after(timestamp)) {
-                clearData();
-            }
         }
     }
 

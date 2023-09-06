@@ -135,7 +135,7 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
 
     }
 
-    private void disableTwoFactorAuthIfNecessary() throws ServiceException {
+    public void disableTwoFactorAuthIfNecessary() throws ServiceException {
         String encryptedSecret = account.getTwoFactorAuthSecret();
         if (!Strings.isNullOrEmpty(encryptedSecret)) {
             String decrypted = decrypt(account, encryptedSecret);
