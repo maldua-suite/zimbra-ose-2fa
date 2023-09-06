@@ -31,8 +31,7 @@ zmzimletctl deploy /tmp/com_btactic_twofactorauth_admin.zip
 
 ## Zimbra Mailbox restart
 
-For the new admin Zimlet to be used the Zimbra Mailbox **does not need** to be restarted.
-How it is recommended.
+For the new admin Zimlet to be used the Zimbra Mailbox needs to be restarted.
 
 ```
 sudo su - zimbra -c 'zmmailboxdctl restart'
