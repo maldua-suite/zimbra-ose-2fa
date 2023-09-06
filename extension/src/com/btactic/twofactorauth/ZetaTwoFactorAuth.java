@@ -167,7 +167,8 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
     public void clearData() throws ServiceException {
         account.setTwoFactorAuthEnabled(false);
         deleteCredentials();
-        revokeAllAppSpecificPasswords();
+        ZetaAppSpecificPasswords appSpecificPasswordsManager = new ZetaAppSpecificPasswords(account);
+        appSpecificPasswordsManager.clearData();
         revokeAllTrustedDevices();
     }
 
