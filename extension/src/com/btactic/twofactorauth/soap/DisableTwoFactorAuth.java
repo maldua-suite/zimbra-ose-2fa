@@ -25,6 +25,7 @@ import com.zimbra.common.service.ServiceException;
 import com.zimbra.common.soap.Element;
 import com.zimbra.cs.account.Account;
 import com.btactic.twofactorauth.ZetaTwoFactorAuth;
+import com.btactic.twofactorauth.app.ZetaAppSpecificPasswords;
 import com.zimbra.soap.ZimbraSoapContext;
 import com.zimbra.cs.service.account.AccountDocumentHandler;
 
@@ -37,7 +38,8 @@ public class DisableTwoFactorAuth extends AccountDocumentHandler {
         ZetaTwoFactorAuth manager = new ZetaTwoFactorAuth(account);
         DisableTwoFactorAuthResponse response = new DisableTwoFactorAuthResponse();
         manager.disableTwoFactorAuth(true);
-        manager.revokeAllAppSpecificPasswords();
+        ZetaAppSpecificPasswords appSpecificPasswordsManager = new ZetaAppSpecificPasswords(account);
+        appSpecificPasswordsManager.revokeAll();
         return zsc.jaxbToElement(response);
     }
 }
