@@ -384,21 +384,6 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
         }
     }
 
-    public void revokeAppSpecificPassword(String name) throws ServiceException  {
-        if (appPasswords.containsKey(name)) {
-            appPasswords.get(name).revoke();
-        } else {
-            //if a password is not provisioned for this app, log but don't return an error
-            ZimbraLog.account.error("no app-specific password provisioned for the name " + name);
-        }
-    }
-
-    public void revokeAllAppSpecificPasswords() throws ServiceException {
-        for (String name: appPasswords.keySet()) {
-            revokeAppSpecificPassword(name);
-        }
-    }
-
     public List<ZetaTrustedDevice> getTrustedDevices() throws ServiceException {
         List<ZetaTrustedDevice> trustedDevices = new ArrayList<ZetaTrustedDevice>();
         for (String encoded: account.getTwoFactorAuthTrustedDevices()) {
