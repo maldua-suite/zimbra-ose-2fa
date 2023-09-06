@@ -342,17 +342,6 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
         }
     }
 
-    public void authenticateAppSpecificPassword(String providedPassword) throws ServiceException {
-        for (ZetaAppSpecificPassword appPassword: appPasswords.values())    {
-            if (appPassword.validate(providedPassword)) {
-                ZimbraLog.account.debug("logged in with app-specific password");
-                appPassword.update();
-                return;
-            }
-        }
-        throw AuthFailedServiceException.TWO_FACTOR_AUTH_FAILED(account.getName(), acctNamePassedIn, "invalid app-specific password");
-    }
-
     private void invalidateScratchCode(String code) throws ServiceException {
         scratchCodes.remove(code);
         storeScratchCodes();
