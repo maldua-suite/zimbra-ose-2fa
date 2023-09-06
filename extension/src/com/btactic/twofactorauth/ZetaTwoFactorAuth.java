@@ -378,7 +378,8 @@ public class ZetaTwoFactorAuth extends TwoFactorAuth {
             if (deleteCredentials) {
                 deleteCredentials();
             }
-            revokeAllAppSpecificPasswords();
+            ZetaAppSpecificPasswords appSpecificPasswordsManager = new ZetaAppSpecificPasswords(account);
+            appSpecificPasswordsManager.revokeAll();
         } else {
             ZimbraLog.account.info("two-factor authentication already disabled");
         }
