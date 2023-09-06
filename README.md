@@ -24,6 +24,10 @@ This documentation is aimed at developers, not at admins.
 
 - Check: [ADMINZIMLET_BUILD.md](ADMINZIMLET_BUILD.md) on how to build the Administration Console Zimlet.
 
+### How to install the admin zimlet
+
+- Check: [ADMINZIMLET_INSTALL.md](ADMINZIMLET_INSTALL.md) on how to install the Administration Console Zimlet.
+
 ## Licenses
 
 ### License (Extension)
