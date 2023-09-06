@@ -116,10 +116,7 @@ public class ZetaAppSpecificPasswords implements AppSpecificPasswords {
     }
 
     public void clearData() throws ServiceException {
-        account.setTwoFactorAuthEnabled(false);
-        deleteCredentials();
         revokeAll();
-        revokeAllTrustedDevices();
     }
 
     /* Determine if a second factor is necessary for authenticating this account */
@@ -170,11 +167,6 @@ public class ZetaAppSpecificPasswords implements AppSpecificPasswords {
         throw AuthFailedServiceException.TWO_FACTOR_AUTH_FAILED(account.getName(), acctNamePassedIn, "invalid app-specific password");
     }
 
-    private void deleteCredentials() throws ServiceException {
-        account.setTwoFactorAuthSecret(null);
-        account.setTwoFactorAuthScratchCodes(null);
-    }
-
     @Override
     public AppSpecificPassword generatePassword(String name) throws ServiceException {
         if (!account.isFeatureAppSpecificPasswordsEnabled()) {
@@ -191,13 +183,6 @@ public class ZetaAppSpecificPasswords implements AppSpecificPasswords {
         return password;
     }
 
-    public void revokeAllTrustedDevices() throws ServiceException {
-        ZimbraLog.account.debug("revoking all trusted devices");
-        for (TrustedDevice td: getTrustedDevices()) {
-            td.revoke();
-        }
-    }
-
     @Override
     public Set<AppSpecificPasswordData> getPasswords() throws ServiceException {
         Set<AppSpecificPasswordData> dataSet = new HashSet<AppSpecificPasswordData>();
@@ -205,23 +190,6 @@ public class ZetaAppSpecificPasswords implements AppSpecificPasswords {
             dataSet.add(appPassword.getPasswordData());
         }
         return dataSet;
-    }
-
-    public List<ZetaTrustedDevice> getTrustedDevices() throws ServiceException {
-        List<ZetaTrustedDevice> trustedDevices = new ArrayList<ZetaTrustedDevice>();
-        for (String encoded: account.getTwoFactorAuthTrustedDevices()) {
-            try {
-                ZetaTrustedDevice td = new ZetaTrustedDevice(account, encoded);
-                if (td.isExpired()) {
-                    td.revoke();
-                }
-                trustedDevices.add(td);
-            } catch (ServiceException e) {
-                ZimbraLog.account.error(e.getMessage());
-                account.removeTwoFactorAuthTrustedDevices(encoded);
-            }
-        }
-        return trustedDevices;
     }
 
     @Override
