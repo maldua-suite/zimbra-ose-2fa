@@ -44,7 +44,7 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_twofactorauth_admin"]){
             }
             var tabBar = xFormObject.items[1] ;
             var twofactorauthTabIx = ++this.TAB_INDEX;
-            tabBar.choices.push({value:twofactorauthTabIx, label:"TODO TWOFACTORAUTH TAB LABEL"});
+            tabBar.choices.push({value:twofactorauthTabIx, label:com_btactic_twofactorauth_admin.zimbraTwoFactorAuthTab});
 
             var twofactorauthAccountTab={
                 type:_ZATABCASE_,
@@ -53,7 +53,7 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_twofactorauth_admin"]){
                 items: [
                     {type:_ZAGROUP_,
                         items:[
-                            {ref: "zimbraFeatureTwoFactorAuthAvailable", type: _SUPER_CHECKBOX_, checkBoxLabel: "TODO ENABLE 2FA LABEL", msgName: "TODO ENABLE 2FA LABEL", trueValue: "TRUE", falseValue: "FALSE", resetToSuperLabel: ZaMsg.NAD_ResetToCOS}
+                            {ref: "zimbraFeatureTwoFactorAuthAvailable", type: _SUPER_CHECKBOX_, checkBoxLabel: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthAvailable, msgName: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthAvailable, trueValue: "TRUE", falseValue: "FALSE", resetToSuperLabel: ZaMsg.NAD_ResetToCOS}
                         ]
                     }
                 ]
