@@ -28,6 +28,10 @@ This documentation is aimed at developers, not at admins.
 
 - Check: [ADMINZIMLET_INSTALL.md](ADMINZIMLET_INSTALL.md) on how to install the Administration Console Zimlet.
 
+### How to release the extension and admin zimlet
+
+- Check: [RELEASE.md](RELEASE.md) on how to release the extension and admin zimlet.
+
 ## Licenses
 
 ### License (Extension)

@@ -25,6 +25,10 @@ git clone 'https://github.com/btactic/zimbra-ose-2fa.git'
 
 ```
 cd /tmp/zimbra-ose-2fa/adminZimlet/com_btactic_twofactorauth_admin/
+#
+# Note change 0.1.0 with whatever is in VERSION file.
+#
+sed -i 's/@@VERSION@@/0.1.0/g' com_btactic_twofactorauth_admin.xml
 zip --quiet -r ../com_btactic_twofactorauth_admin.zip *
 ```
 
