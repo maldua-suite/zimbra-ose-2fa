@@ -115,4 +115,42 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_twofactorauth_admin"]){
         ZaTabView.XFormModifiers["ZaCosXFormView"].push(com_btactic_twofactorauth_ext.myCosXFormModifier);
     }
 
+    // Show additional 2FA attributes for Accounts Wizard
+    com_btactic_twofactorauth_ext.ACC_WIZ_GROUP = {
+        type:_ZAWIZGROUP_,
+        items:[
+            {label: null, type: _OUTPUT_, value: com_btactic_twofactorauth_admin.zetaPromo, colSpan:"*", cssStyle:"font-size:20pt; font-weight: bold;"},
+            {type:_SPACER_, colSpan:"*"},
+            {ref: "zimbraFeatureTwoFactorAuthAvailable", type: _SUPER_WIZ_CHECKBOX_, checkBoxLabel: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthAvailable, msgName: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthAvailable, trueValue: "TRUE", falseValue: "FALSE", resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
+            {ref: "zimbraFeatureTwoFactorAuthRequired", type: _SUPER_WIZ_CHECKBOX_, checkBoxLabel: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthRequired, msgName: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthRequired, trueValue: "TRUE", falseValue: "FALSE", resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
+            {ref: "zimbraFeatureAppSpecificPasswordsEnabled", type: _SUPER_WIZ_CHECKBOX_, checkBoxLabel: com_btactic_twofactorauth_admin.zimbraFeatureAppSpecificPasswordsEnabled, msgName: com_btactic_twofactorauth_admin.zimbraFeatureAppSpecificPasswordsEnabled, trueValue: "TRUE", falseValue: "FALSE", resetToSuperLabel: ZaMsg.NAD_ResetToCOS},
+            {ref: "zimbraTwoFactorAuthNumScratchCodes", type: _SUPERWIZ_TEXTFIELD_, txtBoxLabel: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthNumScratchCodes, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthNumScratchCodes, textFieldCssClass: "admin_xform_number_input", resetToSuperLabel: ZaMsg.NAD_ResetToCOS}
+        ]
+    };
+
+    if(ZaXDialog.XFormModifiers["ZaNewAccountXWizard"]) {
+        com_btactic_twofactorauth_ext.AccountXWizModifier= function (xFormObject, entry) {
+            ZaNewAccountXWizard.POSIX_2FA_STEP = ++this.TAB_INDEX;
+            this.stepChoices.push({value:ZaNewAccountXWizard.POSIX_2FA_STEP, label:com_btactic_twofactorauth_admin.zimbraTwoFactorAuthTab});
+            this._lastStep = this.stepChoices.length;
+
+            var cnt = xFormObject.items.length;
+            var i = 0;
+            for(i = 0; i <cnt; i++) {
+                if(xFormObject.items[i].type=="switch")
+                    break;
+            }
+            cnt = xFormObject.items[i].items.length;
+            var j = 0;
+            var gotAdvanced = false;
+            var gotFeatures = false;
+            var twofactorauthStep={type:_CASE_, numCols:1, caseKey:ZaNewAccountXWizard.POSIX_2FA_STEP, tabGroupKey:ZaNewAccountXWizard.POSIX_2FA_STEP,
+                items: [com_btactic_twofactorauth_ext.ACC_WIZ_GROUP]
+            };
+            xFormObject.items[i].items.push(twofactorauthStep);
+
+        }
+        ZaXDialog.XFormModifiers["ZaNewAccountXWizard"].push(com_btactic_twofactorauth_ext.AccountXWizModifier);
+    }
+
 }
