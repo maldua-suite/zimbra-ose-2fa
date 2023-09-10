@@ -1,6 +1,6 @@
 # Zimbra OSE 2FA
 
-**Warning: THIS PROJECT IN AN EARLY STAGE OF DEVELOPMENT AND SHOULD BE CONSIDERED AS ALPHA QUALITY.**
+**Warning: THIS PROJECT SHOULD BE CONSIDERED AS BETA QUALITY.**
 
 This project aims to build an Open Source replacement of:
 - Zimbra Network Edition 2FA Extension
