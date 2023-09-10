@@ -153,4 +153,42 @@ if(ZaSettings && ZaSettings.EnabledZimlet["com_btactic_twofactorauth_admin"]){
         ZaXDialog.XFormModifiers["ZaNewAccountXWizard"].push(com_btactic_twofactorauth_ext.AccountXWizModifier);
     }
 
+    // Show additional 2FA attributes for CoS Wizard
+    com_btactic_twofactorauth_ext.COS_WIZ_GROUP = {
+        type:_ZAWIZGROUP_,
+        items:[
+            {label: null, type: _OUTPUT_, value: com_btactic_twofactorauth_admin.zetaPromo, colSpan:"*", cssStyle:"font-size:20pt; font-weight: bold;"},
+            {type:_SPACER_, colSpan:"*"},
+            {ref: "zimbraFeatureTwoFactorAuthAvailable", type: _WIZ_CHECKBOX_, label: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthAvailable, msgName: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthAvailable, trueValue: "TRUE", falseValue: "FALSE"},
+            {ref: "zimbraFeatureTwoFactorAuthRequired", type: _WIZ_CHECKBOX_, label: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthRequired, msgName: com_btactic_twofactorauth_admin.zimbraFeatureTwoFactorAuthRequired, trueValue: "TRUE", falseValue: "FALSE"},
+            {ref: "zimbraFeatureAppSpecificPasswordsEnabled", type: _WIZ_CHECKBOX_, label: com_btactic_twofactorauth_admin.zimbraFeatureAppSpecificPasswordsEnabled, msgName: com_btactic_twofactorauth_admin.zimbraFeatureAppSpecificPasswordsEnabled, trueValue: "TRUE", falseValue: "FALSE"},
+            {ref: "zimbraTwoFactorAuthNumScratchCodes", type: _TEXTFIELD_, label: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthNumScratchCodes, msgName: com_btactic_twofactorauth_admin.zimbraTwoFactorAuthNumScratchCodes, textFieldCssClass: "admin_xform_number_input"}
+        ]
+    };
+
+    if(ZaXDialog.XFormModifiers["ZaNewCosXWizard"]) {
+        com_btactic_twofactorauth_ext.CosXWizModifier= function (xFormObject, entry) {
+            ZaNewCosXWizard.POSIX_2FA_STEP = ++this.TAB_INDEX;
+            this.stepChoices.push({value:ZaNewCosXWizard.POSIX_2FA_STEP, label:com_btactic_twofactorauth_admin.zimbraTwoFactorAuthTab});
+            this._lastStep = this.stepChoices.length;
+
+            var cnt = xFormObject.items.length;
+            var i = 0;
+            for(i = 0; i <cnt; i++) {
+                if(xFormObject.items[i].type=="switch")
+                    break;
+            }
+            cnt = xFormObject.items[i].items.length;
+            var j = 0;
+            var gotAdvanced = false;
+            var gotFeatures = false;
+            var twofactorauthStep={type:_CASE_, numCols:1, caseKey:ZaNewCosXWizard.POSIX_2FA_STEP, tabGroupKey:ZaNewCosXWizard.POSIX_2FA_STEP,
+                items: [com_btactic_twofactorauth_ext.COS_WIZ_GROUP]
+            };
+            xFormObject.items[i].items.push(twofactorauthStep);
+
+        }
+        ZaXDialog.XFormModifiers["ZaNewCosXWizard"].push(com_btactic_twofactorauth_ext.CosXWizModifier);
+    }
+
 }
