@@ -8,6 +8,31 @@ This project aims to build an Open Source replacement of:
 
 For the final user UI it relies on current Zimbra OSE support for 2FA integrated on the Webmail.
 
+## Admin documentation
+
+### Quick installation instructions
+
+**Requisites:**
+
+- unzip
+
+```
+apt install unzip
+```
+
+**WARNING:** Please change **0.1.0** with whatever it's the latest released version.
+
+```
+sudo -i # Become root
+cd /tmp
+wget 'https://github.com/btactic/zimbra-ose-2fa/releases/download/v0.1.0/zimbra-ose-2fa_0.1.0.zip'
+unzip zimbra-ose-2fa_0.1.0.zip
+cd zimbra-ose-2fa_0.1.0
+cp zetatwofactorauth.jar /opt/zimbra/lib/ext/twofactorauth/zetatwofactorauth.jar
+chown zimbra:zimbra com_btactic_twofactorauth_admin.zip
+su - zimbra -c 'zmzimletctl deploy ./com_btactic_twofactorauth_admin.zip'
+```
+
 ## Developer documentation
 
 This documentation is aimed at developers, not at admins.
