@@ -8,6 +8,29 @@ This project aims to build an Open Source replacement of:
 
 For the final user UI it relies on current Zimbra OSE support for 2FA integrated on the Webmail.
 
+## Features
+
+### Integrated with Zimbra Webclient UI
+
+Seamless integrated with native Zimbra Webclient UI for 2FA.
+
+### Basic 2FA
+
+An additional authentication factor based on TOTP (Time-based One-Time Passwords). This is compatible with Google Authenticator or Authy.
+
+### Trusted devices
+
+Mark your usual device as trusted so that you are not asked for 2FA each time you login.
+
+### Application specific passwords
+
+Do you have **Imap** or pop3 applications that do not support 2FA?
+Keep using them with an specific password for each one of them.
+
+### Scratch codes
+
+Scratch or one-time use codes are generated so that you can write them down in a paper just in case your 2FA application no longer works for you.
+
 ## Admin documentation
 
 ### Installation
