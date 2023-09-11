@@ -14,9 +14,15 @@ For the final user UI it relies on current Zimbra OSE support for 2FA integrated
 
 Seamless integrated with native Zimbra Webclient UI for 2FA.
 
+![Setup two-step authentication ...](images/twofactorauthentication-webclient1.png)
+
+![Setup two-step authentication wizard](images/twofactorauthentication-webclient2.png)
+
 ### Basic 2FA
 
 An additional authentication factor based on TOTP (Time-based One-Time Passwords). This is compatible with Google Authenticator or Authy.
+
+![Verify step](images/twofactorauthentication-verify.png)
 
 ### Trusted devices
 
@@ -27,9 +33,16 @@ Mark your usual device as trusted so that you are not asked for 2FA each time yo
 Do you have **Imap** or pop3 applications that do not support 2FA?
 Keep using them with an specific password for each one of them.
 
+![Application name](images/twofactorauthentication-application1.png)
+![Application passcode](images/twofactorauthentication-application2.png)
+![Applications in Webclient](images/twofactorauthentication-application3.png)
+
 ### Scratch codes
 
 Scratch or one-time use codes are generated so that you can write them down in a paper just in case your 2FA application no longer works for you.
+
+![Scratch codes in Webclient](images/twofactorauthentication-scratch1.png)
+![Scratch popup](images/twofactorauthentication-scratch2.png)
 
 ### Network Edition binary compatibility upgrade
 
