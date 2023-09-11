@@ -9,6 +9,7 @@
 **ZETA'S Zimbra OSE 2FA Extension & Administration Zimlet** brought to you by [BTACTIC, open source & cloud solutions](https://www.btactic.com).
 
 This project aims to build an Open Source replacement of:
+
 - Zimbra Network Edition 2FA Extension
 - Zimbra Network Edition 2FA Administration zimlet.
 
