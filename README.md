@@ -10,7 +10,9 @@ For the final user UI it relies on current Zimbra OSE support for 2FA integrated
 
 ## Admin documentation
 
-### Quick installation instructions
+### Installation
+
+In a Multi-Server cluster these commands have to be run on each one of the mailbox nodes.
 
 **Requisites:**
 
@@ -30,7 +32,13 @@ unzip zimbra-ose-2fa_0.1.0.zip
 cd zimbra-ose-2fa_0.1.0
 cp zetatwofactorauth.jar /opt/zimbra/lib/ext/twofactorauth/zetatwofactorauth.jar
 chown zimbra:zimbra com_btactic_twofactorauth_admin.zip
-su - zimbra -c 'zmzimletctl deploy ./com_btactic_twofactorauth_admin.zip'
+su - zimbra -c 'zmzimletctl -l deploy ./com_btactic_twofactorauth_admin.zip'
+```
+
+In order for the two-factor authentication extension and the adminZimlet to apply you need to restart mailboxd with:
+```
+sudo -i # Become root
+su - zimbra -c 'zmmailboxdctl restart'
 ```
 
 ## Developer documentation
