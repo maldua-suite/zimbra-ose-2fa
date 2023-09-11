@@ -60,6 +60,17 @@ Once you have upgraded to ZCS NE 8.8.15 all of the 2FA features that were enable
 
 ## Admin documentation
 
+### Management
+
+When creating or editing a class of service or an account there is an additional tab named **2FA (Zeta)** where you can:
+
+- Enable or disable 2FA feature
+- Check if the account requires 2FA for login
+- Enable or disable application specific passwords or passcodes
+- Setup the numer of scratch codes to generate
+
+![Admin Zimlet for Two Factor Authentication](images/twofactorauthentication-adminzimlet1.png)
+
 ### Installation
 
 In a Multi-Server cluster these commands have to be run on each one of the mailbox nodes.
