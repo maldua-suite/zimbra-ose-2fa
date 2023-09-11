@@ -31,6 +31,20 @@ Keep using them with an specific password for each one of them.
 
 Scratch or one-time use codes are generated so that you can write them down in a paper just in case your 2FA application no longer works for you.
 
+### Network Edition binary compatibility upgrade
+
+Both *Zimbra OSE 2FA* and current *Zimbra Network Edition* share a design based on a public codebase from around 2016.
+
+Take a look at this scenario:
+
+- ZCS OSE 8.8.15 - **Standard ZCS OSE 8.8.15**
+- ZCS OSE 8.8.15 + zimbra-ose-2fa - **zimbra-ose-2fa is installed**
+- Enable/**Use 2FA** features in different Classes of Services or accounts.
+- ZCS OSE 8.8.15 - **Uninstall zimbra-ose-2fa**
+- ZCS NE 8.8.15 - **Upgrade from ZCS OSE to ZCS NE**
+
+Once you have upgraded to ZCS NE 8.8.15 all of the 2FA features that were enabled/used in **ZCS OSE 8.8.15 + zimbra-ose-2fa** setup should keep working. No need to reissue 2FA codes and ask final users to update their Google Authenticator, Authy or specific Thunderbird/Imap client password.
+
 ## Admin documentation
 
 ### Installation
