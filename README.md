@@ -133,6 +133,26 @@ This documentation is aimed at developers, not at admins.
 
 - Check: [RELEASE.md](RELEASE.md) on how to release the extension and admin zimlet.
 
+## Some background
+
+This is some background for those of you that enjoy reading developer stories.
+
+At the [Zimbra Roadmap and Product Update from February, 2015](https://cdn2.hubspot.net/hub/212115/file-2452880015-pdf/pdf_files/2015_Roadmap_Update_-_Feb_2015_FINAL.pdf) you can read about how for ZCS 8.7 there was a Mobile Gateway section that mentioned: *Zimbra Mobile Gateway + Push Notifications + 2-Factor Security*.
+
+This was actually ZCS 8.6 being improved for having such features.
+
+Development versions of ZCS OSE 8.6 had an initial implementation of 2FA but, then, someone at Zimbra, decided that it was worth it moving it to the NE version as an extension (2FA was not going to be available at OSE version!). More over the 2FA webclient support will be refactored in such a way so that alternative 2FA implementations could be written by other developers or companies.
+
+You can take a look at commits from those days:
+
+- [zm-mailbox-zmg-2fa's zmg-2fa-last-snapshot](https://github.com/adriangibanelbtactic/zm-mailbox-zmg-2fa/tree/zmg-2fa-last-snapshot)
+- [zm-mailbox-zmg-2fa's zmg-2fa-last-soap-snapshot](https://github.com/adriangibanelbtactic/zm-mailbox-zmg-2fa/tree/zmg-2fa-last-soap-snapshot)
+- [zm-mailbox-zmg-2fa' zmg-2fa-move-to-ne-snapshot](https://github.com/adriangibanelbtactic/zm-mailbox-zmg-2fa/tree/zmg-2fa-move-to-ne-snapshot)
+
+So... this extension is an affirmative answer to this question...
+
+**Is it possible to rewrite the old 8.6 code for 2FA so that it can be ported into its own extension?**
+
 ## Licenses
 
 ### License (Extension)
