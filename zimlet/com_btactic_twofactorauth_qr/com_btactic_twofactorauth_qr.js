@@ -39,7 +39,7 @@ function twofactorauth_qr_setup() {
     }
 
     // Move the key to the left so that the QR can be shown
-    document.querySelectorAll('.email-key')[0].style.float="left";
+    document.querySelectorAll('.email-key')[0].style['float']="left";
 
     twofactorauth_next_button = $("[id$=" + '_button' + String(ZmTwoFactorSetupDialog.NEXT_BUTTON) + '_title' + "]")[0]
     twofactorauth_next_button.addEventListener('click', () => {
