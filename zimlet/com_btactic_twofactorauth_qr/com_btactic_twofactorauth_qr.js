@@ -20,7 +20,7 @@
  */
 
 if(window.console && window.console.log) {
-    window.console.log("Starting loading com_btactic_twofactorauth_qr.js")
+    window.console.log("Starting loading com_btactic_twofactorauth_qr.js");
 }
 
 // STEP 1. Force Preferences load so that we can override TwoFactor_all.js functions
@@ -41,7 +41,7 @@ function twofactorauth_qr_setup() {
     // Move the key to the left so that the QR can be shown
     document.querySelectorAll('.email-key')[0].style['float']="left";
 
-    twofactorauth_next_button = $("[id$=" + '_button' + String(ZmTwoFactorSetupDialog.NEXT_BUTTON) + '_title' + "]")[0]
+    twofactorauth_next_button = $("[id$=" + '_button' + String(ZmTwoFactorSetupDialog.NEXT_BUTTON) + '_title' + "]")[0];
     twofactorauth_next_button.addEventListener('click', () => {
         $('#twoFactorAuthQrDiv')[0].innerHTML='';
         var twofactorauth_qr_email = appCtxt.get(ZmSetting.USERNAME); // username@example.net
