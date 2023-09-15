@@ -42,7 +42,7 @@ function twofactorauth_qr_setup() {
     document.querySelectorAll('.email-key')[0].style['float']="left";
 
     twofactorauth_next_button = $("[id$=" + '_button' + String(ZmTwoFactorSetupDialog.NEXT_BUTTON) + '_title' + "]")[0];
-    twofactorauth_next_button.addEventListener('click', () => {
+    twofactorauth_next_button.addEventListener('click', function(){
         $('#twoFactorAuthQrDiv')[0].innerHTML='';
         var twofactorauth_qr_email = appCtxt.get(ZmSetting.USERNAME); // username@example.net
         var twofactorauth_qr_secret = document.querySelectorAll('.email-key')[0].textContent;
@@ -55,7 +55,6 @@ function twofactorauth_qr_setup() {
             colorLight : "#ffffff",
             correctLevel : QRCode.CorrectLevel.H
         });
-
     }
     );
 
