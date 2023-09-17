@@ -28,6 +28,24 @@ EOF
 
 }
 
+function restart_notice () {
+
+cat << EOF
+
+- Zimbra 2FA Extension
+- Zimbra 2FA Admin zimlet
+- Zimbra 2FA QR zimlet
+were installed.
+
+Please restart mailboxd thanks to:
+
+su - zimbra -c 'zmmailboxdctl restart'
+
+so that this new extension is used.
+EOF
+
+}
+
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root"
   exit 1
@@ -58,3 +76,5 @@ if [[ "${IS_COMPULSORY}" == 'YES' ]]
 then
     set_zimlet_as_compulsory_at_all_cos
 fi
+
+restart_notice
