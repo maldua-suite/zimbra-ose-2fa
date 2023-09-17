@@ -25,6 +25,10 @@ Seamless integrated with native Zimbra Webclient UI for 2FA.
 
 ![Setup two-step authentication wizard](images/twofactorauthentication-webclient2.png)
 
+### Includes QR support
+
+![Setup two-step authentication wizard with QR](images/twofactorauthentication-webclient9.png)
+
 ### Basic 2FA
 
 An additional authentication factor based on TOTP (Time-based One-Time Passwords). This is compatible with Google Authenticator or Authy.
