@@ -2,6 +2,7 @@
 
 VERSION="$(head -n 1 VERSION)"
 ZIP_DIR="zimbra-ose-2fa_${VERSION}"
+VERSION_TEMPLATE="9.99.999"
 
 # Build extension
 cd extension
@@ -10,13 +11,13 @@ cd ..
 
 # Build admin zimlet
 cd adminZimlet/com_btactic_twofactorauth_admin
-sed -i 's/9.99.999/'"${VERSION}"'/g' com_btactic_twofactorauth_admin.xml
+sed -i 's/'"${VERSION_TEMPLATE}"'/'"${VERSION}"'/g' com_btactic_twofactorauth_admin.xml
 zip --quiet -r ../com_btactic_twofactorauth_admin.zip *
 cd ../..
 
 # Build QR zimlet
 cd zimlet/com_btactic_twofactorauth_qr
-sed -i 's/9.99.999/'"${VERSION}"'/g' com_btactic_twofactorauth_qr.xml
+sed -i 's/'"${VERSION_TEMPLATE}"'/'"${VERSION}"'/g' com_btactic_twofactorauth_qr.xml
 zip --quiet -r ../com_btactic_twofactorauth_qr.zip *
 cd ../..
 
