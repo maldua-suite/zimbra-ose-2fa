@@ -6,12 +6,8 @@
 
 **ZETA'S Zimbra OSE 2FA Extension & Administration Zimlet** brought to you by [BTACTIC, open source & cloud solutions](https://www.btactic.com).
 
-This project aims to build an Open Source replacement of:
-
-- Zimbra Network Edition 2FA Extension
-- Zimbra Network Edition 2FA Administration zimlet.
-
-For the final user UI it relies on current Zimbra OSE support for 2FA integrated on the Webmail.
+Two-factor authentication adds an additional layer of security to your Zimbra login.
+Thanks to a third-party authenticator such as Google Authenticator Zimbra users are now required to enter a randomly generated code.
 
 ## Features
 
