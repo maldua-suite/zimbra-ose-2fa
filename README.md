@@ -130,6 +130,14 @@ This documentation is aimed at developers, not at admins.
 
 - Check: [ADMINZIMLET_INSTALL.md](ADMINZIMLET_INSTALL.md) on how to install the Administration Console Zimlet.
 
+### How to build the QR zimlet
+
+- Check: [ZIMLET_BUILD.md](ZIMLET_BUILD.md) on how to build the QR Zimlet.
+
+### How to install the QR zimlet
+
+- Check: [ZIMLET_INSTALL.md](ZIMLET_INSTALL.md) on how to install the QR Zimlet.
+
 ### How to release the extension and admin zimlet
 
 - Check: [RELEASE.md](RELEASE.md) on how to release the extension and admin zimlet.
