@@ -38,7 +38,7 @@ ln -s /opt/zimbra/lib/jars lib
 sudo su - zimbra
 
 cd /opt/zimbra/conf/scripts/zimbra-ose-2fa/
-./build.sh
+./release.sh
 ```
 
 ## tar.gz
