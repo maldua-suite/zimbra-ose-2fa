@@ -78,6 +78,17 @@ When creating or editing a class of service or an account there is an additional
 
 ![Admin Zimlet for Two Factor Authentication](images/twofactorauthentication-adminzimlet1.png)
 
+### Extra documentation
+
+In addition to the documentation you can find in this README you should be also reading:
+
+- [https://wiki.zimbra.com/wiki/Zimbra_Two-factor_authentication](https://wiki.zimbra.com/wiki/Zimbra_Two-factor_authentication)
+- [https://blog.zimbra.com/2022/03/did-you-know-zimbra-two-factor-authentication-2fa/](https://blog.zimbra.com/2022/03/did-you-know-zimbra-two-factor-authentication-2fa/)
+
+.
+
+Not everything described there applies to this Open Source implementation but it can be helpful to understand how the technology works.
+
 ### Installation
 
 In a Multi-Server cluster these commands have to be run on each one of the mailbox nodes.
