@@ -11,12 +11,35 @@ function set_zimlet_as_compulsory_at_all_cos () {
 
 }
 
+function usage () {
+
+cat << EOF
+
+$0
+Regular installation.
+
+$0 --compulsory
+Regular installation and make the 2FA QR zimlet compulsory in all of the CoS.
+
+$0 --help
+Print this help.
+
+EOF
+
+}
+
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root"
-  exit
+  exit 1
 fi
 
 IS_COMPULSORY="NO"
+
+if [[ "$1" == '--help' ]]
+then
+    usage
+    exit 0
+fi
 
 if [[ "$1" == '--compulsory' ]]
 then
