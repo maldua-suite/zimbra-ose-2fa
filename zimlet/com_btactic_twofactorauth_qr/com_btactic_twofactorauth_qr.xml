@@ -18,7 +18,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/.
 
 -->
 
-<zimlet name="com_btactic_twofactorauth_qr" version="@@VERSION@@" label="${msg.label}" description="${msg.description}">
+<zimlet name="com_btactic_twofactorauth_qr" version="9.99.999" label="${msg.label}" description="${msg.description}">
     <include>qrcode.js</include>
     <include>com_btactic_twofactorauth_qr.js</include>
     <disableUIUndeploy>FALSE</disableUIUndeploy>

@@ -10,7 +10,7 @@ cd ..
 
 # Build admin zimlet
 cd adminZimlet/com_btactic_twofactorauth_admin
-sed -i 's/@@VERSION@@/'"${VERSION}"'/g' com_btactic_twofactorauth_admin.xml
+sed -i 's/9.99.999/'"${VERSION}"'/g' com_btactic_twofactorauth_admin.xml
 zip --quiet -r ../com_btactic_twofactorauth_admin.zip *
 cd ../..
 
