@@ -93,14 +93,6 @@ Not everything described there applies to this Open Source implementation but it
 
 In a Multi-Server cluster these commands have to be run on each one of the mailbox nodes.
 
-**Requisites:**
-
-- unzip
-
-```
-apt install unzip
-```
-
 **Option A: Automatic installation**
 
 ```
