@@ -101,8 +101,20 @@ cd /tmp
 wget 'https://github.com/btactic/zimbra-ose-2fa/releases/download/v0.3.0/zimbra-ose-2fa_0.3.0.tar.gz'
 tar xzf zimbra-ose-2fa_0.3.0.tar.gz
 cd zimbra-ose-2fa_0.3.0
+```
+
+If you want to ensure that the QR zimlet is compulsory in all of the CoS (**recommended on the first installation**) run:
+```
+./install.sh --compulsory
+```
+.
+
+For regular installation or upgrade you can run:
+```
 ./install.sh
 ```
+instead
+.
 
 In order for the two-factor authentication extension and the adminZimlet to apply you need to restart mailboxd with:
 ```
@@ -133,6 +145,8 @@ In order for the two-factor authentication extension and the adminZimlet to appl
 sudo -i # Become root
 su - zimbra -c 'zmmailboxdctl restart'
 ```
+
+As an additional step make sure that the QR zimlet is compulsory in all of the CoS you want to.
 
 ### Uninstallation
 
