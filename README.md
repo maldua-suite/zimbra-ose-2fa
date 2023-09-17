@@ -90,6 +90,23 @@ In a Multi-Server cluster these commands have to be run on each one of the mailb
 apt install unzip
 ```
 
+**Option A: Automatic installation**
+
+```
+sudo -i # Become root
+cd /tmp
+wget 'https://github.com/btactic/zimbra-ose-2fa/releases/download/v0.2.0/zimbra-ose-2fa_0.2.0.tar.gz'
+tar xzf zimbra-ose-2fa_0.2.0.tar.gz
+cd zimbra-ose-2fa_0.2.0
+./install.sh
+```
+
+In order for the two-factor authentication extension and the adminZimlet to apply you need to restart mailboxd with:
+```
+sudo -i # Become root
+su - zimbra -c 'zmmailboxdctl restart'
+```
+
 **Option B: Manual installation**
 
 **WARNING:** Please change **0.2.0** with whatever it's the latest released version.
@@ -97,8 +114,8 @@ apt install unzip
 ```
 sudo -i # Become root
 cd /tmp
-wget 'https://github.com/btactic/zimbra-ose-2fa/releases/download/v0.2.0/zimbra-ose-2fa_0.2.0.zip'
-unzip zimbra-ose-2fa_0.2.0.zip
+wget 'https://github.com/btactic/zimbra-ose-2fa/releases/download/v0.2.0/zimbra-ose-2fa_0.2.0.tar.gz'
+tar xzf zimbra-ose-2fa_0.2.0.tar.gz
 chown zimbra:zimbra zimbra-ose-2fa_0.2.0
 chown zimbra:zimbra zimbra-ose-2fa_0.2.0/com_btactic_twofactorauth_admin.zip
 chown zimbra:zimbra zimbra-ose-2fa_0.2.0/com_btactic_twofactorauth_qr.zip

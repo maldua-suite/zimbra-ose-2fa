@@ -41,11 +41,11 @@ cd /opt/zimbra/conf/scripts/zimbra-ose-2fa/
 ./build.sh
 ```
 
-## Zip
+## tar.gz
 
-A new zip file should be found at:
+A new tar.gz file should be found at:
 ```
-/opt/zimbra/conf/scripts/zimbra-ose-2fa/release/zimbra-ose-2fa_0.1.0.zip
+/opt/zimbra/conf/scripts/zimbra-ose-2fa/release/zimbra-ose-2fa_0.1.0.tar.gz
 ```
 where 0.1.0 is the version.
 .
