@@ -40,4 +40,5 @@ sudo su - zimbra -c 'zmmailboxdctl restart'
 ## Network Edition notes
 
 This is not supposed to work in a Zimbra NE installation.
-If you insist on using this admin zimlet in a Zimbra NE installation please move the original `/opt/zimbra/zimlets/com_zimbra_two_factor_auth.zip` file from Zimbra NE somewhere else so that they do not collide. 
+If you insist on using this admin zimlet in a Zimbra NE installation please move the original `/opt/zimbra/zimlets/com_zimbra_two_factor_auth.zip` file from Zimbra NE somewhere else so that they do not collide.
+You should also run: `zmzimletctl undeploy com_zimbra_two_factor_auth` so that the admin zimlet is actually uninstalled.
