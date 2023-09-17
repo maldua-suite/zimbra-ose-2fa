@@ -1,7 +1,5 @@
 # Zimbra OSE 2FA
 
-**Warning: THIS PROJECT SHOULD BE CONSIDERED AS BETA QUALITY.**
-
 ![Zimbra 2FA Splash](images/zimbra-ose-2fa-splash.png)
 
 ## About
