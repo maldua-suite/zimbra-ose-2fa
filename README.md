@@ -142,6 +142,22 @@ sudo -i # Become root
 su - zimbra -c 'zmmailboxdctl restart'
 ```
 
+### Uninstallation
+
+```
+sudo -i # Become root
+su - zimbra -c 'zmzimletctl undeploy com_btactic_twofactorauth_admin'
+su - zimbra -c 'zmzimletctl undeploy com_btactic_twofactorauth_qr'
+mv /opt/zimbra/lib/ext/twofactorauth/zetatwofactorauth.jar /root/zetatwofactorauth.jar-REMOVED-ON-YYYY-MM-DD
+```
+
+In order for the removal to be applied you need to restart mailboxd with:
+```
+sudo -i # Become root
+su - zimbra -c 'zmmailboxdctl restart'
+```
+.
+
 ## Developer documentation
 
 This documentation is aimed at developers, not at admins.
