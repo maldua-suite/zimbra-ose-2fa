@@ -90,6 +90,8 @@ In a Multi-Server cluster these commands have to be run on each one of the mailb
 apt install unzip
 ```
 
+**Option B: Manual installation**
+
 **WARNING:** Please change **0.1.0** with whatever it's the latest released version.
 
 ```
@@ -99,9 +101,11 @@ wget 'https://github.com/btactic/zimbra-ose-2fa/releases/download/v0.1.0/zimbra-
 unzip zimbra-ose-2fa_0.1.0.zip
 chown zimbra:zimbra zimbra-ose-2fa_0.1.0
 chown zimbra:zimbra zimbra-ose-2fa_0.1.0/com_btactic_twofactorauth_admin.zip
+chown zimbra:zimbra zimbra-ose-2fa_0.1.0/com_btactic_twofactorauth_qr.zip
 cd zimbra-ose-2fa_0.1.0
 cp zetatwofactorauth.jar /opt/zimbra/lib/ext/twofactorauth/zetatwofactorauth.jar
 su - zimbra -c 'zmzimletctl -l deploy /tmp/zimbra-ose-2fa_0.1.0/com_btactic_twofactorauth_admin.zip'
+su - zimbra -c 'zmzimletctl -l deploy /tmp/zimbra-ose-2fa_0.1.0/com_btactic_twofactorauth_qr.zip'
 ```
 
 In order for the two-factor authentication extension and the adminZimlet to apply you need to restart mailboxd with:
