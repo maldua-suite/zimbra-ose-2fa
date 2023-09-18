@@ -31,15 +31,18 @@ if (appCtxt.get(ZmSetting.MAIL_PREFERENCES_ENABLED)) {
 // STEP 3. Update QR when Next button is clicked.
 function twofactorauth_qr_setup() {
 
+    // Default height from ZmTwoFactorSetup class is: 180px.
+    // We add: 256px (QR height)
+    // and an extra: 10px
+    // Total: 446px
+    document.querySelectorAll('.ZmTwoFactorSetup')[0].style['height']='446px';
+
     // Create QR Div if it is not there yet.
     if (document.querySelectorAll('#twoFactorAuthQrDiv').length == 0) {
         var emptyDivForTwoFactorAuth = document.createElement("div");
         emptyDivForTwoFactorAuth.id = 'twoFactorAuthQrDiv';
         document.querySelectorAll('.email-key')[0].after(emptyDivForTwoFactorAuth);
     }
-
-    // Move the key to the left so that the QR can be shown
-    document.querySelectorAll('.email-key')[0].style['float']="left";
 
     twofactorauth_next_button = $("[id$=" + '_button' + String(ZmTwoFactorSetupDialog.NEXT_BUTTON) + '_title' + "]")[0];
     twofactorauth_next_button.addEventListener('click', function(){
@@ -49,12 +52,14 @@ function twofactorauth_qr_setup() {
         var twofactorauth_qr_issuer = window.location.host; // mail.example.net
         var qrcode = new QRCode($('#twoFactorAuthQrDiv')[0], {
             text: "otpauth://totp/" + twofactorauth_qr_email + "?secret=" + twofactorauth_qr_secret + "&issuer=" + twofactorauth_qr_issuer  ,
-            width: 128,
-            height: 128,
+            width: 256,
+            height: 256,
             colorDark : "#000000",
             colorLight : "#ffffff",
             correctLevel : QRCode.CorrectLevel.H
         });
+        // Force the QR to be centered
+        setTimeout(function () {$("#twoFactorAuthQrDiv").find("img").css("display", "");}, 500);
     }
     );
 
