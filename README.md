@@ -79,10 +79,11 @@ When creating or editing a class of service or an account there is an additional
 
 ### Extra documentation
 
-In addition to the documentation you can find in this README you should be also reading:
+In addition to the documentation you can find in this README you should be also checking:
 
-- [https://wiki.zimbra.com/wiki/Zimbra_Two-factor_authentication](https://wiki.zimbra.com/wiki/Zimbra_Two-factor_authentication)
-- [https://blog.zimbra.com/2022/03/did-you-know-zimbra-two-factor-authentication-2fa/](https://blog.zimbra.com/2022/03/did-you-know-zimbra-two-factor-authentication-2fa/)
+- [Zimbra Wiki - Two-factor authentication](https://wiki.zimbra.com/wiki/Zimbra_Two-factor_authentication)
+- [Zimbra Blog - Did You Know? Zimbra Two-Factor Authentication (2FA)](https://blog.zimbra.com/2022/03/did-you-know-zimbra-two-factor-authentication-2fa/)
+- [Zimbra Tips & Tricks - Enabling Two-Factor Authentication (2FA) Video](https://www.youtube.com/watch?v=_eEwnnaEvMU)
 
 .
 
