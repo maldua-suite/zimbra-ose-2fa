@@ -98,9 +98,9 @@ In a Multi-Server cluster these commands have to be run on each one of the mailb
 ```
 sudo -i # Become root
 cd /tmp
-wget 'https://github.com/btactic/zimbra-ose-2fa/releases/download/v0.5.0/zimbra-ose-2fa_0.5.0.tar.gz'
-tar xzf zimbra-ose-2fa_0.5.0.tar.gz
-cd zimbra-ose-2fa_0.5.0
+wget 'https://github.com/btactic/zimbra-ose-2fa/releases/download/v0.6.0/zimbra-ose-2fa_0.6.0.tar.gz'
+tar xzf zimbra-ose-2fa_0.6.0.tar.gz
+cd zimbra-ose-2fa_0.6.0
 ```
 
 If you want to ensure that the QR zimlet is compulsory in all of the CoS (**recommended on the first installation**) run:
@@ -124,20 +124,20 @@ su - zimbra -c 'zmmailboxdctl restart'
 
 **Option B: Manual installation**
 
-**WARNING:** Please change **0.5.0** with whatever it's the latest released version.
+**WARNING:** Please change **0.6.0** with whatever it's the latest released version.
 
 ```
 sudo -i # Become root
 cd /tmp
-wget 'https://github.com/btactic/zimbra-ose-2fa/releases/download/v0.5.0/zimbra-ose-2fa_0.5.0.tar.gz'
-tar xzf zimbra-ose-2fa_0.5.0.tar.gz
-chown zimbra:zimbra zimbra-ose-2fa_0.5.0
-chown zimbra:zimbra zimbra-ose-2fa_0.5.0/com_btactic_twofactorauth_admin.zip
-chown zimbra:zimbra zimbra-ose-2fa_0.5.0/com_btactic_twofactorauth_qr.zip
-cd zimbra-ose-2fa_0.5.0
+wget 'https://github.com/btactic/zimbra-ose-2fa/releases/download/v0.6.0/zimbra-ose-2fa_0.6.0.tar.gz'
+tar xzf zimbra-ose-2fa_0.6.0.tar.gz
+chown zimbra:zimbra zimbra-ose-2fa_0.6.0
+chown zimbra:zimbra zimbra-ose-2fa_0.6.0/com_btactic_twofactorauth_admin.zip
+chown zimbra:zimbra zimbra-ose-2fa_0.6.0/com_btactic_twofactorauth_qr.zip
+cd zimbra-ose-2fa_0.6.0
 cp zetatwofactorauth.jar /opt/zimbra/lib/ext/twofactorauth/zetatwofactorauth.jar
-su - zimbra -c 'zmzimletctl -l deploy /tmp/zimbra-ose-2fa_0.5.0/com_btactic_twofactorauth_admin.zip'
-su - zimbra -c 'zmzimletctl -l deploy /tmp/zimbra-ose-2fa_0.5.0/com_btactic_twofactorauth_qr.zip'
+su - zimbra -c 'zmzimletctl -l deploy /tmp/zimbra-ose-2fa_0.6.0/com_btactic_twofactorauth_admin.zip'
+su - zimbra -c 'zmzimletctl -l deploy /tmp/zimbra-ose-2fa_0.6.0/com_btactic_twofactorauth_qr.zip'
 ```
 
 In order for the two-factor authentication extension and the adminZimlet to apply you need to restart mailboxd with:
