@@ -4,7 +4,7 @@
 
 ## About
 
-**ZETA'S Zimbra OSE 2FA Extension & Administration Zimlet** brought to you by [BTACTIC, open source & cloud solutions](https://www.btactic.com).
+**MALDUA'S Zimbra OSE 2FA Extension & Administration Zimlet** brought to you by [BTACTIC, open source & cloud solutions](https://www.btactic.com).
 
 Two-factor authentication adds an additional layer of security to your Zimbra login.
 Thanks to a third-party authenticator such as Google Authenticator Zimbra users are now required to enter a randomly generated code.
@@ -67,7 +67,7 @@ Once you have upgraded to ZCS NE 8.8.15 all of the 2FA features that were enable
 
 ### Management
 
-When creating or editing a class of service or an account there is an additional tab named **2FA (Zeta)** where you can:
+When creating or editing a class of service or an account there is an additional tab named **2FA (Maldua)** where you can:
 
 - Enable or disable 2FA feature
 - Check if the user has activated 2FA (Only available in accounts)
