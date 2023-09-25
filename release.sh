@@ -19,6 +19,7 @@ cd ../..
 mkdir release/${ZIP_DIR}
 cp extension/zetatwofactorauth.jar release/${ZIP_DIR}/zetatwofactorauth.jar
 cp adminZimlet/com_btactic_twofactorauth_admin.zip release/${ZIP_DIR}/com_btactic_twofactorauth_admin.zip
+cp -r qr release/${ZIP_DIR}/qr
 cp install.sh release/${ZIP_DIR}/install.sh
 
 # Zip file
