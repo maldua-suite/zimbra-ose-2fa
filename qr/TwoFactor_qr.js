@@ -39,13 +39,13 @@ function twofactorauth_qr_setup() {
         document.querySelectorAll('.email-key')[0].after(emptyDivForTwoFactorAuth);
     }
 
-    twofactorauth_next_button = $("[id$=" + '_button' + String(ZmTwoFactorSetupDialog.NEXT_BUTTON) + '_title' + "]")[0];
+    twofactorauth_next_button = document.querySelector("[id$=" + '_button' + String(ZmTwoFactorSetupDialog.NEXT_BUTTON) + '_title' + "]");
     twofactorauth_next_button.addEventListener('click', function(){
-        $('#twoFactorAuthQrDiv')[0].innerHTML='';
+        document.getElementById('twoFactorAuthQrDiv').innerHTML='';
         var twofactorauth_qr_email = appCtxt.get(ZmSetting.USERNAME); // username@example.net
         var twofactorauth_qr_secret = document.querySelectorAll('.email-key')[0].textContent;
         var twofactorauth_qr_issuer = window.location.host; // mail.example.net
-        var qrcode = new QRCode($('#twoFactorAuthQrDiv')[0], {
+        var qrcode = new QRCode(document.getElementById('twoFactorAuthQrDiv'), {
             text: "otpauth://totp/" + twofactorauth_qr_email + "?secret=" + twofactorauth_qr_secret + "&issuer=" + twofactorauth_qr_issuer  ,
             width: 256,
             height: 256,
@@ -53,8 +53,6 @@ function twofactorauth_qr_setup() {
             colorLight : "#ffffff",
             correctLevel : QRCode.CorrectLevel.H
         });
-        // Force the QR to be centered
-        setTimeout(function () {$("#twoFactorAuthQrDiv").find("img").css("display", "");}, 500);
     }
     );
 
