@@ -182,6 +182,25 @@ su - zimbra -c 'zmmailboxdctl restart'
 ```
 .
 
+### Additional notes
+
+The QR addon modifies some stock Zimbra files.
+
+Those are:
+
+- /opt/zimbra/jetty/webapps/zimbra/public/TwoFactorSetup.jsp
+- /opt/zimbra/jetty/webapps/zimbra/js/Preferences_all.js
+- /opt/zimbra/jetty/webapps/zimbra/js/Preferences_all.js.zgz
+
+.
+
+Automatic installation makes copies of those files here:
+
+- /opt/zimbra/jetty/webapps/zimbra/public/TwoFactorSetup.jsp_2FAQR_COPY
+- /opt/zimbra/jetty/webapps/zimbra/js/Preferences_all.js_2FAQR_COPY
+- /opt/zimbra/jetty/webapps/zimbra/js/Preferences_all.js.zgz_2FAQR_COPY
+
+.
 ## Developer documentation
 
 This documentation is aimed at developers, not at admins.
