@@ -133,11 +133,9 @@ wget 'https://github.com/btactic/zimbra-ose-2fa/releases/download/v0.6.0/zimbra-
 tar xzf zimbra-ose-2fa_0.6.0.tar.gz
 chown zimbra:zimbra zimbra-ose-2fa_0.6.0
 chown zimbra:zimbra zimbra-ose-2fa_0.6.0/com_btactic_twofactorauth_admin.zip
-chown zimbra:zimbra zimbra-ose-2fa_0.6.0/com_btactic_twofactorauth_qr.zip
 cd zimbra-ose-2fa_0.6.0
 cp zetatwofactorauth.jar /opt/zimbra/lib/ext/twofactorauth/zetatwofactorauth.jar
 su - zimbra -c 'zmzimletctl -l deploy /tmp/zimbra-ose-2fa_0.6.0/com_btactic_twofactorauth_admin.zip'
-su - zimbra -c 'zmzimletctl -l deploy /tmp/zimbra-ose-2fa_0.6.0/com_btactic_twofactorauth_qr.zip'
 ```
 
 In order for the two-factor authentication extension and the adminZimlet to apply you need to restart mailboxd with:
@@ -146,14 +144,11 @@ sudo -i # Become root
 su - zimbra -c 'zmmailboxdctl restart'
 ```
 
-As an additional step make sure that the QR zimlet is compulsory in all of the CoS you want to.
-
 ### Uninstallation
 
 ```
 sudo -i # Become root
 su - zimbra -c 'zmzimletctl undeploy com_btactic_twofactorauth_admin'
-su - zimbra -c 'zmzimletctl undeploy com_btactic_twofactorauth_qr'
 mv /opt/zimbra/lib/ext/twofactorauth/zetatwofactorauth.jar /root/zetatwofactorauth.jar-REMOVED-ON-YYYY-MM-DD
 ```
 
@@ -183,14 +178,6 @@ This documentation is aimed at developers, not at admins.
 ### How to install the admin zimlet
 
 - Check: [ADMINZIMLET_INSTALL.md](ADMINZIMLET_INSTALL.md) on how to install the Administration Console Zimlet.
-
-### How to build the QR zimlet
-
-- Check: [ZIMLET_BUILD.md](ZIMLET_BUILD.md) on how to build the QR Zimlet.
-
-### How to install the QR zimlet
-
-- Check: [ZIMLET_INSTALL.md](ZIMLET_INSTALL.md) on how to install the QR Zimlet.
 
 ### How to release the extension and admin zimlet
 
@@ -258,10 +245,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see http://www.gnu.org/licenses/.
 ```
 
-### License (QR zimlet)
+### License (QR Addon)
 
 ```
-Zimbra OSE 2FA QR Zimlet
+Zimbra OSE 2FA QR Addon
 Copyright (C) 2023 BTACTIC, S.C.C.L.
 
 This program is free software: you can redistribute it and/or modify
