@@ -89,6 +89,15 @@ In addition to the documentation you can find in this README you should be also 
 
 Not everything described there applies to this Open Source implementation but it can be helpful to understand how the technology works.
 
+### Upgrade
+
+If you have installed 0.6.0 version please uninstall the QR zimlet with:
+
+```
+su - zimbra -c 'zmzimletctl undeploy com_btactic_twofactorauth_qr'
+```
+.
+
 ### Installation
 
 In a Multi-Server cluster these commands have to be run on each one of the mailbox nodes.
