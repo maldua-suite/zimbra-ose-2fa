@@ -103,12 +103,6 @@ tar xzf zimbra-ose-2fa_0.6.0.tar.gz
 cd zimbra-ose-2fa_0.6.0
 ```
 
-If you want to ensure that the QR zimlet is compulsory in all of the CoS (**recommended on the first installation**) run:
-```
-./install.sh --compulsory
-```
-.
-
 For regular installation or upgrade you can run:
 ```
 ./install.sh
