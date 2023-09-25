@@ -173,6 +173,20 @@ su - zimbra -c 'zmmailboxdctl restart'
 sudo -i # Become root
 su - zimbra -c 'zmzimletctl undeploy com_btactic_twofactorauth_admin'
 mv /opt/zimbra/lib/ext/twofactorauth/zetatwofactorauth.jar /root/zetatwofactorauth.jar-REMOVED-ON-YYYY-MM-DD
+cp /opt/zimbra/jetty/webapps/zimbra/public/TwoFactorSetup.jsp_2FAQR_COPY /opt/zimbra/jetty/webapps/zimbra/public/TwoFactorSetup.jsp
+cp /opt/zimbra/jetty/webapps/zimbra/js/Preferences_all.js_2FAQR_COPY /opt/zimbra/jetty/webapps/zimbra/js/Preferences_all.js
+cp /opt/zimbra/jetty/webapps/zimbra/js/Preferences_all.js.zgz_2FAQR_COPY /opt/zimbra/jetty/webapps/zimbra/js/Preferences_all.js.zgz
+
+mkdir /root/zetaqraddon-REMOVED-ON-YYYY-MM-DD
+
+mv /opt/zimbra/jetty/webapps/zimbra/js/qrcode.js /root/zetaqraddon-REMOVED-ON-YYYY-MM-DD
+mv /opt/zimbra/jetty/webapps/zimbra/js/TwoFactor_qr.js /root/zetaqraddon-REMOVED-ON-YYYY-MM-DD
+mv /opt/zimbra/jetty/webapps/zimbra/js/qrcode.js.zgz /root/zetaqraddon-REMOVED-ON-YYYY-MM-DD
+mv /opt/zimbra/jetty/webapps/zimbra/js/TwoFactor_qr.js.zgz /root/zetaqraddon-REMOVED-ON-YYYY-MM-DD
+
+mv /opt/zimbra/jetty/webapps/zimbra/public/TwoFactorSetup.jsp_2FAQR_COPY /root/zetaqraddon-REMOVED-ON-YYYY-MM-DD
+mv /opt/zimbra/jetty/webapps/zimbra/js/Preferences_all.js_2FAQR_COPY /root/zetaqraddon-REMOVED-ON-YYYY-MM-DD
+mv /opt/zimbra/jetty/webapps/zimbra/js/Preferences_all.js.zgz_2FAQR_COPY /root/zetaqraddon-REMOVED-ON-YYYY-MM-DD
 ```
 
 In order for the removal to be applied you need to restart mailboxd with:
