@@ -24,7 +24,8 @@ if(window.console && window.console.log) {
 }
 
 // STEP 3. Update QR when Next button is clicked.
-function twofactorauth_qr_setup() {
+function twofactorauth_qr_setup(twofactorauth_qr_email) {
+    // Receives: account's email as the only parametre
 
     // Default height from ZmTwoFactorSetup class is: 180px.
     // We add: 256px (QR height)
@@ -42,7 +43,6 @@ function twofactorauth_qr_setup() {
     twofactorauth_next_button = document.querySelector("[id$=" + '_button' + String(ZmTwoFactorSetupDialog.NEXT_BUTTON) + '_title' + "]");
     twofactorauth_next_button.addEventListener('click', function(){
         document.getElementById('twoFactorAuthQrDiv').innerHTML='';
-        var twofactorauth_qr_email = appCtxt.get(ZmSetting.USERNAME); // username@example.net
         var twofactorauth_qr_secret = document.querySelectorAll('.email-key')[0].textContent;
         var twofactorauth_qr_issuer = window.location.host; // mail.example.net
         var qrcode = new QRCode(document.getElementById('twoFactorAuthQrDiv'), {
@@ -61,7 +61,7 @@ function twofactorauth_qr_setup() {
 // STEP 2. Default 2FA listener override with our Setup function
 ZmTwoFactorSetupDialog.prototype._beginSetupButtonListener = (function(_super) {
     return function() {
-        twofactorauth_qr_setup();
+        twofactorauth_qr_setup(this.username);
         arguments[0] = arguments[0] - 1;
         return _super.apply(this, arguments);
     };
