@@ -65,7 +65,7 @@ Once you have upgraded to ZCS NE 8.8.15 all of the 2FA features that were enable
 
 ## Admin documentation
 
-### Management
+### Basic Management
 
 When creating or editing a class of service or an account there is an additional tab named **2FA (Maldua)** where you can:
 
@@ -76,6 +76,17 @@ When creating or editing a class of service or an account there is an additional
 - Setup the numer of scratch codes to generate
 
 ![Admin Zimlet for Two Factor Authentication](images/twofactorauthentication-adminzimlet1.png)
+
+### Disabling 2FA for an user
+
+When disabling 2FA for an user you need to make sure to:
+
+- Uncheck **Active**
+- Uncheck **Require 2FA**
+.
+
+
+Otherwise the user will be asked for the 2FA code when loging in if he has ever setup 2FA in the past.
 
 ### Extra documentation
 
