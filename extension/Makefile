@@ -4,6 +4,6 @@ extension:
 	ant jar
 
 clean:
-	rm -f mytest.jar
+	rm -f zetatwofactorauth.jar
 
 .PHONY: all extension
