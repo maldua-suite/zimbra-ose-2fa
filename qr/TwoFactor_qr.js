@@ -31,7 +31,11 @@ function twofactorauth_qr_setup(twofactorauth_qr_email) {
     // We add: 256px (QR height)
     // and an extra: 10px
     // Total: 446px
-    document.querySelectorAll('.ZmTwoFactorSetup')[0].style['height']='446px';
+
+    // Classic UI
+    if (! (document.querySelectorAll('.ZmTwoFactorSetup').length == 0)) {
+        document.querySelectorAll('.ZmTwoFactorSetup')[0].style['height']='446px';
+    }
 
     // Create QR Div if it is not there yet.
     if (document.querySelectorAll('#twoFactorAuthQrDiv').length == 0) {
