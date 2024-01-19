@@ -26,7 +26,7 @@ apt install ant git make zip sed
 sudo su - zimbra
 mkdir -p /opt/zimbra/conf/scripts
 cd /opt/zimbra/conf/scripts
-git clone 'https://github.com/btactic/zimbra-ose-2fa.git'
+git clone 'https://github.com/maldua-suite/zimbra-ose-2fa.git'
 
 cd zimbra-ose-2fa/extension
 ln -s /opt/zimbra/lib/jars lib

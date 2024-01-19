@@ -18,7 +18,7 @@ apt install zip git
 
 ```
 cd /tmp
-git clone 'https://github.com/btactic/zimbra-ose-2fa.git'
+git clone 'https://github.com/maldua-suite/zimbra-ose-2fa.git'
 ```
 
 ## Build

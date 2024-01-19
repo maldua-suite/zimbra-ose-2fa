@@ -118,7 +118,7 @@ In a Multi-Server cluster these commands have to be run on each one of the mailb
 ```
 sudo -i # Become root
 cd /tmp
-wget 'https://github.com/btactic/zimbra-ose-2fa/releases/download/v0.7.0/zimbra-ose-2fa_0.7.0.tar.gz'
+wget 'https://github.com/maldua-suite/zimbra-ose-2fa/releases/download/v0.7.0/zimbra-ose-2fa_0.7.0.tar.gz'
 tar xzf zimbra-ose-2fa_0.7.0.tar.gz
 cd zimbra-ose-2fa_0.7.0
 ```
@@ -143,7 +143,7 @@ su - zimbra -c 'zmmailboxdctl restart'
 ```
 sudo -i # Become root
 cd /tmp
-wget 'https://github.com/btactic/zimbra-ose-2fa/releases/download/v0.7.0/zimbra-ose-2fa_0.7.0.tar.gz'
+wget 'https://github.com/maldua-suite/zimbra-ose-2fa/releases/download/v0.7.0/zimbra-ose-2fa_0.7.0.tar.gz'
 tar xzf zimbra-ose-2fa_0.7.0.tar.gz
 chown zimbra:zimbra zimbra-ose-2fa_0.7.0
 chown zimbra:zimbra zimbra-ose-2fa_0.7.0/com_btactic_twofactorauth_admin.zip
