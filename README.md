@@ -129,9 +129,22 @@ because you won't need it anymore.
 
 ### Installation
 
-In a Multi-Server cluster these commands have to be run on each one of the mailbox nodes.
+#### Time sync warning
 
-**Option A: Automatic installation**
+As per Zimbra installation requisites your Operating System should have its time in sync with global clocks thanks to tools such as:
+
+- ntpd
+- [systemd-tymesyncd](https://wiki.archlinux.org/title/systemd-timesyncd)
+
+otherwise the final user might get a wrong password even if it's the correct one.
+
+Please notice that the device where Google Authenticator is needs its time to be in sync too.
+
+Finally if you ever need it you can check `zimbraTwoFactorTimeWindowOffset` attribute described on [Steps to fix 2FA setup error - Zimbra Wiki](https://wiki.zimbra.com/wiki/Steps_to_fix_two_factor_auth_setup_error).
+
+#### Automatic installation
+
+**Notice:** In a Multi-Server cluster these commands have to be run on each one of the mailbox nodes.
 
 ```
 sudo -i # Become root
@@ -154,7 +167,9 @@ sudo -i # Become root
 su - zimbra -c 'zmmailboxdctl restart'
 ```
 
-**Option B: Manual installation**
+#### Manual installation
+
+**Notice:** In a Multi-Server cluster these commands have to be run on each one of the mailbox nodes.
 
 **WARNING:** Please change **0.7.0** with whatever it's the latest released version.
 
