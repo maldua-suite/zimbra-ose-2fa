@@ -78,6 +78,11 @@ then
     exit 0
 fi
 
+if [[ ! -x /opt/zimbra/bin/zmmailboxdctl ]]
+  then echo "Please run on a mailbox node."
+  exit 1
+fi
+
 chown zimbra:zimbra $(pwd)
 chown zimbra:zimbra com_btactic_twofactorauth_admin.zip
 
