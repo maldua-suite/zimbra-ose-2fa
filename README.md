@@ -19,6 +19,8 @@ Thanks to a third-party authenticator such as Google Authenticator Zimbra users 
 
 - Z-Push: Please notice that currently Z-Push is not supported by this extension. You will only be able to use Z-Push with an account if you disable 2FA for that specific account. Please check [Z-Push using Application Passcode is not working as expected](https://github.com/maldua-suite/zimbra-ose-2fa/issues/7) for more updated information.
 
+- Whitelist IPs: Whitelist internal IPs so that they are not asked for 2FA is not supported. Check: **Trusted devices** instead.
+
 ## Features
 
 ### Integrated with Zimbra Webclient UI
