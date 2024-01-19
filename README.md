@@ -9,6 +9,12 @@
 Two-factor authentication adds an additional layer of security to your Zimbra login.
 Thanks to a third-party authenticator such as Google Authenticator Zimbra users are now required to enter a randomly generated code.
 
+## Supported Zimbra versions
+
+- Zimbra 10.0.x
+- Zimbra 9.x
+- Zimbra 8.8.15
+
 ## Features
 
 ### Integrated with Zimbra Webclient UI
