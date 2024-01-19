@@ -155,9 +155,9 @@ Finally if you ever need it you can check `zimbraTwoFactorTimeWindowOffset` attr
 ```
 sudo -i # Become root
 cd /tmp
-wget 'https://github.com/maldua-suite/zimbra-ose-2fa/releases/download/v0.7.0/zimbra-ose-2fa_0.7.0.tar.gz'
-tar xzf zimbra-ose-2fa_0.7.0.tar.gz
-cd zimbra-ose-2fa_0.7.0
+wget 'https://github.com/maldua-suite/zimbra-ose-2fa/releases/download/v0.8.0/zimbra-ose-2fa_0.8.0.tar.gz'
+tar xzf zimbra-ose-2fa_0.8.0.tar.gz
+cd zimbra-ose-2fa_0.8.0
 ```
 
 For regular installation or upgrade you can run:
@@ -177,18 +177,18 @@ su - zimbra -c 'zmmailboxdctl restart'
 
 **Notice:** In a Multi-Server cluster these commands have to be run on each one of the mailbox nodes.
 
-**WARNING:** Please change **0.7.0** with whatever it's the latest released version.
+**WARNING:** Please change **0.8.0** with whatever it's the latest released version.
 
 ```
 sudo -i # Become root
 cd /tmp
-wget 'https://github.com/maldua-suite/zimbra-ose-2fa/releases/download/v0.7.0/zimbra-ose-2fa_0.7.0.tar.gz'
-tar xzf zimbra-ose-2fa_0.7.0.tar.gz
-chown zimbra:zimbra zimbra-ose-2fa_0.7.0
-chown zimbra:zimbra zimbra-ose-2fa_0.7.0/com_btactic_twofactorauth_admin.zip
-cd zimbra-ose-2fa_0.7.0
+wget 'https://github.com/maldua-suite/zimbra-ose-2fa/releases/download/v0.8.0/zimbra-ose-2fa_0.8.0.tar.gz'
+tar xzf zimbra-ose-2fa_0.8.0.tar.gz
+chown zimbra:zimbra zimbra-ose-2fa_0.8.0
+chown zimbra:zimbra zimbra-ose-2fa_0.8.0/com_btactic_twofactorauth_admin.zip
+cd zimbra-ose-2fa_0.8.0
 cp zetatwofactorauth.jar /opt/zimbra/lib/ext/twofactorauth/zetatwofactorauth.jar
-su - zimbra -c 'zmzimletctl -l deploy /tmp/zimbra-ose-2fa_0.7.0/com_btactic_twofactorauth_admin.zip'
+su - zimbra -c 'zmzimletctl -l deploy /tmp/zimbra-ose-2fa_0.8.0/com_btactic_twofactorauth_admin.zip'
 
 chown zimbra:zimbra qr
 chown zimbra:zimbra qr/qrcode.js
