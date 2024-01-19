@@ -102,12 +102,24 @@ Not everything described there applies to this Open Source implementation but it
 
 ### Upgrade
 
+#### From 0.7.0 version
+
+If you have installed 0.7.0 version please run as root:
+```
+cp /opt/zimbra/jetty/webapps/zimbra/public/TwoFactorSetup.jsp_2FAQR_COPY /opt/zimbra/jetty/webapps/zimbra/public/TwoFactorSetup.jsp
+cp /opt/zimbra/jetty/webapps/zimbra/js/Preferences_all.js_2FAQR_COPY /opt/zimbra/jetty/webapps/zimbra/js/Preferences_all.js
+```
+before running the installation.
+
+#### From 0.6.0 version
+
 If you have installed 0.6.0 version please uninstall the QR zimlet with:
 
 ```
 su - zimbra -c 'zmzimletctl undeploy com_btactic_twofactorauth_qr'
 ```
-.
+
+because you won't need it anymore.
 
 ### Installation
 
