@@ -15,6 +15,10 @@ Thanks to a third-party authenticator such as Google Authenticator Zimbra users 
 - Zimbra 9.x
 - Zimbra 8.8.15
 
+## Non support
+
+- Z-Push: Please notice that currently Z-Push is not supported by this extension. You will only be able to use Z-Push with an account if you disable 2FA for that specific account. Please check [Z-Push using Application Passcode is not working as expected](https://github.com/maldua-suite/zimbra-ose-2fa/issues/7) for more updated information.
+
 ## Features
 
 ### Integrated with Zimbra Webclient UI
